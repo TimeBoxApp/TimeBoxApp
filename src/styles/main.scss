@@ -1,0 +1,50 @@
+@import 'variables';
+@import 'typography';
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900;1,9..40,1000&family=Roboto:wght@300;400;500;700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: $textPrimary;
+  -webkit-text-size-adjust: 100%;
+  font-size: $font-normal;
+
+  #inner-root {
+    min-height: 100%;
+  }
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+input[placeholder] {
+  text-overflow: ellipsis;
+}
+
+.ant-spin-dot-item {
+  background-color: $white !important;
+}

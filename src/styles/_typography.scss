@@ -1,0 +1,65 @@
+@import 'variables.scss';
+
+p {
+  font-size: 15px;
+  font-weight: $font-weight-normal;
+  line-height: 1.2;
+  color: $textPrimary;
+  padding-bottom: 20px;
+}
+
+h1 {
+  font-size: 60px;
+  color: $textPrimary;
+  margin: 0;
+}
+
+h2 {
+  font-size: 40px;
+  font-weight: $font-weight-bold;
+  color: $textPrimary;
+  font-style: normal;
+  line-height: 125%;
+  margin: 0;
+}
+
+h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: $textPrimary;
+}
+
+h4 {
+  font-size: 18px;
+  font-weight: $font-weight-normal;
+  color: $textPrimary;
+  margin: 0;
+}
+
+h5 {
+  font-size: 15px;
+  color: $textPrimary;
+  text-transform: uppercase;
+  font-weight: $font-weight-normal;
+}
+
+.strong {
+  font-weight: $font-weight-bold;
+}
+
+a {
+  font-weight: $font-weight-bold;
+  color: $primary;
+  text-decoration: none;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -webkit-transition-duration: 100ms;
+  transition-duration: 100ms;
+  -webkit-transition-property: color, border-color, background-color;
+  transition-property: color, border-color, background-color;
+
+  &:hover,
+  &:focus {
+    color: $textPrimary;
+  }
+}

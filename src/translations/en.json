@@ -1,0 +1,50 @@
+{
+  "primary": {
+    "name": "Timebox",
+    "line": "Capture Every Moment, Accomplish Every Goal",
+    "validation": {
+      "required": "Required",
+      "invalidEmail": "Invalid email address",
+      "invalidFirstName": "Please enter valid name",
+      "invalidLastName": "Please enter valid last name",
+      "passwordMinCharacters": "Password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special",
+      "passwordMinSymbols": "Password must contain at least one special character",
+      "passwordMinNumbers": "Password must contain at least one number",
+      "passwordMinUppercase": "Password must contain at least one uppercase letter",
+      "passwordMinLowercase": "Password must contain at least one lowercase letter"
+    },
+    "userFields": {
+      "firstName": "First Name",
+      "lastName": "Last name",
+      "email": "Email",
+      "password": "Password"
+    }
+  },
+  "login": {
+    "signIn": "Sign In",
+    "description": "Enter your email and password to sign in!",
+    "placeholders": {
+      "email": "bigreputation@gmail.com",
+      "password": "Your secret password"
+    },
+    "success": "Successfully logged in as {{email}}",
+    "signUp": "Not registered yet?",
+    "createAccount": "Create an account",
+    "keepLoggedIn": "Keep me logged in",
+    "forgotPassword": "Forgot password?"
+  },
+  "signup": {
+    "signUp": "Sign Up",
+    "description": "Enter your email and password to sign up!",
+    "placeholders": {
+      "firstName": "Taylor",
+      "lastName": "Swift",
+      "email": "bigreputation@gmail.com",
+      "password": "Min. 8 characters"
+    },
+    "success": "Successfully created user {{email}}",
+    "alreadyMember": "Already a member?",
+    "signIn": "Sign in",
+    "policy": "By creating an account means you agree to the <0>Terms and Conditions</0>, and our <1>Privacy Policy</1>"
+  }
+}

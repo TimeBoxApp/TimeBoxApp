@@ -1,0 +1,17 @@
+@import '../../../styles/variables.scss';
+
+.button {
+  width: 100%;
+  height: 50px;
+  color: $white;
+  background: $primary;
+  border-radius: $border-radius-normal;
+  border: none;
+  cursor: pointer;
+  font-weight: $font-weight-bold;
+
+  &.disabled {
+    background: $disabledBackground;
+    cursor: not-allowed;
+  }
+}

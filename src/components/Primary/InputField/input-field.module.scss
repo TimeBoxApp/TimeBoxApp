@@ -1,0 +1,37 @@
+@import '../../../styles/variables.scss';
+
+.textInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+
+  .label {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.28px;
+    color: $textPrimary;
+  }
+
+  .textInput {
+    display: flex;
+    height: 36px;
+    border-radius: 16px;
+    border: 1px solid $border;
+    padding: 5px 18px;
+
+    [aria-placeholder] {
+      color: $textSecondary;
+    }
+  }
+
+  .error {
+    margin-top: -5px;
+    margin-left: 10px;
+    font-size: $font-smaller;
+    font-weight: $font-weight-semi-bold;
+    color: $error;
+  }
+}

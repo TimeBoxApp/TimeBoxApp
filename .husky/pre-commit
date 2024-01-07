@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run lint:fix job but use --cache prefix, to improve performance
+yarn lint:fix --cache
+yarn lint-staged
+git add .
