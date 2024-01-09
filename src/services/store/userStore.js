@@ -19,15 +19,15 @@ function decrypt(encryptedData) {
   return JSON.parse(decryptedData);
 }
 
-const encryptedSessionStorage = {
+const encryptedLocalStorage = {
   getItem: async (name) => {
     try {
-      const item = sessionStorage.getItem(name);
+      const item = localStorage.getItem(name);
       return item ? decrypt(item) : null;
     } catch (err) {
       console.error('Failed to get item from encrypted storage:', err);
       error(i18n.t('primary.errors.userDataRead'));
-      sessionStorage.removeItem(name);
+      localStorage.removeItem(name);
       clearUser();
 
       return null;
@@ -36,14 +36,14 @@ const encryptedSessionStorage = {
   setItem: (name, value) => {
     try {
       const encryptedData = encrypt(value);
-      sessionStorage.setItem(name, encryptedData);
+      localStorage.setItem(name, encryptedData);
     } catch (err) {
       console.error('Failed to set item in encrypted storage:', err);
     }
   },
   removeItem: (name) => {
     try {
-      sessionStorage.removeItem(name);
+      localStorage.removeItem(name);
     } catch (err) {
       console.error('Failed to remove item from encrypted storage:', err);
     }
@@ -73,7 +73,7 @@ export const userStore = create(
     }),
     {
       name: 'user',
-      storage: encryptedSessionStorage
+      storage: encryptedLocalStorage
     }
   )
 );
