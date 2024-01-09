@@ -1,11 +1,17 @@
 @import '../../styles/variables';
 
-.weekTitle {
+.boardContainer {
   display: flex;
+  flex-direction: column;
   gap: 30px;
 
-  .weekDates {
-    color: $textSecondary;
-    font-weight: $font-weight-normal;
+  .weekTitle {
+    display: flex;
+    gap: 30px;
+
+    .weekDates {
+      color: $textSecondary;
+      font-weight: $font-weight-normal;
+    }
   }
 }

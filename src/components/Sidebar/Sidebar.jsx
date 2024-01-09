@@ -63,10 +63,10 @@ const Sidebar = () => {
           ))}
         </div>
       </div>
-      <>
+      <div className={styles.pomodoro}>
         <PomodoroTimer />
         <button onClick={() => proceedLogout()}>Log out</button>
-      </>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,16 @@
+@import '../../../styles/variables.scss';
+
+.tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  background: $textSecondaryLight;
+  color: $white;
+  padding: 0 12px;
+  width: fit-content;
+  border-radius: 10px;
+  font-size: $font-smaller;
+  font-weight: $font-weight-bold;
+  line-height: 150%;
+}

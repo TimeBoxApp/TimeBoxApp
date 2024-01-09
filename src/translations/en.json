@@ -57,6 +57,7 @@
     "policy": "By creating an account means you agree to the <0>Terms and Conditions</0>, and our <1>Privacy Policy</1>"
   },
   "board": {
-    "subtitle": "{{userName}}'s Task Board"
+    "subtitle": "{{userName}}'s Task Board",
+    "daysDue": "days due"
   }
 }

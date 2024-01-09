@@ -1,0 +1,44 @@
+@import '../../../../styles/variables';
+
+.columnContainer {
+  background-color: $white;
+  border-radius: 20px;
+  height: fit-content;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .columnHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 25px 5px 25px;
+
+    .columnTitle {
+      font-size: $font-medium;
+      font-weight: $font-weight-bold;
+      line-height: 170%;
+      letter-spacing: -0.5px;
+    }
+
+    .addTaskButton {
+      border-radius: 12px;
+      width: 80px;
+      background: $primaryGrey;
+      color: $textPrimary;
+      font-size: $font-medium;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  .taskList {
+    padding: 20px 25px;
+    border-radius: 0 0 20px 20px;
+    width: 270px;
+    background-color: $white;
+
+    &.isDraggingOver {
+      background-color: $primaryGrey;
+    }
+  }
+}
