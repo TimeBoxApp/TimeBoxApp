@@ -27,6 +27,9 @@
     },
     "pomodoroTimer": {
       "title": "Pomodoro Timer"
+    },
+    "errors": {
+      "userDataRead": "Error retrieving your data. Please, log into your account"
     }
   },
   "login": {

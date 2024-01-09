@@ -38,7 +38,7 @@ const Signup = () => {
     if (res.statusCode === 201) {
       success(t('signup.success', { email }));
 
-      return navigate(`/app`, { replace: true });
+      return navigate(`/board`, { replace: true });
     }
   };
 

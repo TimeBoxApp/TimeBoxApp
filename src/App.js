@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { App as APPP } from 'antd';
 import React, { useEffect } from 'react';
 import { ConfigProvider } from 'antd';
 
@@ -90,7 +91,9 @@ function App() {
         }
       }}
     >
-      <RouterProvider router={router} />
+      <APPP>
+        <RouterProvider router={router} />
+      </APPP>
     </ConfigProvider>
   );
 }
