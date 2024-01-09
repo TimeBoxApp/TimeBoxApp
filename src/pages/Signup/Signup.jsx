@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
 
-import TextInput from '../Primary/InputField/InputField';
-import Button from '../Primary/Button/Button';
+import TextInput from '../../components/Primary/InputField/InputField';
+import Button from '../../components/Primary/Button/Button';
 import { signUp } from './services/user';
 import { error } from '../../services/notification';
 import { NAME_REGEX } from '../../services/regex';

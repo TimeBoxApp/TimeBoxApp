@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
-@import "../../styles/variables.scss";
+@import '../../styles/variables.scss';
 
 .background {
   display: flex;
@@ -10,14 +10,13 @@
   height: 100vh;
   padding: 40px 20px;
   box-sizing: border-box;
-  background-color:#cc99ff;
-  background-image:
-          radial-gradient(at 10% 88%, hsla(213,70%,66%,1) 0px, transparent 50%),
-          radial-gradient(at 87% 95%, hsla(223,87%,74%,1) 0px, transparent 50%),
-          radial-gradient(at 0% 62%, hsla(356,64%,68%,1) 0px, transparent 50%),
-          radial-gradient(at 98% 92%, hsla(131,98%,72%,1) 0px, transparent 50%),
-          radial-gradient(at 72% 96%, hsla(285,85%,79%,1) 0px, transparent 50%),
-          radial-gradient(at 47% 88%, hsla(194,86%,72%,1) 0px, transparent 50%);
+  background-color: #cc99ff;
+  background-image: radial-gradient(at 10% 88%, hsla(213, 70%, 66%, 1) 0px, transparent 50%),
+    radial-gradient(at 87% 95%, hsla(223, 87%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 62%, hsla(356, 64%, 68%, 1) 0px, transparent 50%),
+    radial-gradient(at 98% 92%, hsla(131, 98%, 72%, 1) 0px, transparent 50%),
+    radial-gradient(at 72% 96%, hsla(285, 85%, 79%, 1) 0px, transparent 50%),
+    radial-gradient(at 47% 88%, hsla(194, 86%, 72%, 1) 0px, transparent 50%);
 }
 
 .content {
@@ -40,7 +39,7 @@
     .title {
       font-family: 'Poppins', sans-serif;
       text-transform: uppercase;
-      color: $white
+      color: $white;
     }
 
     .line {
@@ -72,7 +71,7 @@
         .description {
           margin-top: 10px;
           font-size: $font-small;
-          color: $textSecondary
+          color: $textSecondary;
         }
       }
 
@@ -108,4 +107,3 @@
     }
   }
 }
-

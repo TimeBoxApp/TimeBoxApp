@@ -18,6 +18,15 @@
       "lastName": "Last name",
       "email": "Email",
       "password": "Password"
+    },
+    "sidebar": {
+      "taskBoard": "Task Board",
+      "backlog": "Backlog",
+      "reports": "Reports",
+      "settings": "Settings & Profile"
+    },
+    "pomodoroTimer": {
+      "title": "Pomodoro Timer"
     }
   },
   "login": {
@@ -46,5 +55,8 @@
     "alreadyMember": "Already a member?",
     "signIn": "Sign in",
     "policy": "By creating an account means you agree to the <0>Terms and Conditions</0>, and our <1>Privacy Policy</1>"
+  },
+  "board": {
+    "subtitle": "{{userName}}'s Task Board"
   }
 }

@@ -1,21 +1,31 @@
 import * as Yup from 'yup';
 import to from 'await-to-js';
+import { useEffect } from 'react';
 import { Checkbox, Form } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 
-import TextInput from '../Primary/InputField/InputField';
-import Button from '../Primary/Button/Button';
+import TextInput from '../../components/Primary/InputField/InputField';
+import Button from '../../components/Primary/Button/Button';
 import { login } from './services/auth';
 import { error } from '../../services/notification';
 import { success } from '../../services/alerts';
+import { setUser } from '../../services/user';
+import { userStore } from '../../services/store/userStore';
 
 import styles from './login.module.scss';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = userStore();
   const [t] = useTranslation();
+
+  useEffect(() => {
+    if (isLoggedIn()) {
+      navigate('/board');
+    }
+  });
 
   const handleLogin = async (values) => {
     const { email, password } = values;
@@ -31,8 +41,9 @@ const Login = () => {
 
     if (res.statusCode === 200) {
       success(t('login.success', { email }));
+      setUser(res.userData);
 
-      return navigate('/app', { replace: true });
+      return navigate('/board');
     }
   };
 

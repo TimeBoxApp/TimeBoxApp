@@ -1,4 +1,4 @@
-import { redirect } from 'react-router-dom';
+import { clearUser } from './user';
 
 /**
  * Return headers standard across the whole application
@@ -40,7 +40,9 @@ export function checkResponse(fetchResponse) {
       .clone()
       .json()
       .catch((error) =>
-        fetchResponse.text().then(() => {
+        fetchResponse.text().then((text) => {
+          console.error('Failed to parse JSON:', text);
+
           throw error;
         })
       );
@@ -51,7 +53,10 @@ export function checkResponse(fetchResponse) {
   //
   if (fetchResponse.status === 401) {
     setTimeout(() => {
-      redirect('/login');
+      clearUser();
+
+      // eslint-disable-next-line no-restricted-globals
+      location.replace('/login');
     }, 0);
   } else {
     return fetchResponse

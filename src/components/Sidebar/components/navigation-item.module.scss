@@ -1,0 +1,47 @@
+@import '../../../styles/variables';
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 25px;
+  height: fit-content;
+
+  > svg > path {
+    fill: $textSecondary;
+  }
+
+  &.active {
+    color: $textPrimary;
+
+    .indicator {
+      position: absolute;
+      right: 0;
+      width: 4px;
+      border-radius: 25px;
+      height: 80%;
+      background: $textPrimary;
+    }
+
+    > svg > path {
+      fill: $textPrimary;
+    }
+  }
+
+  &:hover {
+    background: $background;
+    cursor: pointer;
+  }
+
+  .text {
+    font-size: $font-normal;
+    font-weight: $font-weight-bold;
+    line-height: 200%;
+    color: $textSecondary;
+
+    &.active {
+      color: $textPrimary;
+    }
+  }
+}

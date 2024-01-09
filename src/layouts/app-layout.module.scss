@@ -1,0 +1,16 @@
+@import '../styles/variables.scss';
+
+.background {
+  display: flex;
+  background: $background;
+  height: 100vh;
+  width: 100%;
+
+  .outlet {
+    display: flex;
+    margin: 20px;
+    padding: 20px;
+    //width: 100%;
+    //background: #cc99ff;
+  }
+}

@@ -1,0 +1,11 @@
+@import '../../styles/variables';
+
+.weekTitle {
+  display: flex;
+  gap: 30px;
+
+  .weekDates {
+    color: $textSecondary;
+    font-weight: $font-weight-normal;
+  }
+}
