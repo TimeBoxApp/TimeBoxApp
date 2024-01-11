@@ -1,7 +1,10 @@
+import to from 'await-to-js';
 import dayjs from 'dayjs';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { Trans, useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
-import { Empty, Skeleton } from 'antd';
+import { Helmet } from 'react-helmet';
+import { Empty } from 'antd';
 
 import useTaskBoardStore from '../../services/store/useTaskBoardStore';
 import TaskBoard from '../../components/TaskBoard/TaskBoard';
@@ -9,8 +12,10 @@ import { userStore } from '../../services/store/userStore';
 import { getWeekData } from './services/user';
 import { PRIORITY_TYPES } from '../../components/Primary/constants';
 import { STATUS_COLUMN_MAPPING } from '../../services/store/helpers/task';
+import { error } from '../../services/alerts';
 
 import styles from './board.module.scss';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const Board = () => {
   const { user } = userStore();
@@ -75,7 +80,14 @@ const Board = () => {
 
   const getWeekDetails = async () => {
     setIsLoading(true);
-    const weekData = await getWeekData();
+
+    const [err, weekData] = await to(getWeekData());
+
+    if (err) {
+      setIsLoading(false);
+
+      return error();
+    }
 
     if (!weekData.name) {
       return setIsLoading(false);
@@ -87,7 +99,6 @@ const Board = () => {
       startDate: weekData.startDate
     });
     setBoardData(convertTasks(weekData));
-
     setIsLoading(false);
   };
 
@@ -97,6 +108,9 @@ const Board = () => {
 
   return (
     <div className={styles.boardContainer}>
+      <Helmet>
+        <title>{t('primary.helmet.board')}</title>
+      </Helmet>
       <Trans
         i18nKey={'board.subtitle'}
         values={{
@@ -104,7 +118,16 @@ const Board = () => {
         }}
       />
       {isLoading ? (
-        <Skeleton className={styles.empty} />
+        <SkeletonTheme baseColor="#e9edf7" highlightColor="#f4f7fe" borderRadius={'20px'}>
+          <div className={styles.boardSkeleton}>
+            <Skeleton containerClassName={styles.titleSkeleton} />
+            <div className={styles.columnsSkeleton}>
+              <Skeleton containerClassName={styles.columnSkeleton} />
+              <Skeleton containerClassName={styles.columnSkeleton} height={350} />
+              <Skeleton containerClassName={styles.columnSkeleton} height={500} />
+            </div>
+          </div>
+        </SkeletonTheme>
       ) : currentWeek.name ? (
         <div className={styles.boardData}>
           <div>
