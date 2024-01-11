@@ -10,18 +10,25 @@ export const STATUS_COLUMN_MAPPING = {
   done: 'done'
 };
 
-export const calculateNewRank = (beforeId, afterId, tasks, LexoRank) => {
+export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank) => {
+  const beforeId = destinationIndex > 0 ? taskIds[destinationIndex - 1] : null;
+  const afterId = destinationIndex < taskIds.length - 1 ? taskIds[destinationIndex + 1] : null;
+
   if (!beforeId && !afterId) {
-    // first item in the column
+    // First item in the column
     return LexoRank.min().toString();
   } else if (!beforeId) {
-    // if it is the first item in the list
-    return LexoRank.parse(tasks[afterId].boardRank).genPrev().toString();
+    // Inserting at the top of the column
+    const afterRank = LexoRank.parse(tasks[afterId].boardRank);
+    return afterRank.genPrev().toString();
   } else if (!afterId) {
-    // if it is the last item in the list
-    return LexoRank.parse(tasks[beforeId].boardRank).genNext().toString();
+    // Inserting at the bottom of the column
+    const beforeRank = LexoRank.parse(tasks[beforeId].boardRank);
+    return beforeRank.genNext().toString();
   } else {
-    // if it is in between two items
-    return LexoRank.parse(tasks[beforeId].boardRank).between(LexoRank.parse(tasks[afterId].boardRank)).toString();
+    // Inserting between two tasks
+    const beforeRank = LexoRank.parse(tasks[beforeId].boardRank);
+    const afterRank = LexoRank.parse(tasks[afterId].boardRank);
+    return beforeRank.between(afterRank).toString();
   }
 };

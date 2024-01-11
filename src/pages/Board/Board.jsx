@@ -6,7 +6,7 @@ import { Empty, Skeleton } from 'antd';
 import useTaskBoardStore from '../../services/store/useTaskBoardStore';
 import TaskBoard from '../../components/TaskBoard/TaskBoard';
 import { userStore } from '../../services/store/userStore';
-import { getWeekData } from './services/week';
+import { getWeekData } from './services/user';
 import { PRIORITY_TYPES } from '../../components/Primary/constants';
 import { STATUS_COLUMN_MAPPING } from '../../services/store/helpers/task';
 
