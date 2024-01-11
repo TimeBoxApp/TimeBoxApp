@@ -68,5 +68,13 @@
       "inProgress": "In progress",
       "done": "Done"
     }
+  },
+  "notFound": {
+    "message": "Sorry, the page you visited does not exist.",
+    "button": "Back to Board"
+  },
+  "internalError": {
+    "message": "Sorry, something went wrong. Try reloading the page",
+    "button": "Back to Board"
   }
 }

@@ -5,6 +5,8 @@ import { ConfigProvider } from 'antd';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import Board from './pages/Board/Board';
+import NotFound from './pages/NotFound/NotFound';
+import InternalError from './pages/InternalError/InternalError';
 import AppLayout from './layouts/AppLayout';
 import { userStore } from './services/store/userStore';
 
@@ -76,6 +78,14 @@ function App() {
               <h1>Settings</h1>
             </ProtectedRoute>
           )
+        },
+        {
+          path: '500',
+          element: <InternalError />
+        },
+        {
+          path: '*',
+          element: <NotFound />
         }
       ]
     }
