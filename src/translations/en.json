@@ -2,6 +2,16 @@
   "primary": {
     "name": "Timebox",
     "line": "Capture Every Moment, Accomplish Every Goal",
+    "helmet": {
+      "signup": "Sign Up | Time Box",
+      "login": "Sign In | Time Box",
+      "board": "Board",
+      "backlog": "Backlog",
+      "reports": "Reports",
+      "settings": "Settings & Profile",
+      "notFound": "Not found",
+      "internalError": "Oops"
+    },
     "validation": {
       "required": "Required",
       "invalidEmail": "Invalid email address",
@@ -29,6 +39,7 @@
       "title": "Pomodoro Timer"
     },
     "errors": {
+      "defaultError": "Sorry, something went wrong. Please, try refreshing the page",
       "userDataRead": "Error retrieving your data. Please, log into your account"
     }
   },

@@ -8,6 +8,35 @@
   align-items: flex-start;
   flex-direction: column;
 
+  .boardSkeleton {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    height: 100%;
+
+    .titleSkeleton {
+      display: flex;
+      margin-top: 15px;
+      width: 500px;
+      height: 50px;
+      background-color: $background;
+    }
+
+    .columnsSkeleton {
+      display: flex;
+      border-radius: 20px;
+      margin-top: 30px;
+      gap: 20px;
+      height: 100%;
+
+      .columnSkeleton {
+        display: flex;
+        width: 320px;
+        height: 100%;
+      }
+    }
+  }
+
   .empty {
     height: 100%;
     width: 100%;

@@ -1,4 +1,4 @@
-import React from 'react';
+import { Helmet } from 'react-helmet';
 import { Button, Result } from 'antd';
 
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,9 @@ const NotFound = () => {
 
   return (
     <div className={styles.notFound}>
+      <Helmet>
+        <title>{t('primary.helmet.notFound')}</title>
+      </Helmet>
       <Result
         status="404"
         title="404"

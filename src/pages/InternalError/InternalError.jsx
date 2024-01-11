@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Result } from 'antd';
+import { Helmet } from 'react-helmet';
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +13,9 @@ const InternalError = () => {
 
   return (
     <div className={styles.internalError}>
+      <Helmet>
+        <title>{t('primary.helmet.internalError')}</title>
+      </Helmet>
       <Result
         status="500"
         title="500"

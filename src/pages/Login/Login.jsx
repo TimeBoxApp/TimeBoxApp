@@ -5,6 +5,7 @@ import { Checkbox, Form } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 
 import TextInput from '../../components/Primary/InputField/InputField';
 import Button from '../../components/Primary/Button/Button';
@@ -49,6 +50,9 @@ const Login = () => {
 
   return (
     <div className={styles.background}>
+      <Helmet>
+        <title>{t('primary.helmet.login')}</title>
+      </Helmet>
       <div className={styles.content}>
         <div className={styles.textDescription}>
           <h1 className={styles.title}>{t('primary.name')}</h1>

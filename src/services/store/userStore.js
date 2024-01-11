@@ -1,8 +1,9 @@
-import i18n from '../i18n';
+import to from 'await-to-js';
 import CryptoJS from 'crypto-js';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import i18n from '../i18n';
 import { getCurrentUser } from '../../pages/Login/services/auth';
 import { clearUser, setUser } from '../user';
 import { error } from '../alerts';
@@ -60,7 +61,9 @@ export const userStore = create(
       clearUser: () => set({ user: null }),
 
       refreshUser: async () => {
-        const userDetails = await getCurrentUser();
+        const [err, userDetails] = await to(getCurrentUser());
+
+        if (err) return error();
 
         if (userDetails) setUser(userDetails);
       },
