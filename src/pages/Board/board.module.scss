@@ -2,8 +2,26 @@
 
 .boardContainer {
   display: flex;
+  width: calc(100vw - 380px);
+  height: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: column;
-  gap: 30px;
+
+  .empty {
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .boardData {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
 
   .weekTitle {
     display: flex;
