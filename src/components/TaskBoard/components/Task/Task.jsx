@@ -19,7 +19,9 @@ const Task = ({ task, index }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Tag text={task.tag} />
+          {task.categories.map((category) => (
+            <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
+          ))}
           <span className={styles.taskTitle}>{task.title}</span>
           <div className={styles.footerContainer}>
             {task.dueDays ? <span className={styles.daysDue}>{`${task.dueDays} ${t('board.daysDue')}`}</span> : null}

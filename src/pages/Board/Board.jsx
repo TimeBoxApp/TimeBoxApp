@@ -54,7 +54,7 @@ const Board = () => {
         tasks[task.id] = {
           id: task.id.toString(),
           title: task.title,
-          category: null,
+          categories: task.categories,
           priority: task.priority ? PRIORITY_TYPES[task.priority] : null,
           boardRank: task.boardRank
         };

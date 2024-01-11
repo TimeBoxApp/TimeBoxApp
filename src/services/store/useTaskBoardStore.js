@@ -63,12 +63,10 @@ const useTaskBoardStore = create((set) => ({
         newTaskIds.splice(source.index, 1);
         newTaskIds.splice(destination.index, 0, draggableId);
 
-        const newColumn = {
+        newState.boardData.columns[source.droppableId] = {
           ...startColumn,
           taskIds: newTaskIds
         };
-
-        newState.boardData.columns[source.droppableId] = newColumn;
 
         // Calculate the new boardRank only if necessary (if the tasks array has more than one item)
         if (newTaskIds.length > 1) {
