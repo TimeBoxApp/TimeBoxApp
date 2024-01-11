@@ -27,6 +27,9 @@
     },
     "pomodoroTimer": {
       "title": "Pomodoro Timer"
+    },
+    "errors": {
+      "userDataRead": "Error retrieving your data. Please, log into your account"
     }
   },
   "login": {
@@ -57,6 +60,13 @@
     "policy": "By creating an account means you agree to the <0>Terms and Conditions</0>, and our <1>Privacy Policy</1>"
   },
   "board": {
-    "subtitle": "{{userName}}'s Task Board"
+    "empty": "It seems you have no weeks in progress",
+    "subtitle": "{{userName}}'s Task Board",
+    "daysDue": "days due",
+    "columnNames": {
+      "toDo": "To do",
+      "inProgress": "In progress",
+      "done": "Done"
+    }
   }
 }

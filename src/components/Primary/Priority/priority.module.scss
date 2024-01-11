@@ -1,0 +1,46 @@
+@import '../../../styles/variables.scss';
+
+.high {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  background: $primaryOrange;
+  color: $white;
+  padding: 2px 12px;
+  width: fit-content;
+  border-radius: 10px;
+  font-size: $font-smallest;
+  font-weight: $font-weight-bold;
+  line-height: 150%;
+}
+
+.medium {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  background: $primaryYellow;
+  color: $white;
+  padding: 2px 12px;
+  width: fit-content;
+  border-radius: 10px;
+  font-size: $font-smallest;
+  font-weight: $font-weight-bold;
+  line-height: 150%;
+}
+
+.low {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  background: $primaryGrey;
+  color: $textSecondary;
+  padding: 2px 12px;
+  width: fit-content;
+  border-radius: 10px;
+  font-size: $font-smallest;
+  font-weight: $font-weight-bold;
+  line-height: 150%;
+}

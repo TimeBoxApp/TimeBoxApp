@@ -5,6 +5,7 @@
   flex-direction: column;
   background: $white;
   height: 100vh;
+  flex: 0 0 auto;
   width: 300px;
   padding: 0 0 40px 0;
   justify-content: space-between;
@@ -38,5 +39,14 @@
       gap: 5px;
       margin-top: 30px;
     }
+  }
+
+  .pomodoro {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
   }
 }
