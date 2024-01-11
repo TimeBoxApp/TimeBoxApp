@@ -21,7 +21,7 @@ const Board = () => {
   const { user } = userStore();
   const { setBoardData, setCurrentWeek, currentWeek } = useTaskBoardStore();
   const [t] = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const weekDurationTitle = useMemo(() => {
     const startDate = dayjs(currentWeek.startDate);
     const endDate = dayjs(currentWeek.endDate);
