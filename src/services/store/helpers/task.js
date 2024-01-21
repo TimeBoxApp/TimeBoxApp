@@ -16,11 +16,16 @@ export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank) => 
 
   if (!beforeId && !afterId) {
     // First item in the column
-    return LexoRank.min().toString();
+    return LexoRank.middle().toString();
   } else if (!beforeId) {
     // Inserting at the top of the column
     const afterRank = LexoRank.parse(tasks[afterId].boardRank);
-    return afterRank.genPrev().toString();
+    let newRank = afterRank.genPrev();
+    if (newRank.equals(afterRank)) {
+      // If getPrev() returns the same rank, switch to a new bucket or force a recalibration
+      newRank = LexoRank.inNextBucket();
+    }
+    return newRank.toString();
   } else if (!afterId) {
     // Inserting at the bottom of the column
     const beforeRank = LexoRank.parse(tasks[beforeId].boardRank);
