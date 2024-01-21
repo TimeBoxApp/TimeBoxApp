@@ -8,8 +8,18 @@ import { calculateNewRank, COLUMN_STATUS_MAPPING } from './helpers/task';
 const DEFAULT_COLUMN_ORDER = ['toDo', 'inProgress', 'done'];
 
 const useTaskBoardStore = create((set) => ({
-  currentWeek: { name: '', startDate: '', endDate: '' },
-  setCurrentWeek: (newWeekData) => set((state) => ({ currentWeek: { ...state.currentWeek, ...newWeekData } })),
+  currentWeek: { id: null, name: '', startDate: '', endDate: '' },
+  newTask: {
+    title: null,
+    description: null,
+    status: null,
+    priority: null,
+    dueDate: null,
+    boardRank: LexoRank.max().toString(),
+    categoryId: null,
+    weekId: null,
+    userId: null
+  },
   boardData: {
     tasks: {},
     columns: {
@@ -29,9 +39,27 @@ const useTaskBoardStore = create((set) => ({
         taskIds: []
       }
     },
-    columnOrder: DEFAULT_COLUMN_ORDER
+    columnOrder: DEFAULT_COLUMN_ORDER,
+    isCreateTaskModalOpen: false
   },
+  updateNewTask: (newTaskData) => set((state) => ({ newTask: { ...state.newTask, ...newTaskData } })),
+  clearNewTask: () =>
+    set({
+      newTask: {
+        title: null,
+        description: null,
+        status: null,
+        priority: null,
+        dueDate: null,
+        boardRank: null,
+        categoryId: null,
+        weekId: null,
+        userId: null
+      }
+    }),
+  setCurrentWeek: (newWeekData) => set((state) => ({ currentWeek: { ...state.currentWeek, ...newWeekData } })),
   setBoardData: (newBoardData) => set((state) => ({ boardData: { ...state.boardData, ...newBoardData } })),
+  setIsCreateTaskModalOpen: (isOpen) => set({ isCreateTaskModalOpen: isOpen }),
   onDragEnd: (result) => {
     set((state) => {
       const { destination, source, draggableId } = result;

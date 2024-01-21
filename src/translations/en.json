@@ -30,6 +30,15 @@
     },
     "errors": {
       "userDataRead": "Error retrieving your data. Please, log into your account"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "selects": {
+      "categoryPlaceholder": "Select category",
+      "priorityPlaceholder": "Select priority",
+      "dueDatePlaceholder": "Select due date"
     }
   },
   "login": {
@@ -62,11 +71,29 @@
   "board": {
     "empty": "It seems you have no weeks in progress",
     "subtitle": "{{userName}}'s Task Board",
-    "daysDue": "days due",
+    "daysDue_zero": "days due",
+    "daysDue_one": "day due",
+    "daysDue_many": "days due",
+    "daysDue_other": "days due",
+    "daysOverdue_zero": "days overdue",
+    "daysOverdue_one": "day overdue",
+    "daysOverdue_many": "days overdue",
+    "daysOverdue_other": "days overdue",
     "columnNames": {
       "toDo": "To do",
       "inProgress": "In progress",
       "done": "Done"
+    },
+    "createTaskModal": {
+      "title": "Create a new task",
+      "taskNameLabel": "Task name",
+      "taskNamePlaceholder": "Enter task name",
+      "taskDescriptionLabel": "Task description",
+      "taskDescriptionPlaceholder": "Enter task description",
+      "priority": "Priority",
+      "categories": "Category",
+      "dueDate": "Due date",
+      "createButton": "Create"
     }
   },
   "notFound": {

@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 
-import TextInput from '../../components/Primary/InputField/InputField';
+import InputField from '../../components/Primary/InputField/InputField';
 import Button from '../../components/Primary/Button/Button';
 import { login } from './services/auth';
 import { error } from '../../services/notification';
@@ -75,14 +75,14 @@ const Login = () => {
             >
               {({ isValid, isSubmitting, submitForm }) => (
                 <Form className={styles.textInputContainers}>
-                  <TextInput
+                  <InputField
                     label={t('primary.userFields.email')}
                     name="email"
                     type="email"
                     placeholder={t('login.placeholders.email')}
                     required
                   />
-                  <TextInput
+                  <InputField
                     label={t('primary.userFields.password')}
                     name="password"
                     type="password"

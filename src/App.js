@@ -27,7 +27,12 @@ function App() {
 
   const theme = {
     borderRadius: 10,
-    colorPrimary: '#4318FF'
+    textPrimary: '#2b3674',
+    textSecondary: '#8f9bba',
+    colorPrimary: '#2b3674',
+    colorBorder: '#e0e5f2',
+    primaryGrey: '#e9edf7',
+    background: '#f4f7fe'
   };
 
   const router = createBrowserRouter([
@@ -95,8 +100,33 @@ function App() {
     <ConfigProvider
       theme={{
         token: {
+          colorBorder: theme.colorBorder,
           colorPrimary: theme.colorPrimary,
-          borderRadius: theme.borderRadius
+          borderRadius: theme.borderRadius,
+          fontFamily: 'DM Sans',
+          controlHeight: 40,
+          controlOutline: 'none'
+        },
+        components: {
+          DatePicker: {
+            colorBgContainer: theme.background,
+            colorText: theme.textPrimary
+          },
+          Button: { fontWeight: 500 },
+          Select: {
+            selectorBg: theme.background,
+            clearBg: theme.background,
+            optionSelectedBg: theme.primaryGrey
+          },
+          Input: {
+            activeBg: theme.background,
+            colorBgContainer: theme.background,
+            colorText: theme.textPrimary,
+            colorTextPlaceholder: theme.textSecondary,
+            activeShadow: theme.primaryGrey,
+            hoverBorderColor: theme.textSecondary,
+            activeBorderColor: theme.textSecondary
+          }
         }
       }}
     >

@@ -12,3 +12,16 @@ export function updateTask(taskId, updates) {
     body: JSON.stringify(updates)
   }).then(checkResponse);
 }
+
+export function createTask(data) {
+  const url = `${apiUrl()}/task`;
+
+  return fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      ...getStandardHeaders()
+    },
+    body: JSON.stringify(data)
+  }).then(checkResponse);
+}

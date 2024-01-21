@@ -5,16 +5,25 @@ import { Empty, Skeleton } from 'antd';
 
 import useTaskBoardStore from '../../services/store/useTaskBoardStore';
 import TaskBoard from '../../components/TaskBoard/TaskBoard';
+import CreateTaskModal from '../../components/CreateTaskModal/CreateTaskModal';
 import { userStore } from '../../services/store/userStore';
 import { getWeekData } from './services/user';
 import { PRIORITY_TYPES } from '../../components/Primary/constants';
 import { STATUS_COLUMN_MAPPING } from '../../services/store/helpers/task';
 
 import styles from './board.module.scss';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const Board = () => {
   const { user } = userStore();
-  const { setBoardData, setCurrentWeek, currentWeek } = useTaskBoardStore();
+  const { setBoardData, setCurrentWeek, currentWeek, isCreateTaskModalOpen, setIsCreateTaskModalOpen } =
+    useTaskBoardStore((state) => ({
+      setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
+      isCreateTaskModalOpen: state.isCreateTaskModalOpen,
+      setBoardData: state.setBoardData,
+      setCurrentWeek: state.setCurrentWeek,
+      currentWeek: state.currentWeek
+    }));
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const weekDurationTitle = useMemo(() => {
@@ -34,17 +43,17 @@ const Board = () => {
     const columns = {
       toDo: {
         id: 'toDo',
-        title: 'To do',
+        title: t('board.columnNames.toDo'),
         taskIds: []
       },
       inProgress: {
         id: 'inProgress',
-        title: 'In progress',
+        title: t('board.columnNames.inProgress'),
         taskIds: []
       },
       done: {
         id: 'done',
-        title: 'Done',
+        title: t('board.columnNames.done'),
         taskIds: []
       }
     };
@@ -56,6 +65,7 @@ const Board = () => {
           title: task.title,
           categories: task.categories,
           priority: task.priority ? PRIORITY_TYPES[task.priority] : null,
+          dueDate: task.dueDate,
           boardRank: task.boardRank
         };
 
@@ -82,6 +92,7 @@ const Board = () => {
     }
 
     setCurrentWeek({
+      id: weekData.id,
       name: weekData.name,
       endDate: weekData.endDate,
       startDate: weekData.startDate
@@ -120,6 +131,7 @@ const Board = () => {
           <Empty description={<span>{t('board.empty')}</span>} />
         </div>
       )}
+      <CreateTaskModal isOpen={isCreateTaskModalOpen} setIsOpen={setIsCreateTaskModalOpen} onCreate={getWeekDetails} />
     </div>
   );
 };

@@ -34,8 +34,11 @@
       text-transform: uppercase;
       font-size: $font-smaller;
       font-weight: $font-weight-bold;
-      line-height: 170%;
       letter-spacing: -0.24px;
+
+      &.overdue {
+        color: $error;
+      }
     }
   }
 }
