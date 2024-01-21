@@ -5,36 +5,12 @@ import Tag from '../../Tag/Tag';
 
 import styles from '../PrioritySelect/priority-select.module.scss';
 
-const CategorySelect = ({ onChange, value }) => {
+const CategorySelect = ({ onChange, value, userCategories = [] }) => {
   const [t] = useTranslation();
-  const options = [
-    {
-      label: 'System categories',
-      options: [
-        {
-          value: 1,
-          label: <Tag text={'Home'} emoji={'🏠'} />
-        },
-        {
-          value: 2,
-          label: <Tag text={'Work'} emoji={'🏢'} />
-        },
-        {
-          value: 3,
-          label: <Tag text={'Shopping'} emoji={'🛒'} />
-        }
-      ]
-    },
-    {
-      label: 'Your categories',
-      options: [
-        {
-          value: 4,
-          label: <Tag text={'Family'} emoji={'👪'} />
-        }
-      ]
-    }
-  ];
+  const options = userCategories.map((category) => ({
+    value: category.id,
+    label: <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
+  }));
 
   /**
    * Renders opyions

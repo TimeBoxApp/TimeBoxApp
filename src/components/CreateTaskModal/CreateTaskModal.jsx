@@ -11,10 +11,12 @@ import CancelButton from '../Primary/Buttons/CancelButton/CancelButton';
 import useTaskBoardStore from '../../services/store/useTaskBoardStore';
 import { createTask } from '../../pages/Board/services/task';
 import { success } from '../../services/alerts';
+import { userStore } from '../../services/store/userStore';
 
 import styles from './create-task-modal.module.scss';
 
 const CreateTaskModal = ({ isOpen, setIsOpen, onCreate }) => {
+  const { user } = userStore();
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { newTask, updateNewTask, clearNewTask } = useTaskBoardStore((state) => ({
@@ -89,7 +91,11 @@ const CreateTaskModal = ({ isOpen, setIsOpen, onCreate }) => {
           </div>
           <div className={styles.selectContainer}>
             <span className={styles.selectLabel}>{t('board.createTaskModal.categories')}</span>
-            <CategorySelect value={newTask.categoryId} onChange={(value) => updateNewTask({ categoryId: value })} />
+            <CategorySelect
+              value={newTask.categoryId}
+              userCategories={user.categories}
+              onChange={(value) => updateNewTask({ categoryId: value })}
+            />
           </div>
           <div className={styles.selectContainer}>
             <span className={styles.selectLabel}>{t('board.createTaskModal.dueDate')}</span>

@@ -25,3 +25,15 @@ export function createTask(data) {
     body: JSON.stringify(data)
   }).then(checkResponse);
 }
+
+export function deleteTask(taskId) {
+  const url = `${apiUrl()}/task/${taskId}`;
+
+  return fetch(url, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: {
+      ...getStandardHeaders()
+    }
+  }).then(checkResponse);
+}

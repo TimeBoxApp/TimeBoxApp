@@ -16,6 +16,7 @@ class User {
       inProgress: data.inProgressColumnName || null,
       done: data.doneColumnName || null
     };
+    this.categories = data.categories;
     this.dateFormat = data.dateFormat || 'DD.MM.YYYY';
   }
 }

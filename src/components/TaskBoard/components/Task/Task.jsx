@@ -1,16 +1,18 @@
 import cn from 'classnames';
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Draggable } from 'react-beautiful-dnd';
 
 import Tag from '../../../Primary/Tag/Tag';
 import Priority from '../../../Primary/Priority/Priority';
+import TaskInfoModal from '../../../TaskInfoModal/TaskInfoModal';
 
 import styles from './task.module.scss';
 
 const Task = ({ task, index }) => {
   const [t] = useTranslation();
+  const [isTaskInfoModalOpen, setIsTaskInfoModalOpen] = useState(false);
   const daysLeft = useMemo(() => {
     if (!task.dueDate || !dayjs(task.dueDate).isValid()) return;
 
@@ -25,6 +27,7 @@ const Task = ({ task, index }) => {
       {(provided, snapshot) => (
         <div
           className={cn(styles.taskContainer, { [styles.isDragging]: snapshot.isDragging })}
+          onClick={() => setIsTaskInfoModalOpen(true)}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -44,6 +47,7 @@ const Task = ({ task, index }) => {
             ) : null}
             <Priority type={task.priority} />
           </div>
+          <TaskInfoModal task={task} isOpen={isTaskInfoModalOpen} setIsOpen={setIsTaskInfoModalOpen} />
         </div>
       )}
     </Draggable>

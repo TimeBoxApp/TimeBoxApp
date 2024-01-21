@@ -62,8 +62,10 @@ const Board = () => {
       taskArray.forEach((task) => {
         tasks[task.id] = {
           id: task.id.toString(),
+          description: task.description,
           title: task.title,
           categories: task.categories,
+          categoryId: task.categories[0]?.id || null,
           priority: task.priority ? PRIORITY_TYPES[task.priority] : null,
           dueDate: task.dueDate,
           boardRank: task.boardRank
