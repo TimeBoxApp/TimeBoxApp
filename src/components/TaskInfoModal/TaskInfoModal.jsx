@@ -1,6 +1,9 @@
+import to from 'await-to-js';
 import cn from 'classnames';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import _ from 'lodash';
+import { useEffect, useMemo, useState } from 'react';
 import { Button, Modal, Popconfirm } from 'antd';
 import { useTranslation } from 'react-i18next';
 
@@ -12,41 +15,93 @@ import SaveButton from '../Primary/Buttons/SaveButton/SaveButton';
 import CancelButton from '../Primary/Buttons/CancelButton/CancelButton';
 import Priority from '../Primary/Priority/Priority';
 import Tag from '../Primary/Tag/Tag';
-import { success } from '../../services/alerts';
+import { success, error } from '../../services/alerts';
 import { userStore } from '../../services/store/userStore';
-import { deleteTask } from '../../pages/Board/services/task';
+import { deleteTask, getTask, updateTask } from '../../pages/Board/services/task';
 
 import styles from './task-info-modal.module.scss';
 
 import { ReactComponent as EditIcon } from './images/edit.inline.svg';
 import { DeleteFilled } from '@ant-design/icons';
 
-const TaskInfoModal = ({ task, isOpen, setIsOpen, onUpdate }) => {
+const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
   const { user } = userStore();
   const [t] = useTranslation();
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isLoading, setIsLoading] = useState({ update: false, remove: false });
-  const [taskData, setTaskData] = useState(task);
+  const [isLoading, setIsLoading] = useState({
+    get: true,
+    update: false,
+    remove: false
+  });
+  const [initialTaskData, setInitialTaskData] = useState(null);
+  const [taskDataEdited, setTaskDataEdited] = useState(null);
+  const changes = useMemo(() => {
+    const changes = { ...taskDataEdited };
+    _.each(changes, (value, key) => {
+      if (_.isEqual(value, initialTaskData[key])) {
+        delete changes[key];
+      }
+    });
 
+    return changes;
+  }, [initialTaskData, taskDataEdited]);
+  const isChangesEmpty = useMemo(() => _.isEmpty(changes), [changes]);
+
+  /**
+   * Fetch task data on modal open
+   */
+  useEffect(() => {
+    if (!isOpen) return;
+
+    void getTaskData(taskId);
+
+    return () => {
+      setIsEditMode(false);
+    };
+  }, [isOpen, taskId]);
+
+  /**
+   * Get task data handler
+   * @param id
+   * @returns void
+   */
+  const getTaskData = async (id) => {
+    const [err, task] = await to(getTask(id));
+
+    setIsLoading({
+      ...isLoading,
+      get: false
+    });
+
+    if (err) return error(err);
+
+    setInitialTaskData(task);
+    setTaskDataEdited(task);
+  };
+
+  /**
+   * Cancel handler
+   * @param e
+   */
   const onCancelHandler = (e) => {
     e.stopPropagation();
     setIsOpen(false);
-
-    if (isEditMode) {
-      setIsEditMode(false);
-      setTaskData(task);
-    }
   };
 
+  /**
+   * Remove handler
+   * @returns {Promise<void>}
+   */
   const onRemoveHandler = async () => {
     setIsLoading({
       ...isLoading,
       remove: true
     });
-    await deleteTask(task.id);
-    success('Task successfully removed');
 
-    // TODO: add refetching tasks
+    await deleteTask(taskId);
+    success(t('board.taskInfoModal.removeSuccess'));
+
+    onUpdate();
 
     setIsLoading({
       ...isLoading,
@@ -55,23 +110,168 @@ const TaskInfoModal = ({ task, isOpen, setIsOpen, onUpdate }) => {
     setIsOpen(false);
   };
 
+  /**
+   * Update task handler
+   * @returns {Promise<*|void>}
+   */
   const onUpdateTaskHandler = async () => {
-    console.log(taskData);
+    if (isChangesEmpty) return setIsEditMode(false);
+
     setIsLoading({ ...isLoading, update: true });
-    // await createTask(newTask);
-    success('Task updated successfully');
-    // onCreate();
-    setIsOpen(false);
+
+    const [err] = await to(updateTask(taskId, changes));
+
+    if (err) {
+      error(err.message);
+
+      setIsLoading({
+        ...isLoading,
+        update: false
+      });
+      return setIsOpen(false);
+    }
+
+    success(t('board.taskInfoModal.updateSuccess'));
+
+    onUpdate();
     setIsLoading({ ...isLoading, update: false });
-    // setTaskData(null);
+    setInitialTaskData(null);
+    setTaskDataEdited(null);
   };
 
   const header = (
     <div className={styles.header}>
-      <h2>{taskData.title}</h2>
-      {!isEditMode ? <EditIcon className={styles.editIcon} onClick={() => setIsEditMode(true)} /> : null}
+      {isLoading.get ? (
+        <Skeleton containerClassName={styles.titleSkeleton} />
+      ) : (
+        <>
+          <h2>{initialTaskData.title}</h2>
+          {!isEditMode ? <EditIcon className={styles.editIcon} onClick={() => setIsEditMode(true)} /> : null}
+        </>
+      )}
     </div>
   );
+
+  const modalContent = () => {
+    if (isLoading.get) {
+      return (
+        <div className={styles.skeleton}>
+          <Skeleton containerClassName={styles.additionalDataSkeleton} height={30} />
+          <Skeleton containerClassName={styles.descriptionSkeleton} height={100} />
+        </div>
+      );
+    }
+
+    if (isOpen) {
+      return isEditMode ? (
+        <div className={styles.modalContentEditable}>
+          <div className={styles.textData}>
+            <TextInput
+              onChange={(e) =>
+                setTaskDataEdited({
+                  ...taskDataEdited,
+                  title: e.target.value
+                })
+              }
+              value={taskDataEdited.title}
+              label={t('board.taskInfoModal.taskNameLabel')}
+              placeholder={t('board.taskInfoModal.taskNamePlaceholder')}
+            />
+            <TextInput
+              type={'textarea'}
+              onChange={(e) =>
+                setTaskDataEdited({
+                  ...taskDataEdited,
+                  description: e.target.value || null
+                })
+              }
+              value={taskDataEdited.description}
+              label={t('board.taskInfoModal.taskDescriptionLabel')}
+              placeholder={t('board.taskInfoModal.taskDescriptionPlaceholder')}
+            />
+          </div>
+          <div className={styles.additionalData}>
+            <div className={styles.selectContainer}>
+              <span className={styles.selectLabel}>{t('board.taskInfoModal.priority')}</span>
+              <PrioritySelect
+                value={taskDataEdited.priority}
+                onChange={(value) =>
+                  setTaskDataEdited({
+                    ...taskDataEdited,
+                    priority: value || null
+                  })
+                }
+              />
+            </div>
+            <div className={styles.selectContainer}>
+              <span className={styles.selectLabel}>{t('board.taskInfoModal.categories')}</span>
+              <CategorySelect
+                userCategories={user.categories}
+                value={taskDataEdited.categoryId}
+                onChange={(value) =>
+                  setTaskDataEdited({
+                    ...taskDataEdited,
+                    categoryId: value || null
+                  })
+                }
+              />
+            </div>
+            <div className={styles.selectContainer}>
+              <span className={styles.selectLabel}>{t('board.taskInfoModal.dueDate')}</span>
+              <DateSelect
+                value={taskDataEdited.dueDate}
+                onChange={(value) =>
+                  setTaskDataEdited({
+                    ...taskDataEdited,
+                    dueDate: value
+                  })
+                }
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className={cn(styles.modalContentEditable, { [styles.isPreview]: !isEditMode })}>
+          <div className={cn(styles.additionalData, { [styles.isPreview]: !isEditMode })}>
+            {initialTaskData.priority ? (
+              <div className={styles.selectContainer}>
+                <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
+                  {t('board.taskInfoModal.priority')}
+                </span>
+                <Priority type={initialTaskData.priority} />
+              </div>
+            ) : null}
+            {initialTaskData.categories.length ? (
+              <div className={styles.selectContainer}>
+                <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
+                  {t('board.taskInfoModal.categories')}
+                </span>
+                {initialTaskData.categories.map((category) => (
+                  <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
+                ))}
+              </div>
+            ) : null}
+            {initialTaskData.dueDate ? (
+              <div className={styles.selectContainer}>
+                <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
+                  {t('board.taskInfoModal.dueDate')}
+                </span>
+                {dayjs(initialTaskData.dueDate).format(user.dateFormat)}
+              </div>
+            ) : null}
+          </div>
+          <div className={cn(styles.textData, { [styles.isPreview]: !isEditMode })}>
+            <div className={styles.description}>
+              <span className={styles.descriptionLabel}>{t('board.taskInfoModal.taskDescriptionLabel')}</span>
+              <p className={cn(styles.descriptionText, { [styles.isPlaceholder]: !initialTaskData.description })}>
+                {initialTaskData.description || t('board.taskInfoModal.noDescription')}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  };
 
   return (
     <Modal
@@ -92,144 +292,46 @@ const TaskInfoModal = ({ task, isOpen, setIsOpen, onUpdate }) => {
           <div className={styles.footer}>
             <div className={styles.buttons}>
               <Popconfirm
-                title="Cancel the changes"
-                description="Are you sure you want to cancel the changes?"
-                okText="Yes"
-                cancelText="No"
+                title={t('board.taskInfoModal.cancelChanges')}
+                description={t('board.taskInfoModal.cancelChangesQuestion')}
+                okText={t('board.taskInfoModal.yes')}
+                cancelText={t('board.taskInfoModal.no')}
                 onConfirm={onCancelHandler}
               >
                 <CancelButton type="text" />
               </Popconfirm>
-              <SaveButton isLoading={isLoading.update} onClick={() => onUpdateTaskHandler()} />
+              <SaveButton
+                isLoading={isLoading.update}
+                isDisabled={isChangesEmpty}
+                onClick={() => onUpdateTaskHandler()}
+              />
             </div>
           </div>
         ) : (
           <div className={styles.footer}>
             <div className={styles.buttons}>
-              <Popconfirm
-                title="Delete the task"
-                description="Are you sure you want to delete the task?"
-                okText="Yes"
-                cancelText="No"
-                okButtonProps={{ loading: isLoading.remove }}
-                onConfirm={onRemoveHandler}
-              >
-                <Button shape="round" type={'text'} danger icon={<DeleteFilled />}>
-                  Remove
-                </Button>
-              </Popconfirm>
+              {isLoading.get ? (
+                <Skeleton containerClassName={styles.additionalDataSkeleton} height={35} width={100} />
+              ) : (
+                <Popconfirm
+                  title={t('board.taskInfoModal.delete')}
+                  description={t('board.taskInfoModal.deleteQuestion')}
+                  okText={t('board.taskInfoModal.yes')}
+                  cancelText={t('board.taskInfoModal.no')}
+                  okButtonProps={{ loading: isLoading.remove }}
+                  onConfirm={onRemoveHandler}
+                >
+                  <Button shape="round" type={'text'} danger icon={<DeleteFilled />}>
+                    Remove
+                  </Button>
+                </Popconfirm>
+              )}
             </div>
           </div>
         )
       }
     >
-      {isEditMode ? (
-        <div className={styles.modalContentEditable}>
-          <div className={styles.textData}>
-            <TextInput
-              onChange={(e) =>
-                setTaskData({
-                  ...taskData,
-                  title: e.target.value
-                })
-              }
-              value={taskData.title}
-              label={t('board.createTaskModal.taskNameLabel')}
-              placeholder={t('board.createTaskModal.taskNamePlaceholder')}
-            />
-            <TextInput
-              type={'textarea'}
-              onChange={(e) =>
-                setTaskData({
-                  ...taskData,
-                  description: e.target.value
-                })
-              }
-              value={taskData.description}
-              label={t('board.createTaskModal.taskDescriptionLabel')}
-              placeholder={t('board.createTaskModal.taskDescriptionPlaceholder')}
-            />
-          </div>
-          <div className={styles.additionalData}>
-            <div className={styles.selectContainer}>
-              <span className={styles.selectLabel}>{t('board.createTaskModal.priority')}</span>
-              <PrioritySelect
-                value={taskData.priority}
-                onChange={(value) =>
-                  setTaskData({
-                    ...taskData,
-                    priority: value
-                  })
-                }
-              />
-            </div>
-            <div className={styles.selectContainer}>
-              <span className={styles.selectLabel}>{t('board.createTaskModal.categories')}</span>
-              <CategorySelect
-                userCategories={user.categories}
-                value={taskData.categoryId}
-                onChange={(value) =>
-                  setTaskData({
-                    ...taskData,
-                    categoryId: value
-                  })
-                }
-              />
-            </div>
-            <div className={styles.selectContainer}>
-              <span className={styles.selectLabel}>{t('board.createTaskModal.dueDate')}</span>
-              <DateSelect
-                value={taskData.dueDate}
-                onChange={(value) =>
-                  setTaskData({
-                    ...taskData,
-                    dueDate: value
-                  })
-                }
-              />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className={cn(styles.modalContentEditable, { [styles.isPreview]: !isEditMode })}>
-          <div className={cn(styles.additionalData, { [styles.isPreview]: !isEditMode })}>
-            {taskData.priority ? (
-              <div className={styles.selectContainer}>
-                <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
-                  {t('board.createTaskModal.priority')}
-                </span>
-                <Priority type={taskData.priority} />
-              </div>
-            ) : null}
-            {taskData.categoryId ? (
-              <div className={styles.selectContainer}>
-                <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
-                  {t('board.createTaskModal.categories')}
-                </span>
-                {taskData.categories.map((category) => (
-                  <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
-                ))}
-              </div>
-            ) : null}
-            {taskData.dueDate ? (
-              <div className={styles.selectContainer}>
-                <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
-                  {t('board.createTaskModal.dueDate')}
-                </span>
-                {dayjs(taskData.dueDate).format(user.dateFormat)}
-              </div>
-            ) : null}
-          </div>
-          <div className={cn(styles.textData, { [styles.isPreview]: !isEditMode })}>
-            <div className={styles.description}>
-              <span className={styles.descriptionLabel}>{t('board.createTaskModal.taskDescriptionLabel')}</span>
-              <p className={cn(styles.descriptionText, { [styles.isPlaceholder]: !taskData.description })}>
-                {taskData.description || 'No description provided'}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {modalContent()}
     </Modal>
   );
 };

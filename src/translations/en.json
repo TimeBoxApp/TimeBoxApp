@@ -105,6 +105,26 @@
       "categories": "Category",
       "dueDate": "Due date",
       "createButton": "Create"
+    },
+    "taskInfoModal": {
+      "title": "Create a new task",
+      "taskNameLabel": "Task name",
+      "taskNamePlaceholder": "Enter task name",
+      "taskDescriptionLabel": "Task description",
+      "taskDescriptionPlaceholder": "Enter task description",
+      "priority": "Priority",
+      "categories": "Category",
+      "dueDate": "Due date",
+      "createButton": "Create",
+      "noDescription": "No description provided",
+      "updateSuccess": "Task updated successfully",
+      "removeSuccess": "Task successfully removed",
+      "cancelChanges": "Cancel the changes",
+      "cancelChangesQuestion": "Are you sure you want to cancel the changes?",
+      "delete": "Delete the task",
+      "deleteQuestion": "Are you sure you want to delete the task?",
+      "yes": "Yes",
+      "no": "No"
     }
   },
   "notFound": {

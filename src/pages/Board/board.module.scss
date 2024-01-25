@@ -50,6 +50,21 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
+    height: 100%;
+
+    .columnTasksSkeleton {
+      display: flex;
+      border-radius: 20px;
+      margin-top: 10px;
+      gap: 20px;
+      height: 100%;
+
+      .columnTaskSkeleton {
+        display: flex;
+        width: 320px;
+        height: 100%;
+      }
+    }
   }
 
   .weekTitle {

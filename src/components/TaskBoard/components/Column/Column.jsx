@@ -8,15 +8,25 @@ import { COLUMN_STATUS_MAPPING } from '../../../../services/store/helpers/task';
 
 import styles from './column.module.scss';
 
-const Column = ({ column, tasks }) => {
+const Column = ({ column, tasks, onUpdate }) => {
   const { user } = userStore();
-  const { currentWeek, updateNewTask, setIsCreateTaskModalOpen } = useTaskBoardStore((state) => ({
+  const { currentWeek, updateNewTask, setIsCreateTaskModalOpen, assignTaskRank } = useTaskBoardStore((state) => ({
     currentWeek: state.currentWeek,
     setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
-    updateNewTask: state.updateNewTask
+    updateNewTask: state.updateNewTask,
+    assignTaskRank: state.assignTaskRank
   }));
+
+  /**
+   * Create a new task and open modal
+   */
   const handleCreateTask = () => {
-    updateNewTask({ weekId: currentWeek.id, status: COLUMN_STATUS_MAPPING[column.id], userId: user.id });
+    updateNewTask({
+      weekId: currentWeek.id,
+      status: COLUMN_STATUS_MAPPING[column.id],
+      userId: user.id,
+      boardRank: assignTaskRank(column.id)
+    });
     setIsCreateTaskModalOpen(true);
   };
 
@@ -37,7 +47,7 @@ const Column = ({ column, tasks }) => {
               {...provided.droppableProps}
             >
               {tasks.map((task, index) => (
-                <Task key={task.id} task={task} index={index} />
+                <Task key={task.id} task={task} index={index} onUpdate={onUpdate} />
               ))}
               {provided.placeholder}
             </div>

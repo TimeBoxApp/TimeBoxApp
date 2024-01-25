@@ -10,7 +10,7 @@ import TaskInfoModal from '../../../TaskInfoModal/TaskInfoModal';
 
 import styles from './task.module.scss';
 
-const Task = ({ task, index }) => {
+const Task = ({ task, index, onUpdate }) => {
   const [t] = useTranslation();
   const [isTaskInfoModalOpen, setIsTaskInfoModalOpen] = useState(false);
   const daysLeft = useMemo(() => {
@@ -47,7 +47,12 @@ const Task = ({ task, index }) => {
             ) : null}
             <Priority type={task.priority} />
           </div>
-          <TaskInfoModal task={task} isOpen={isTaskInfoModalOpen} setIsOpen={setIsTaskInfoModalOpen} />
+          <TaskInfoModal
+            taskId={task.id}
+            isOpen={isTaskInfoModalOpen}
+            setIsOpen={setIsTaskInfoModalOpen}
+            onUpdate={onUpdate}
+          />
         </div>
       )}
     </Draggable>

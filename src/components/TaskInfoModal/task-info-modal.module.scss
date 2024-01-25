@@ -23,6 +23,32 @@
     gap: 15px;
   }
 
+  .titleSkeleton {
+    display: flex;
+    width: 500px;
+    height: 50px;
+  }
+
+  .skeleton {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 10px;
+    gap: 20px;
+
+    .additionalDataSkeleton {
+      display: flex;
+      width: 200px;
+    }
+
+    .descriptionSkeleton {
+      display: flex;
+      width: 450px;
+      height: 100%;
+    }
+  }
+
   .textData {
     display: flex;
     gap: 15px;
