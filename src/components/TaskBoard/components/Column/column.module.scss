@@ -1,9 +1,12 @@
 @import '../../../../styles/variables';
 
 .columnContainer {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  max-height: 100%;
   background-color: $white;
   border-radius: 20px;
-  height: fit-content;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -35,6 +38,7 @@
     padding: 20px 25px;
     border-radius: 0 0 20px 20px;
     width: 270px;
+    overflow-y: scroll;
     background-color: $white;
 
     &.isDraggingOver {
