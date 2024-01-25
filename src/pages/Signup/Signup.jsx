@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 
-import TextInput from '../../components/Primary/InputField/InputField';
+import InputField from '../../components/Primary/InputField/InputField';
 import Button from '../../components/Primary/Button/Button';
 import { signUp } from './services/user';
 import { error } from '../../services/notification';
@@ -91,14 +91,14 @@ const Signup = () => {
               {({ setFieldValue, isValid, isSubmitting, submitForm, values }) => (
                 <Form className={styles.textInputContainers}>
                   <div className={styles.nameFields}>
-                    <TextInput
+                    <InputField
                       label={t('primary.userFields.firstName')}
                       name="firstName"
                       type="text"
                       placeholder={t('signup.placeholders.firstName')}
                       required
                     />
-                    <TextInput
+                    <InputField
                       label={t('primary.userFields.lastName')}
                       name="lastName"
                       type="text"
@@ -106,14 +106,14 @@ const Signup = () => {
                       required
                     />
                   </div>
-                  <TextInput
+                  <InputField
                     label={t('primary.userFields.email')}
                     name="email"
                     type="email"
                     placeholder={t('signup.placeholders.email')}
                     required
                   />
-                  <TextInput
+                  <InputField
                     label={t('primary.userFields.password')}
                     name="password"
                     type="password"

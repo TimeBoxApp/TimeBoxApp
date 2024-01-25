@@ -1,18 +1,24 @@
+import cn from 'classnames';
+
 import { PRIORITY_TYPES } from '../constants';
 
 import styles from './priority.module.scss';
 
-const Priority = ({ type }) => {
-  switch (type) {
-    case PRIORITY_TYPES.high:
-      return <span className={styles.high}>{type}</span>;
-    case PRIORITY_TYPES.medium:
-      return <span className={styles.medium}>{type}</span>;
-    case PRIORITY_TYPES.low:
-      return <span className={styles.low}>{type}</span>;
-    default:
-      return null;
-  }
+const Priority = ({ type, size = 's' }) => {
+  if (!Object.values(PRIORITY_TYPES).includes(type)) return null;
+
+  return (
+    <span
+      className={cn(styles.priority, {
+        [styles.isLarge]: size === 'm',
+        [styles.isHigh]: type === PRIORITY_TYPES.high,
+        [styles.isMedium]: type === PRIORITY_TYPES.medium,
+        [styles.isLow]: type === PRIORITY_TYPES.low
+      })}
+    >
+      {type}
+    </span>
+  );
 };
 
 export default Priority;

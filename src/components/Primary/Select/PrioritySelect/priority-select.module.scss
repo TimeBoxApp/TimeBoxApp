@@ -1,0 +1,12 @@
+@import '../../../../styles/variables.scss';
+
+.option {
+  display: flex;
+  align-items: center;
+}
+
+:global {
+  .ant-select-selection-placeholder {
+    color: $textSecondary !important;
+  }
+}

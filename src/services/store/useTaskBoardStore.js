@@ -7,9 +7,19 @@ import { calculateNewRank, COLUMN_STATUS_MAPPING } from './helpers/task';
 
 const DEFAULT_COLUMN_ORDER = ['toDo', 'inProgress', 'done'];
 
-const useTaskBoardStore = create((set) => ({
-  currentWeek: { name: '', startDate: '', endDate: '' },
-  setCurrentWeek: (newWeekData) => set((state) => ({ currentWeek: { ...state.currentWeek, ...newWeekData } })),
+const useTaskBoardStore = create((set, get) => ({
+  currentWeek: { id: null, name: '', startDate: '', endDate: '' },
+  newTask: {
+    title: null,
+    description: null,
+    status: null,
+    priority: null,
+    dueDate: null,
+    boardRank: null,
+    categoryId: null,
+    weekId: null,
+    userId: null
+  },
   boardData: {
     tasks: {},
     columns: {
@@ -31,7 +41,25 @@ const useTaskBoardStore = create((set) => ({
     },
     columnOrder: DEFAULT_COLUMN_ORDER
   },
+  isCreateTaskModalOpen: false,
+  updateNewTask: (newTaskData) => set((state) => ({ newTask: { ...state.newTask, ...newTaskData } })),
+  clearNewTask: () =>
+    set({
+      newTask: {
+        title: null,
+        description: null,
+        status: null,
+        priority: null,
+        dueDate: null,
+        boardRank: null,
+        categoryId: null,
+        weekId: null,
+        userId: null
+      }
+    }),
+  setCurrentWeek: (newWeekData) => set((state) => ({ currentWeek: { ...state.currentWeek, ...newWeekData } })),
   setBoardData: (newBoardData) => set((state) => ({ boardData: { ...state.boardData, ...newBoardData } })),
+  setIsCreateTaskModalOpen: (isOpen) => set({ isCreateTaskModalOpen: isOpen }),
   onDragEnd: (result) => {
     set((state) => {
       const { destination, source, draggableId } = result;
@@ -104,6 +132,27 @@ const useTaskBoardStore = create((set) => ({
 
       return newState;
     });
+  },
+  assignTaskRank: (columnId) => {
+    console.log(columnId);
+    const state = get();
+    const column = state.boardData.columns[columnId];
+
+    if (!column) return;
+
+    const taskIds = column.taskIds;
+    const lastTaskId = taskIds[taskIds.length - 1];
+    let newRank;
+
+    if (lastTaskId) {
+      const lastTaskRank = LexoRank.parse(state.boardData.tasks[lastTaskId].boardRank);
+      newRank = lastTaskRank.genNext().toString();
+    } else {
+      // Column is empty, generate a rank at the beginning
+      newRank = LexoRank.min().toString();
+    }
+
+    return newRank;
   }
 }));
 

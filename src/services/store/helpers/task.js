@@ -16,7 +16,7 @@ export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank) => 
 
   if (!beforeId && !afterId) {
     // First item in the column
-    return LexoRank.middle().toString();
+    return LexoRank.min().toString();
   } else if (!beforeId) {
     // Inserting at the top of the column
     const afterRank = LexoRank.parse(tasks[afterId].boardRank);
