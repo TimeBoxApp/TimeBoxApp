@@ -1,7 +1,7 @@
 import to from 'await-to-js';
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 import { getCurrentUser } from '../../pages/Login/services/auth';
 import { setUser } from '../user';
 import { error } from '../alerts';
