@@ -52,6 +52,12 @@
       "categoryPlaceholder": "Select category",
       "priorityPlaceholder": "Select priority",
       "dueDatePlaceholder": "Select due date"
+    },
+    "floatButton": {
+      "header": "\uD83D\uDC4B\uD83C\uDFFB Hello, {{ fullName }}",
+      "profileSettings": "Profile settings",
+      "logout": "Log out",
+      "logoutTitle": "Are you sure you want to log out?"
     }
   },
   "login": {
