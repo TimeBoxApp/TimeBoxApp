@@ -8,6 +8,7 @@ class User {
     this.firstName = data.firstName || '';
     this.lastName = data.lastName || '';
     this.fullName = data.firstName || data.lastName ? `${data.firstName || ''} ${data.lastName || ''}` : '';
+    this.initials = data.firstName || data.lastName ? `${data.firstName[0] || ''}${data.lastName[0] || ''}` : '';
     this.id = data.id || 0;
     this.email = data.email || '';
     this.role = data.role || '';

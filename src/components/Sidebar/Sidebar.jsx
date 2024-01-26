@@ -2,9 +2,6 @@ import { useTranslation } from 'react-i18next';
 
 import NavigationItem from './components/NavigationItem';
 import PomodoroTimer from '../PomodoroTimer/PomodoroTimer';
-import { logout } from '../../pages/Login/services/auth';
-import { clearUser } from '../../services/user';
-import { useNavigate } from 'react-router-dom';
 
 import styles from './sidebar.module.scss';
 
@@ -16,7 +13,7 @@ import { ReactComponent as SettingsIcon } from './images/settings.inline.svg';
 
 const Sidebar = () => {
   const [t] = useTranslation();
-  const navigate = useNavigate();
+
   const routes = [
     {
       name: t('primary.sidebar.taskBoard'),
@@ -40,16 +37,6 @@ const Sidebar = () => {
     }
   ];
 
-  /**
-   * Proceed user logout
-   */
-  async function proceedLogout() {
-    await logout();
-    clearUser();
-
-    return navigate('/login');
-  }
-
   return (
     <div className={styles.background}>
       <div className={styles.container}>
@@ -65,7 +52,6 @@ const Sidebar = () => {
       </div>
       <div className={styles.pomodoro}>
         <PomodoroTimer />
-        <button onClick={() => proceedLogout()}>Log out</button>
       </div>
     </div>
   );
