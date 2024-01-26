@@ -36,7 +36,9 @@
       "settings": "Settings & Profile"
     },
     "pomodoroTimer": {
-      "title": "Pomodoro Timer"
+      "title": "\uD83C\uDF45 Pomodoro Timer",
+      "start": "Start",
+      "pause": "Pause"
     },
     "errors": {
       "defaultError": "Sorry, something went wrong. Please, try refreshing the page",

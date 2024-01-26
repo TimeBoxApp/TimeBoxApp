@@ -111,7 +111,8 @@ function App() {
             borderRadius: theme.borderRadius,
             fontFamily: 'DM Sans',
             controlHeight: 40,
-            controlOutline: 'none'
+            controlOutline: 'none',
+            colorText: theme.textPrimary
           },
           components: {
             DatePicker: {
