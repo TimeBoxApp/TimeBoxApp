@@ -2,13 +2,23 @@
 
 .container {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 170px;
+  gap: 15px;
   background: $background;
   border: 2px solid $border;
   border-radius: 10px;
-  padding: 20px;
+  padding: 20px 20px 15px;
   box-sizing: border-box;
+
+  .title {
+    font-weight: $font-weight-bold;
+    font-size: $font-medium;
+  }
+
+  .timer {
+    font-size: $font-large;
+  }
 }
