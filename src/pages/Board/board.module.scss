@@ -1,5 +1,15 @@
 @import '../../styles/variables';
 
+.empty {
+  height: 100%;
+  width: calc(100vw - 380px);
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .boardContainer {
   display: flex;
   width: calc(100vw - 380px);
@@ -37,20 +47,17 @@
     }
   }
 
-  .empty {
-    height: 100%;
-    width: 100%;
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .boardData {
     display: flex;
     flex-direction: column;
     gap: 30px;
     height: 100%;
+
+    .heading {
+      display: flex;
+      gap: 30px;
+      align-items: flex-end;
+    }
 
     .columnTasksSkeleton {
       display: flex;
