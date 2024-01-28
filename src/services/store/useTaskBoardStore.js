@@ -57,6 +57,15 @@ const useTaskBoardStore = create((set, get) => ({
         userId: null
       }
     }),
+  clearWeek: () =>
+    set({
+      currentWeek: {
+        id: null,
+        name: '',
+        startDate: '',
+        endDate: ''
+      }
+    }),
   setCurrentWeek: (newWeekData) => set((state) => ({ currentWeek: { ...state.currentWeek, ...newWeekData } })),
   setBoardData: (newBoardData) => set((state) => ({ boardData: { ...state.boardData, ...newBoardData } })),
   setIsCreateTaskModalOpen: (isOpen) => set({ isCreateTaskModalOpen: isOpen }),

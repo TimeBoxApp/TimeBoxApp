@@ -4,7 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 import { Trans, useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Empty } from 'antd';
+import { Button, Empty } from 'antd';
 
 import useTaskBoardStore from '../../services/store/useTaskBoardStore';
 import TaskBoard from '../../components/TaskBoard/TaskBoard';
@@ -15,24 +15,27 @@ import { PRIORITY_TYPES } from '../../components/Primary/constants';
 import { STATUS_COLUMN_MAPPING } from '../../services/store/helpers/task';
 import { error } from '../../services/alerts';
 import { getTasksByWeekId } from './services/task';
+import { finishWeek } from './services/week';
 
 import styles from './board.module.scss';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const Board = () => {
   const { user } = userStore();
-  const { setBoardData, setCurrentWeek, currentWeek, isCreateTaskModalOpen, setIsCreateTaskModalOpen } =
+  const { setBoardData, setCurrentWeek, currentWeek, isCreateTaskModalOpen, setIsCreateTaskModalOpen, clearWeek } =
     useTaskBoardStore((state) => ({
       setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
       isCreateTaskModalOpen: state.isCreateTaskModalOpen,
       setBoardData: state.setBoardData,
       setCurrentWeek: state.setCurrentWeek,
+      clearWeek: state.clearWeek,
       currentWeek: state.currentWeek
     }));
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState({
     tasks: true,
-    week: false
+    week: false,
+    finishWeek: false
   });
   const weekDurationTitle = useMemo(() => {
     const startDate = dayjs(currentWeek.startDate);
@@ -98,6 +101,7 @@ const Board = () => {
    */
   const getWeekDetails = async () => {
     setIsLoading({
+      ...isLoading,
       tasks: true,
       week: true
     });
@@ -106,6 +110,7 @@ const Board = () => {
 
     if (err) {
       setIsLoading({
+        ...isLoading,
         tasks: false,
         week: false
       });
@@ -114,7 +119,10 @@ const Board = () => {
     }
 
     if (!weekData.name) {
-      setIsLoading({
+      clearWeek();
+
+      return setIsLoading({
+        ...isLoading,
         tasks: false,
         week: false
       });
@@ -128,6 +136,7 @@ const Board = () => {
     });
     setBoardData(convertTasks(weekData));
     setIsLoading({
+      ...isLoading,
       tasks: false,
       week: false
     });
@@ -139,17 +148,35 @@ const Board = () => {
    */
   const reloadTasks = async () => {
     setIsLoading({
-      tasks: true,
-      week: false
+      ...isLoading,
+      tasks: true
     });
 
     const tasks = await getTasksByWeekId(currentWeek.id);
 
     setBoardData(convertTasks(tasks));
     setIsLoading({
-      tasks: false,
-      week: false
+      ...isLoading,
+      tasks: false
     });
+  };
+
+  const finishWeekHandler = async () => {
+    setIsLoading({
+      ...isLoading,
+      finishWeek: true
+    });
+
+    const [err] = await to(finishWeek(currentWeek.id));
+
+    setIsLoading({
+      ...isLoading,
+      finishWeek: false
+    });
+
+    if (err) return error();
+
+    return getWeekDetails();
   };
 
   /**
@@ -163,6 +190,9 @@ const Board = () => {
     return (
       <div className={styles.empty}>
         <Empty description={<span>{t('board.empty')}</span>} />
+        <Button type={'primary'} shape={'round'} size={'small'}>
+          Create a Week
+        </Button>
       </div>
     );
   }
@@ -189,11 +219,19 @@ const Board = () => {
         </div>
       ) : (
         <div className={styles.boardData}>
-          <div>
+          <div className={styles.heading}>
             <div className={styles.weekTitle}>
               <h2>{currentWeek.name}</h2>
               <h2 className={styles.weekDates}>{weekDurationTitle}</h2>
             </div>
+            <Button
+              onClick={finishWeekHandler}
+              style={{ marginBottom: '5px' }}
+              shape={'round'}
+              loading={isLoading.finishWeek}
+            >
+              Finish week
+            </Button>
           </div>
           {isLoading.tasks ? (
             <div className={styles.columnTasksSkeleton}>
