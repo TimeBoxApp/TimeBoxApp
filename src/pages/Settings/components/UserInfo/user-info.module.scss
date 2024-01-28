@@ -1,0 +1,54 @@
+@import '../../../../styles/variables';
+
+.section {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  padding: 30px;
+  max-width: 400px;
+  gap: 30px;
+  background: $white;
+  border-radius: $border-radius-normal;
+
+  .userInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+
+    .userName {
+      color: $textPrimary;
+      font-size: $font-medium;
+      font-weight: $font-weight-bold;
+    }
+
+    .subtitle {
+      font-weight: $font-weight-semi-bold;
+      font-size: $font-small;
+      color: $textSecondary;
+    }
+  }
+
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .statsItem {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      max-width: 80px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 5px;
+
+      .statsLabel {
+        color: $textSecondary;
+        font-size: $font-small;
+      }
+    }
+  }
+}

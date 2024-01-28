@@ -10,10 +10,17 @@ import NotFound from './pages/NotFound/NotFound';
 import InternalError from './pages/InternalError/InternalError';
 import AppLayout from './layouts/AppLayout';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import Settings from './pages/Settings/Settings';
 import { userStore } from './services/store/userStore';
 
-const ProtectedRoute = ({ user, redirectPath = '/login', children }) => {
+const ProtectedRoute = ({ user, redirectPath = '/login', feature, children }) => {
+  const { userHasFeature } = userStore();
+
   if (!user) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  if (feature && !userHasFeature(feature)) {
     return <Navigate to={redirectPath} replace />;
   }
 
@@ -74,6 +81,14 @@ function App() {
           )
         },
         {
+          path: 'books',
+          element: (
+            <ProtectedRoute user={user} feature={'bookList'} redirectPath={'/board'}>
+              <h1>Reading List</h1>
+            </ProtectedRoute>
+          )
+        },
+        {
           path: 'reports',
           element: (
             <ProtectedRoute user={user}>
@@ -85,7 +100,7 @@ function App() {
           path: 'settings',
           element: (
             <ProtectedRoute user={user}>
-              <h1>Settings</h1>
+              <Settings />
             </ProtectedRoute>
           )
         },

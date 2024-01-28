@@ -12,11 +12,7 @@ class User {
     this.id = data.id || 0;
     this.email = data.email || '';
     this.role = data.role || '';
-    this.columnNames = {
-      toDo: data.toDoColumnName || null,
-      inProgress: data.inProgressColumnName || null,
-      done: data.doneColumnName || null
-    };
+    this.preferences = data.preferences || {};
     this.categories = data.categories;
     this.dateFormat = data.dateFormat || 'DD.MM.YYYY';
   }

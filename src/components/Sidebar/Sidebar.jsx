@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import NavigationItem from './components/NavigationItem';
 import PomodoroTimer from '../PomodoroTimer/PomodoroTimer';
+import { userStore } from '../../services/store/userStore';
 
 import styles from './sidebar.module.scss';
 
@@ -10,9 +11,11 @@ import { ReactComponent as BoardIcon } from './images/board.inline.svg';
 import { ReactComponent as BacklogIcon } from './images/backlog.inline.svg';
 import { ReactComponent as ReportsIcon } from './images/reports.inline.svg';
 import { ReactComponent as SettingsIcon } from './images/settings.inline.svg';
+import { ReactComponent as BookListcon } from './images/book-list.inline.svg';
 
 const Sidebar = () => {
   const [t] = useTranslation();
+  const { userHasFeature } = userStore();
 
   const routes = [
     {
@@ -24,6 +27,12 @@ const Sidebar = () => {
       name: t('primary.sidebar.backlog'),
       icon: <BacklogIcon />,
       path: '/backlog'
+    },
+    {
+      name: t('primary.sidebar.readingList'),
+      icon: <BookListcon />,
+      path: '/books',
+      feature: 'bookList'
     },
     {
       name: t('primary.sidebar.reports'),
@@ -45,14 +54,18 @@ const Sidebar = () => {
         </div>
         <hr className={styles.hr} />
         <div className={styles.navigationItems}>
-          {routes.map((route, index) => (
-            <NavigationItem key={index} text={route.name} path={route.path} icon={route.icon} />
-          ))}
+          {routes.map((route, index) =>
+            route.feature && !userHasFeature(route.feature) ? null : (
+              <NavigationItem key={index} text={route.name} path={route.path} icon={route.icon} />
+            )
+          )}
         </div>
       </div>
-      <div className={styles.pomodoro}>
-        <PomodoroTimer />
-      </div>
+      {userHasFeature('pomodoro') ? (
+        <div className={styles.pomodoro}>
+          <PomodoroTimer />
+        </div>
+      ) : null}
     </div>
   );
 };

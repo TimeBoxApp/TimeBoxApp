@@ -1,14 +1,11 @@
 @import '../../../styles/variables';
 
-.input {
+.container {
   display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  gap: 10px;
 
   .label {
-    color: $textPrimary;
-    margin-left: 5px;
     font-weight: $font-weight-semi-bold;
     font-size: $font-small;
   }

@@ -10,6 +10,12 @@ export const STATUS_COLUMN_MAPPING = {
   done: 'done'
 };
 
+export const PREFERENCES_COLUMN_MAPPING = {
+  toDo: 'toDoColumnName',
+  inProgress: 'inProgressColumnName',
+  done: 'doneColumnName'
+};
+
 export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank) => {
   const beforeId = destinationIndex > 0 ? taskIds[destinationIndex - 1] : null;
   const afterId = destinationIndex < taskIds.length - 1 ? taskIds[destinationIndex + 1] : null;

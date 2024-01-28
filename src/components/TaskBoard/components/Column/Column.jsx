@@ -4,7 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import Task from '../Task/Task';
 import useTaskBoardStore from '../../../../services/store/useTaskBoardStore';
 import { userStore } from '../../../../services/store/userStore';
-import { COLUMN_STATUS_MAPPING } from '../../../../services/store/helpers/task';
+import { COLUMN_STATUS_MAPPING, PREFERENCES_COLUMN_MAPPING } from '../../../../services/store/helpers/task';
 
 import styles from './column.module.scss';
 
@@ -33,7 +33,9 @@ const Column = ({ column, tasks, onUpdate }) => {
   return (
     <div className={styles.columnContainer}>
       <div className={styles.columnHeader}>
-        <h4 className={styles.columnTitle}>{column.title}</h4>
+        <h4 className={styles.columnTitle}>
+          {user.preferences[PREFERENCES_COLUMN_MAPPING[column.id]] || column.title}
+        </h4>
         <button className={styles.addTaskButton} onClick={() => handleCreateTask()}>
           +
         </button>

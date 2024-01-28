@@ -4,13 +4,13 @@ import styles from './text-input.module.scss';
 
 const { TextArea } = Input;
 
-const TextInput = ({ placeholder, onChange, label, type, value }) => {
+const TextInput = ({ placeholder, onChange, label, type, value, clearable = true, disabled }) => {
   return (
     <div className={styles.input}>
       {label ? <span className={styles.label}>{label}</span> : null}
       {type === 'textarea' ? (
         <TextArea
-          allowClear
+          allowClear={clearable}
           placeholder={placeholder}
           variant="filled"
           onChange={onChange}
@@ -21,7 +21,14 @@ const TextInput = ({ placeholder, onChange, label, type, value }) => {
           value={value}
         />
       ) : (
-        <Input allowClear placeholder={placeholder} variant="filled" onChange={onChange} value={value} />
+        <Input
+          placeholder={placeholder}
+          disabled={disabled}
+          allowClear={clearable}
+          variant="filled"
+          onChange={onChange}
+          value={value}
+        />
       )}
     </div>
   );
