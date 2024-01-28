@@ -1,0 +1,33 @@
+@import '../../../../styles/variables';
+
+.section {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  padding: 30px;
+  gap: 15px;
+  background: $white;
+  border-radius: $border-radius-normal;
+
+  .passwordContainer {
+    display: flex;
+    gap: 5px;
+    align-items: flex-end;
+
+    .changePasswordButton {
+      margin-bottom: 5px;
+    }
+  }
+
+  .name {
+    display: flex;
+    gap: 15px;
+  }
+
+  .buttons {
+    display: flex;
+    margin-top: 15px;
+    gap: 5px;
+    justify-content: flex-end;
+  }
+}

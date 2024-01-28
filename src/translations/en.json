@@ -27,11 +27,14 @@
       "firstName": "First Name",
       "lastName": "Last name",
       "email": "Email",
-      "password": "Password"
+      "password": "Password",
+      "dateFormat": "Preferred date format",
+      "dateFormatPlaceholder": "Choose date format"
     },
     "sidebar": {
       "taskBoard": "Task Board",
       "backlog": "Backlog",
+      "readingList": "Reading List",
       "reports": "Reports",
       "settings": "Settings & Profile"
     },
@@ -133,6 +136,41 @@
       "deleteQuestion": "Are you sure you want to delete the task?",
       "yes": "Yes",
       "no": "No"
+    }
+  },
+  "settings": {
+    "title": "Settings & Profile",
+    "subtitle": "Settings / {{userName}}",
+    "userInfo": {
+      "weeksTimeboxed_zero": "Weeks timeboxed",
+      "weeksTimeboxed_one": "Week timeboxed",
+      "weeksTimeboxed_many": "Weeks timeboxed",
+      "weeksTimeboxed_other": "Weeks timeboxed",
+      "totalCompleted": "Total completed",
+      "backlogItems_zero": "Backlog items",
+      "backlogItems_one": "Backlog item",
+      "backlogItems_many": "Backlog items",
+      "backlogItems_other": "Backlog items"
+    },
+    "accountInformation": {
+      "title": "Account Information",
+      "changePassword": "Change",
+      "errorMessage": "Error during account information update",
+      "successMessage": "Successfully updated account information"
+    },
+    "features": {
+      "title": "Features",
+      "pomodoro": "Pomodoro timer",
+      "readingList": "Show Reading list",
+      "errorMessage": "Error during feature update",
+      "successMessage": "Successfully updated feature"
+    },
+    "columnStatusNames": {
+      "toDo": "To do",
+      "inProgress": "In progress",
+      "done": "Done",
+      "errorMessage": "Error during column names update",
+      "successMessage": "Successfully updated column names"
     }
   },
   "notFound": {

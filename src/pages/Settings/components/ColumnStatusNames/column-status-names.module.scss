@@ -1,0 +1,18 @@
+@import '../../../../styles/variables';
+
+.section {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 15px;
+  max-width: 400px;
+  background: $white;
+  border-radius: $border-radius-normal;
+
+  .buttons {
+    display: flex;
+    margin-top: 15px;
+    gap: 5px;
+    justify-content: flex-end;
+  }
+}
