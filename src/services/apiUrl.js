@@ -24,7 +24,9 @@ export function getNoCacheHeaders() {
  * @returns {string}
  */
 export function apiUrl() {
-  return 'http://localhost:3000/api';
+  if (process.env.NODE_ENV === 'prod') return 'https://api.timebox.com/api';
+
+  return `http://localhost:${process.env.REACT_APP_SERVER_PORT}/api`;
 }
 
 /**
