@@ -22,15 +22,27 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 const Board = () => {
   const { user } = userStore();
-  const { setBoardData, setCurrentWeek, currentWeek, isCreateTaskModalOpen, setIsCreateTaskModalOpen, clearWeek } =
-    useTaskBoardStore((state) => ({
-      setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
-      isCreateTaskModalOpen: state.isCreateTaskModalOpen,
-      setBoardData: state.setBoardData,
-      setCurrentWeek: state.setCurrentWeek,
-      clearWeek: state.clearWeek,
-      currentWeek: state.currentWeek
-    }));
+  const {
+    setBoardData,
+    setCurrentWeek,
+    currentWeek,
+    isCreateTaskModalOpen,
+    setIsCreateTaskModalOpen,
+    clearWeek,
+    newTask,
+    updateNewTask,
+    clearNewTask
+  } = useTaskBoardStore((state) => ({
+    setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
+    isCreateTaskModalOpen: state.isCreateTaskModalOpen,
+    setBoardData: state.setBoardData,
+    setCurrentWeek: state.setCurrentWeek,
+    clearWeek: state.clearWeek,
+    currentWeek: state.currentWeek,
+    newTask: state.newTask,
+    updateNewTask: state.updateNewTask,
+    clearNewTask: state.clearNewTask
+  }));
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState({
     tasks: true,
@@ -242,7 +254,14 @@ const Board = () => {
           ) : (
             <TaskBoard onUpdate={reloadTasks} />
           )}
-          <CreateTaskModal isOpen={isCreateTaskModalOpen} setIsOpen={setIsCreateTaskModalOpen} onCreate={reloadTasks} />
+          <CreateTaskModal
+            isOpen={isCreateTaskModalOpen}
+            setIsOpen={setIsCreateTaskModalOpen}
+            onCreate={reloadTasks}
+            newTask={newTask}
+            clearNewTask={clearNewTask}
+            updateNewTask={updateNewTask}
+          />
         </div>
       )}
     </div>

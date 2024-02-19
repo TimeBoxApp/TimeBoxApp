@@ -173,6 +173,26 @@
       "successMessage": "Successfully updated column names"
     }
   },
+  "backlog": {
+    "title": "Backlog",
+    "subtitle": "Backlog / {{userName}}",
+    "status": {
+      "toDo": "To do",
+      "inProgress": "In progress",
+      "done": "Done"
+    },
+    "editWeekModal": {
+      "title": "Create a new week",
+      "weekNameLabel": "Week name",
+      "weekNamePlaceholder": "Enter week name",
+      "createButton": "Create",
+      "cancelChangesQuestion": "Are you sure you want to cancel the changes?",
+      "delete": "Delete the task",
+      "deleteQuestion": "Are you sure you want to delete the task?",
+      "yes": "Yes",
+      "no": "No"
+    }
+  },
   "notFound": {
     "message": "Sorry, the page you visited does not exist.",
     "button": "Back to Board"

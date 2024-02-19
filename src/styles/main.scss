@@ -18,7 +18,14 @@ body,
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  //font-family: 'DM Sans', sans-serif;
+  font-family:
+    -apple-system,
+    system-ui,
+    Segoe UI,
+    Helvetica,
+    Arial,
+    sans-serif;
   color: $textPrimary;
   -webkit-text-size-adjust: 100%;
   font-size: $font-normal;

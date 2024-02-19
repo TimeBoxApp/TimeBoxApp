@@ -1,0 +1,7 @@
+.taskBoard {
+  width: calc(100vw - 380px);
+  display: flex;
+  gap: 20px;
+  height: 100%;
+  flex-direction: column;
+}
