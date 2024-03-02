@@ -24,13 +24,15 @@ const BacklogTask = ({ task, index, onUpdate }) => {
           {...provided.dragHandleProps}
         >
           <div className={styles.taskContent}>
-            <span className={styles.taskTitle}>{task.title}</span>
+            <div className={styles.title}>
+              <TaskStatusTag key={task.id} status={task.status} />
+              <span className={styles.taskTitle}>{task.title}</span>
+            </div>
             <div className={styles.tags}>
-              {task.categories.map((category) => (
+              {task.taskCategories.map((category) => (
                 <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
               ))}
               <Priority type={task.priority} />
-              <TaskStatusTag key={task.id} status={task.status} />
             </div>
           </div>
           <TaskInfoModal

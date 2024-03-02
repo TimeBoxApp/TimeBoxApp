@@ -29,7 +29,7 @@ export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank, pro
     let newRank = afterRank.genPrev();
     if (newRank.equals(afterRank)) {
       // If getPrev() returns the same rank, switch to a new bucket or force a recalibration
-      newRank = LexoRank.inNextBucket();
+      newRank = newRank.inPrevBucket();
     }
     return newRank.toString();
   } else if (!afterId) {

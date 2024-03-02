@@ -75,6 +75,10 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
 
     if (err) return error(err);
 
+    task.taskCategories = task.categories;
+
+    delete task.categories;
+
     setInitialTaskData(task);
     setTaskDataEdited(task);
   };
@@ -207,11 +211,11 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
               <span className={styles.selectLabel}>{t('board.taskInfoModal.categories')}</span>
               <CategorySelect
                 userCategories={user.categories}
-                value={taskDataEdited.categoryId}
+                value={taskDataEdited.taskCategories}
                 onChange={(value) =>
                   setTaskDataEdited({
                     ...taskDataEdited,
-                    categoryId: value || null
+                    taskCategories: value
                   })
                 }
               />
@@ -241,12 +245,12 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
                 <Priority type={initialTaskData.priority} />
               </div>
             ) : null}
-            {initialTaskData.categories.length ? (
+            {initialTaskData.taskCategories?.length ? (
               <div className={styles.selectContainer}>
                 <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
                   {t('board.taskInfoModal.categories')}
                 </span>
-                {initialTaskData.categories.map((category) => (
+                {initialTaskData.taskCategories.map((category) => (
                   <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
                 ))}
               </div>

@@ -22,10 +22,16 @@
     width: 100%;
     justify-content: space-between;
 
-    .taskTitle {
-      font-size: $font-small;
-      font-weight: $font-weight-bold;
-      line-height: 150%;
+    .title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .taskTitle {
+        font-size: $font-small;
+        font-weight: $font-weight-bold;
+        line-height: 150%;
+      }
     }
 
     .tags {

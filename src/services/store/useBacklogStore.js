@@ -13,8 +13,9 @@ const useBacklogStore = create((set, get) => ({
     status: null,
     priority: null,
     dueDate: null,
+    boardRank: null,
     backlogRank: null,
-    categoryId: null,
+    taskCategories: [],
     weekId: null,
     userId: null
   },
@@ -144,7 +145,7 @@ const useBacklogStore = create((set, get) => ({
     const state = get();
     const column = state.backlogData.weeks[columnId];
 
-    if (!column) return;
+    if (!column) return null;
 
     const taskIds = column.taskIds;
     const lastTaskId = taskIds[taskIds.length - 1];

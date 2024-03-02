@@ -66,7 +66,7 @@ const Backlog = () => {
         output.tasks[task.id] = {
           id: task.id.toString(),
           title: task.title,
-          categories: task.categories,
+          taskCategories: task.categories,
           priority: task.priority,
           status: task.status,
           backlogRank: task.backlogRank
@@ -88,7 +88,7 @@ const Backlog = () => {
         output.tasks[task.id] = {
           id: task.id.toString(),
           title: task.title,
-          categories: task.categories,
+          taskCategories: task.categories,
           priority: task.priority,
           backlogRank: task.backlogRank
         };

@@ -16,7 +16,8 @@ const useTaskBoardStore = create((set, get) => ({
     priority: null,
     dueDate: null,
     boardRank: null,
-    categoryId: null,
+    backlogRank: null,
+    taskCategories: [],
     weekId: null,
     userId: null
   },
@@ -52,6 +53,7 @@ const useTaskBoardStore = create((set, get) => ({
         priority: null,
         dueDate: null,
         boardRank: null,
+        backlogRank: null,
         categoryId: null,
         weekId: null,
         userId: null

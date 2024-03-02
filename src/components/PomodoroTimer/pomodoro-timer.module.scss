@@ -21,4 +21,10 @@
   .timer {
     font-size: $font-large;
   }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
 }

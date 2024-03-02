@@ -32,7 +32,7 @@ const Task = ({ task, index, onUpdate }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {task.categories.map((category) => (
+          {task.taskCategories.map((category) => (
             <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
           ))}
           <span className={styles.taskTitle}>{task.title}</span>

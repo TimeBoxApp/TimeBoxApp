@@ -87,8 +87,7 @@ const Board = () => {
           id: task.id.toString(),
           description: task.description,
           title: task.title,
-          categories: task.categories,
-          categoryId: task.categories[0]?.id || null,
+          taskCategories: task.categories,
           priority: task.priority ? PRIORITY_TYPES[task.priority] : null,
           dueDate: task.dueDate,
           boardRank: task.boardRank

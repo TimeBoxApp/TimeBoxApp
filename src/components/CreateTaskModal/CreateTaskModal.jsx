@@ -91,9 +91,9 @@ const CreateTaskModal = ({ isOpen, setIsOpen, onCreate, newTask, updateNewTask, 
           <div className={styles.selectContainer}>
             <span className={styles.selectLabel}>{t('board.createTaskModal.categories')}</span>
             <CategorySelect
-              value={newTask.categoryId}
+              value={newTask.taskCategories}
               userCategories={user.categories}
-              onChange={(value) => updateNewTask({ categoryId: value })}
+              onChange={(value) => updateNewTask({ taskCategories: value })}
             />
           </div>
           <div className={styles.selectContainer}>
