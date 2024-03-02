@@ -1,0 +1,23 @@
+@import '../../../../styles/variables';
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .additionalData {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    gap: 5px;
+
+    .selectLabel {
+      color: $textPrimary;
+      font-size: $font-small;
+      font-style: normal;
+      font-weight: $font-weight-semi-bold;
+      line-height: 20px;
+      margin-left: 5px;
+    }
+  }
+}

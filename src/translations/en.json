@@ -8,6 +8,7 @@
       "board": "Board",
       "backlog": "Backlog",
       "reports": "Reports",
+      "calendar": "Calendar",
       "settings": "Settings & Profile",
       "notFound": "Not found",
       "internalError": "Oops"
@@ -36,6 +37,7 @@
       "backlog": "Backlog",
       "readingList": "Reading List",
       "reports": "Reports",
+      "calendar": "Calendar",
       "settings": "Settings & Profile"
     },
     "pomodoroTimer": {
@@ -113,7 +115,7 @@
       "taskDescriptionLabel": "Task description",
       "taskDescriptionPlaceholder": "Enter task description",
       "priority": "Priority",
-      "categories": "Category",
+      "categories": "Categories",
       "dueDate": "Due date",
       "createButton": "Create"
     },
@@ -124,7 +126,7 @@
       "taskDescriptionLabel": "Task description",
       "taskDescriptionPlaceholder": "Enter task description",
       "priority": "Priority",
-      "categories": "Category",
+      "categories": "Categories",
       "dueDate": "Due date",
       "createButton": "Create",
       "noDescription": "No description provided",
@@ -171,6 +173,26 @@
       "done": "Done",
       "errorMessage": "Error during column names update",
       "successMessage": "Successfully updated column names"
+    }
+  },
+  "backlog": {
+    "title": "Backlog",
+    "subtitle": "Backlog / {{userName}}",
+    "status": {
+      "toDo": "To do",
+      "inProgress": "In progress",
+      "done": "Done"
+    },
+    "editWeekModal": {
+      "title": "Create a new week",
+      "weekNameLabel": "Week name",
+      "weekNamePlaceholder": "Enter week name",
+      "createButton": "Create",
+      "cancelChangesQuestion": "Are you sure you want to cancel the changes?",
+      "delete": "Delete the task",
+      "deleteQuestion": "Are you sure you want to delete the task?",
+      "yes": "Yes",
+      "no": "No"
     }
   },
   "notFound": {

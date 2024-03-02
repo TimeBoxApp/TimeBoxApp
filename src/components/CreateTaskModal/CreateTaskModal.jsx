@@ -1,3 +1,4 @@
+import to from 'await-to-js';
 import { useState } from 'react';
 import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -8,22 +9,16 @@ import CategorySelect from '../Primary/Select/CategorySelect/CategorySelect';
 import TextInput from '../Primary/TextInput/TextInput';
 import SaveButton from '../Primary/Buttons/SaveButton/SaveButton';
 import CancelButton from '../Primary/Buttons/CancelButton/CancelButton';
-import useTaskBoardStore from '../../services/store/useTaskBoardStore';
 import { createTask } from '../../pages/Board/services/task';
-import { success } from '../../services/alerts';
+import { success, error } from '../../services/alerts';
 import { userStore } from '../../services/store/userStore';
 
 import styles from './create-task-modal.module.scss';
 
-const CreateTaskModal = ({ isOpen, setIsOpen, onCreate }) => {
+const CreateTaskModal = ({ isOpen, setIsOpen, onCreate, newTask, updateNewTask, clearNewTask }) => {
   const { user } = userStore();
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const { newTask, updateNewTask, clearNewTask } = useTaskBoardStore((state) => ({
-    newTask: state.newTask,
-    updateNewTask: state.updateNewTask,
-    clearNewTask: state.clearNewTask
-  }));
 
   const onCancelHandler = () => {
     setIsOpen(false);
@@ -32,12 +27,16 @@ const CreateTaskModal = ({ isOpen, setIsOpen, onCreate }) => {
 
   const onCreateHandler = async () => {
     setIsLoading(true);
-    await createTask(newTask);
+    const [err] = await to(createTask(newTask));
+
+    setIsLoading(false);
+
+    if (err) return error();
+
     success('Task created successfully');
     clearNewTask();
     onCreate();
     setIsOpen(false);
-    setIsLoading(false);
   };
 
   return (
@@ -92,9 +91,9 @@ const CreateTaskModal = ({ isOpen, setIsOpen, onCreate }) => {
           <div className={styles.selectContainer}>
             <span className={styles.selectLabel}>{t('board.createTaskModal.categories')}</span>
             <CategorySelect
-              value={newTask.categoryId}
+              value={newTask.taskCategories}
               userCategories={user.categories}
-              onChange={(value) => updateNewTask({ categoryId: value })}
+              onChange={(value) => updateNewTask({ taskCategories: value })}
             />
           </div>
           <div className={styles.selectContainer}>

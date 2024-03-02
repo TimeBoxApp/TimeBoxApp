@@ -67,7 +67,9 @@ const UserFloatButton = () => {
 
   return (
     <div className={styles.container}>
-      <BoardIcon />
+      <div className={styles.containerButton} onClick={() => navigate('/board')}>
+        <BoardIcon />
+      </div>
       <BellIcon />
       <Dropdown
         menu={{ items }}

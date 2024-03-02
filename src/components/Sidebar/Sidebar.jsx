@@ -12,6 +12,7 @@ import { ReactComponent as BacklogIcon } from './images/backlog.inline.svg';
 import { ReactComponent as ReportsIcon } from './images/reports.inline.svg';
 import { ReactComponent as SettingsIcon } from './images/settings.inline.svg';
 import { ReactComponent as BookListcon } from './images/book-list.inline.svg';
+import { ReactComponent as CalendarIcon } from './images/calendar.inline.svg';
 
 const Sidebar = () => {
   const [t] = useTranslation();
@@ -35,6 +36,11 @@ const Sidebar = () => {
       feature: 'bookList'
     },
     {
+      name: t('primary.sidebar.calendar'),
+      icon: <CalendarIcon />,
+      path: '/calendar'
+    },
+    {
       name: t('primary.sidebar.reports'),
       icon: <ReportsIcon />,
       path: '/reports'
@@ -51,6 +57,7 @@ const Sidebar = () => {
       <div className={styles.container}>
         <div className={styles.logoContainer}>
           <img src={TimeBoxLogo} alt="logo" />
+          <span>Version as of 19 Feb 2024</span>
         </div>
         <hr className={styles.hr} />
         <div className={styles.navigationItems}>

@@ -16,7 +16,7 @@ export const PREFERENCES_COLUMN_MAPPING = {
   done: 'doneColumnName'
 };
 
-export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank) => {
+export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank, property = 'boardRank') => {
   const beforeId = destinationIndex > 0 ? taskIds[destinationIndex - 1] : null;
   const afterId = destinationIndex < taskIds.length - 1 ? taskIds[destinationIndex + 1] : null;
 
@@ -25,21 +25,21 @@ export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank) => 
     return LexoRank.min().toString();
   } else if (!beforeId) {
     // Inserting at the top of the column
-    const afterRank = LexoRank.parse(tasks[afterId].boardRank);
+    const afterRank = LexoRank.parse(tasks[afterId][property]);
     let newRank = afterRank.genPrev();
     if (newRank.equals(afterRank)) {
       // If getPrev() returns the same rank, switch to a new bucket or force a recalibration
-      newRank = LexoRank.inNextBucket();
+      newRank = newRank.inPrevBucket();
     }
     return newRank.toString();
   } else if (!afterId) {
     // Inserting at the bottom of the column
-    const beforeRank = LexoRank.parse(tasks[beforeId].boardRank);
+    const beforeRank = LexoRank.parse(tasks[beforeId][property]);
     return beforeRank.genNext().toString();
   } else {
     // Inserting between two tasks
-    const beforeRank = LexoRank.parse(tasks[beforeId].boardRank);
-    const afterRank = LexoRank.parse(tasks[afterId].boardRank);
+    const beforeRank = LexoRank.parse(tasks[beforeId][property]);
+    const afterRank = LexoRank.parse(tasks[afterId][property]);
     return beforeRank.between(afterRank).toString();
   }
 };

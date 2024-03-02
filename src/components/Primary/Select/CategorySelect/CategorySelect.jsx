@@ -1,7 +1,7 @@
-import { Select } from 'antd';
+import { Select, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-import Tag from '../../Tag/Tag';
+import { Tag } from 'antd';
 
 import styles from '../PrioritySelect/priority-select.module.scss';
 
@@ -9,26 +9,48 @@ const CategorySelect = ({ onChange, value, userCategories = [] }) => {
   const [t] = useTranslation();
   const options = userCategories.map((category) => ({
     value: category.id,
-    label: <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
+    label: category.title,
+    color: category.color,
+    emoji: category.emoji
   }));
+  const filteredOptions = options.filter((o) => !value.includes(o.value));
 
-  /**
-   * Renders opyions
-   * @param label
-   * @returns {JSX.Element}
-   */
-  const optionRender = ({ label }) => {
-    return <div className={styles.option}>{label}</div>;
+  const tagRender = (props) => {
+    const { label, value, closable, onClose, color } = props;
+    const onPreventMouseDown = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    return (
+      <Tag
+        color={color}
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{ marginRight: 3 }}
+      >
+        {options.find((o) => o.value === props.value).label}
+      </Tag>
+    );
   };
 
   return (
     <Select
       allowClear
+      // maxCount={3}
+      mode={'multiple'}
       placeholder={t('primary.selects.categoryPlaceholder')}
-      optionRender={optionRender}
-      optionLabelProp={'label'}
+      tagRender={tagRender}
       variant="filled"
-      options={options}
+      options={filteredOptions}
+      optionRender={(option) => (
+        <Space>
+          <span role="img" aria-label={option.data.label}>
+            {option.data.emoji}
+          </span>
+          {option.data.label}
+        </Space>
+      )}
       onChange={onChange}
       value={value}
     />

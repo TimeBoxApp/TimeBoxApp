@@ -1,0 +1,70 @@
+@import '../../../../styles/variables';
+
+.columnContainer {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  max-height: 100%;
+  background-color: $white;
+  border-radius: 20px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .columnHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 25px;
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .name {
+        display: flex;
+        gap: 10px;
+
+        .columnTitle {
+          font-size: $font-normal;
+          font-weight: $font-weight-bold;
+        }
+      }
+
+      .subtitle {
+        display: flex;
+        gap: 5px;
+
+        .duration {
+          color: $textSecondary;
+          font-size: $font-small;
+        }
+      }
+    }
+
+    .addTaskButton {
+      border-radius: 12px;
+      width: 80px;
+      background: $primaryGrey;
+      color: $textPrimary;
+      font-size: $font-medium;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  .taskList {
+    border-radius: 0 0 20px 20px;
+    width: 100%;
+    overflow-y: scroll;
+    background-color: $white;
+
+    &.isDraggingOver {
+      background-color: $primaryGrey;
+
+      .emptyPlaceholder {
+        opacity: 0;
+      }
+    }
+  }
+}

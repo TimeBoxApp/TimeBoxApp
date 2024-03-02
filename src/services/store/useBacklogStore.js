@@ -5,10 +5,8 @@ import i18n from '../i18n';
 import { updateTask } from '../../pages/Board/services/task';
 import { calculateNewRank, COLUMN_STATUS_MAPPING } from './helpers/task';
 
-const DEFAULT_COLUMN_ORDER = ['toDo', 'inProgress', 'done'];
-
-const useTaskBoardStore = create((set, get) => ({
-  currentWeek: { id: null, name: '', startDate: '', endDate: '' },
+const useBacklogStore = create((set, get) => ({
+  isWeekModalOpen: false,
   newTask: {
     title: null,
     description: null,
@@ -21,29 +19,18 @@ const useTaskBoardStore = create((set, get) => ({
     weekId: null,
     userId: null
   },
-  boardData: {
+  newWeek: {
+    name: null,
+    startDate: null,
+    endDate: null
+  },
+  backlogData: {
     tasks: {},
-    columns: {
-      toDo: {
-        id: 'toDo',
-        title: i18n.t('board.columnNames.toDo'),
-        taskIds: []
-      },
-      inProgress: {
-        id: 'inProgress',
-        title: i18n.t('board.columnNames.inProgress'),
-        taskIds: []
-      },
-      done: {
-        id: 'done',
-        title: i18n.t('board.columnNames.done'),
-        taskIds: []
-      }
-    },
-    columnOrder: DEFAULT_COLUMN_ORDER
+    weeks: {}
   },
   isCreateTaskModalOpen: false,
   updateNewTask: (newTaskData) => set((state) => ({ newTask: { ...state.newTask, ...newTaskData } })),
+  updateNewWeek: (newWeekData) => set((state) => ({ newWeek: { ...state.newWeek, ...newWeekData } })),
   clearNewTask: () =>
     set({
       newTask: {
@@ -52,25 +39,23 @@ const useTaskBoardStore = create((set, get) => ({
         status: null,
         priority: null,
         dueDate: null,
-        boardRank: null,
         backlogRank: null,
         categoryId: null,
         weekId: null,
         userId: null
       }
     }),
-  clearWeek: () =>
+  clearNewWeek: () =>
     set({
-      currentWeek: {
-        id: null,
-        name: '',
-        startDate: '',
-        endDate: ''
+      newWeek: {
+        name: null,
+        startDate: null,
+        endDate: null
       }
     }),
-  setCurrentWeek: (newWeekData) => set((state) => ({ currentWeek: { ...state.currentWeek, ...newWeekData } })),
-  setBoardData: (newBoardData) => set((state) => ({ boardData: { ...state.boardData, ...newBoardData } })),
+  setBacklogData: (newBoardData) => set((state) => ({ backlogData: { ...state.backlogData, ...newBoardData } })),
   setIsCreateTaskModalOpen: (isOpen) => set({ isCreateTaskModalOpen: isOpen }),
+  setIsWeekModalOpen: (isOpen) => set({ isWeekModalOpen: isOpen }),
   onDragEnd: (result) => {
     set((state) => {
       const { destination, source, draggableId } = result;
@@ -83,11 +68,11 @@ const useTaskBoardStore = create((set, get) => ({
         return state;
       }
 
-      const startColumn = state.boardData.columns[source.droppableId];
-      const finishColumn = state.boardData.columns[destination.droppableId];
+      const startColumn = state.backlogData.weeks[source.droppableId];
+      const finishColumn = state.backlogData.weeks[destination.droppableId];
 
       if (!startColumn || !finishColumn) {
-        console.error('Invalid droppableId or columns not found in boardData.');
+        console.error('Invalid droppableId or columns not found in backlogData.');
         return state;
       }
 
@@ -103,15 +88,21 @@ const useTaskBoardStore = create((set, get) => ({
           taskIds: newTaskIds
         };
 
-        newState.boardData.columns[source.droppableId] = newColumn;
+        newState.backlogData.weeks[source.droppableId] = newColumn;
 
         if (newTaskIds.length > 1) {
-          const updatedTask = newState.boardData.tasks[draggableId];
-          updatedTask.boardRank = calculateNewRank(newTaskIds, destination.index, newState.boardData.tasks, LexoRank);
+          const updatedTask = newState.backlogData.tasks[draggableId];
+          updatedTask.backlogRank = calculateNewRank(
+            newTaskIds,
+            destination.index,
+            newState.backlogData.tasks,
+            LexoRank,
+            'backlogRank'
+          );
 
           updateTask(draggableId, {
-            status: COLUMN_STATUS_MAPPING[finishColumn.id],
-            boardRank: updatedTask.boardRank
+            weekId: finishColumn.id === 'backlog' ? null : Number(finishColumn.id),
+            backlogRank: updatedTask.backlogRank
           });
         }
       } else {
@@ -129,15 +120,21 @@ const useTaskBoardStore = create((set, get) => ({
           taskIds: finishTaskIds
         };
 
-        const updatedTask = newState.boardData.tasks[draggableId];
-        updatedTask.boardRank = calculateNewRank(finishTaskIds, destination.index, newState.boardData.tasks, LexoRank);
+        const updatedTask = newState.backlogData.tasks[draggableId];
+        updatedTask.backlogRank = calculateNewRank(
+          finishTaskIds,
+          destination.index,
+          newState.backlogData.tasks,
+          LexoRank,
+          'backlogRank'
+        );
 
-        newState.boardData.columns[source.droppableId] = newStartColumn;
-        newState.boardData.columns[destination.droppableId] = newFinishColumn;
+        newState.backlogData.weeks[source.droppableId] = newStartColumn;
+        newState.backlogData.weeks[destination.droppableId] = newFinishColumn;
 
         updateTask(draggableId, {
-          status: COLUMN_STATUS_MAPPING[newFinishColumn.id],
-          boardRank: updatedTask.boardRank
+          weekId: finishColumn.id === 'backlog' ? null : Number(finishColumn.id),
+          backlogRank: updatedTask.backlogRank
         });
       }
 
@@ -145,18 +142,17 @@ const useTaskBoardStore = create((set, get) => ({
     });
   },
   assignTaskRank: (columnId) => {
-    console.log(columnId);
     const state = get();
-    const column = state.boardData.columns[columnId];
+    const column = state.backlogData.weeks[columnId];
 
-    if (!column) return;
+    if (!column) return null;
 
     const taskIds = column.taskIds;
     const lastTaskId = taskIds[taskIds.length - 1];
     let newRank;
 
     if (lastTaskId) {
-      const lastTaskRank = LexoRank.parse(state.boardData.tasks[lastTaskId].boardRank);
+      const lastTaskRank = LexoRank.parse(state.backlogData.tasks[lastTaskId].backlogRank);
       newRank = lastTaskRank.genNext().toString();
     } else {
       // Column is empty, generate a rank at the beginning
@@ -167,4 +163,4 @@ const useTaskBoardStore = create((set, get) => ({
   }
 }));
 
-export default useTaskBoardStore;
+export default useBacklogStore;

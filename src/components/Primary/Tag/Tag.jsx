@@ -12,7 +12,7 @@ const Tag = ({ text, color, emoji }) => {
     const blue = parseInt(color.substring(4, 6), 16);
     const yiq = (red * 299 + green * 587 + blue * 114) / 1000;
 
-    return yiq <= 128 ? 'black' : 'white';
+    return yiq >= 128 ? 'black' : 'white';
   };
 
   return (

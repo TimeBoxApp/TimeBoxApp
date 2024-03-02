@@ -11,6 +11,7 @@ import InternalError from './pages/InternalError/InternalError';
 import AppLayout from './layouts/AppLayout';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import Settings from './pages/Settings/Settings';
+import Backlog from './pages/Backlog/Backlog';
 import { userStore } from './services/store/userStore';
 
 const ProtectedRoute = ({ user, redirectPath = '/login', feature, children }) => {
@@ -76,7 +77,15 @@ function App() {
           path: 'backlog',
           element: (
             <ProtectedRoute user={user}>
-              <h1>Backlog</h1>
+              <Backlog />
+            </ProtectedRoute>
+          )
+        },
+        {
+          path: 'calendar',
+          element: (
+            <ProtectedRoute user={user}>
+              <h2>Calendar</h2>
             </ProtectedRoute>
           )
         },
@@ -124,7 +133,7 @@ function App() {
             colorBorder: theme.colorBorder,
             colorPrimary: theme.colorPrimary,
             borderRadius: theme.borderRadius,
-            fontFamily: 'DM Sans',
+            // fontFamily: 'DM Sans',
             controlHeight: 40,
             controlOutline: 'none',
             colorText: theme.textPrimary
