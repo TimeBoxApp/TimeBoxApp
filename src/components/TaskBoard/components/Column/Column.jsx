@@ -17,22 +17,16 @@ const Column = ({ column, tasks, onUpdate }) => {
     updateNewTask: state.updateNewTask,
     assignTaskRank: state.assignTaskRank
   }));
-  const { assignBacklogTaskRank } = useBacklogStore((state) => ({
-    assignBacklogTaskRank: state.assignTaskRank
-  }));
 
   /**
    * Create a new task and open modal
    */
   const handleCreateTask = () => {
-    console.log(assignBacklogTaskRank(currentWeek.id));
-
     updateNewTask({
       weekId: currentWeek.id,
       status: COLUMN_STATUS_MAPPING[column.id],
       userId: user.id,
-      boardRank: assignTaskRank(column.id),
-      backlogRank: assignBacklogTaskRank(currentWeek.id)
+      boardRank: assignTaskRank(column.id)
     });
     setIsCreateTaskModalOpen(true);
   };

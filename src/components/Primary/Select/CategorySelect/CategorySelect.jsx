@@ -7,7 +7,6 @@ import styles from '../PrioritySelect/priority-select.module.scss';
 
 const CategorySelect = ({ onChange, value, userCategories = [] }) => {
   const [t] = useTranslation();
-  console.log(value);
   const options = userCategories.map((category) => ({
     value: category.id,
     label: category.title,
@@ -18,7 +17,6 @@ const CategorySelect = ({ onChange, value, userCategories = [] }) => {
 
   const tagRender = (props) => {
     const { label, value, closable, onClose, color } = props;
-    console.log(props);
     const onPreventMouseDown = (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -39,7 +37,7 @@ const CategorySelect = ({ onChange, value, userCategories = [] }) => {
   return (
     <Select
       allowClear
-      maxCount={3}
+      // maxCount={3}
       mode={'multiple'}
       placeholder={t('primary.selects.categoryPlaceholder')}
       tagRender={tagRender}

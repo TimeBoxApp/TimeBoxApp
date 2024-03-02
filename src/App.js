@@ -82,6 +82,14 @@ function App() {
           )
         },
         {
+          path: 'calendar',
+          element: (
+            <ProtectedRoute user={user}>
+              <h2>Calendar</h2>
+            </ProtectedRoute>
+          )
+        },
+        {
           path: 'books',
           element: (
             <ProtectedRoute user={user} feature={'bookList'} redirectPath={'/board'}>

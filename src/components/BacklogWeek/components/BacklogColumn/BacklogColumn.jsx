@@ -16,9 +16,6 @@ import { CalendarOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined } fr
 
 const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, tasks, onUpdate }) => {
   const { user } = userStore();
-  const { assignBoardTaskRank } = useTaskBoardStore((state) => ({
-    assignBoardTaskRank: state.assignTaskRank
-  }));
   const { updateNewTask, setIsCreateTaskModalOpen, setIsWeekModalOpen, assignBacklogTaskRank, updateNewWeek } =
     useBacklogStore((state) => ({
       updateNewTask: state.updateNewTask,
@@ -44,8 +41,7 @@ const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, t
       weekId: Number.parseInt(id),
       status: isCurrentWeek ? 'to-do' : 'created',
       userId: user.id,
-      backlogRank: assignBacklogTaskRank(id),
-      bordRank: assignBoardTaskRank('toDo')
+      backlogRank: assignBacklogTaskRank(id)
     });
     setIsCreateTaskModalOpen(true);
   };
