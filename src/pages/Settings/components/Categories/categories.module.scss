@@ -1,0 +1,26 @@
+@import '../../../../styles/variables';
+
+.section {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  max-width: 400px;
+  height: fit-content;
+  gap: 15px;
+  background: $white;
+  border-radius: $border-radius-normal;
+
+  .titleContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .createButton {
+    background: $background;
+    border-radius: 10px;
+    border: none;
+    font-size: $font-normal;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+}

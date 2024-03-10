@@ -52,6 +52,18 @@ export const userStore = create(
           setUser(updatedUser);
         }
       },
+      updateUserCategories: (categories) => {
+        const user = get().user;
+
+        if (user) {
+          const updatedUser = {
+            ...user,
+            categories
+          };
+
+          setUser(updatedUser);
+        }
+      },
       userHasFeature: (featureName) => {
         const user = get().user;
         const featureKeysMapping = {

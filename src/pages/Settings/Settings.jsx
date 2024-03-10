@@ -15,13 +15,15 @@ import { getUserStats } from './services/user';
 import { error } from '../../services/alerts';
 
 import styles from './settings.module.scss';
+import Categories from './components/Categories/Categories';
 
 const Settings = () => {
   const [t] = useTranslation();
   const {
-    user: { firstName, lastName, email, dateFormat, fullName, preferences },
+    user: { firstName, lastName, email, dateFormat, fullName, preferences, categories },
     updateUserInfo,
-    updateUserPreferences
+    updateUserPreferences,
+    updateUserCategories
   } = userStore();
   const [userStats, setUserStats] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -81,6 +83,11 @@ const Settings = () => {
           )}
           {!isLoading ? (
             <ColumnStatusNames preferences={preferences} onUpdate={updateUserPreferences} />
+          ) : (
+            <Skeleton height={340} />
+          )}
+          {!isLoading ? (
+            <Categories categories={categories} onUpdate={updateUserCategories} />
           ) : (
             <Skeleton height={340} />
           )}

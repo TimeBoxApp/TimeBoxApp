@@ -167,6 +167,19 @@
       "errorMessage": "Error during feature update",
       "successMessage": "Successfully updated feature"
     },
+    "categories": {
+      "title": "Categories",
+      "noCategoriesPlaceholder": "No categories here.<br /> Click to create a new one",
+      "createModal": {
+        "title": "Create a new category",
+        "categoryTitle": "Category title",
+        "categoryTitlePlaceholder": "Business",
+        "categoryDescription": "Category description",
+        "categoryDescriptionPlaceholder": "Regarding work-related tasks"
+      },
+      "errorMessage": "Error during category update",
+      "successMessage": "Successfully removed category"
+    },
     "columnStatusNames": {
       "toDo": "To do",
       "inProgress": "In progress",

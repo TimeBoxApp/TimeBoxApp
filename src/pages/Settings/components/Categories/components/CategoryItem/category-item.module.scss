@@ -1,0 +1,31 @@
+@import '../../../../../../styles/variables';
+
+.categoryContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: $border-radius-normal;
+  gap: 5px;
+  box-shadow: $soft-box-shadow;
+
+  .categoryText {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .categoryTitle {
+      display: flex;
+      gap: 5px;
+      line-height: 100%;
+      font-size: $font-normal;
+      color: $textPrimary;
+      font-weight: $font-weight-bold;
+    }
+
+    .categoryDescription {
+      font-size: $font-small;
+      color: $textSecondary;
+      font-weight: $font-weight-normal;
+    }
+  }
+}
