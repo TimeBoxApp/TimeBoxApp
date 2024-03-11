@@ -7,7 +7,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import BacklogTask from '../BacklogTask/BacklogTask';
 import useBacklogStore from '../../../../services/store/useBacklogStore';
 import { userStore } from '../../../../services/store/userStore';
-import { createWeek, removeWeek } from '../../../../pages/Backlog/services/week';
+import { removeWeek } from '../../../../pages/Backlog/services/week';
 
 import styles from './backlog-column.module.scss';
 
