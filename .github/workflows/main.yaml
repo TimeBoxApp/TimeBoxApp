@@ -19,6 +19,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
       - name: Install dependencies
         run: yarn install
 
@@ -33,7 +37,7 @@ jobs:
           aws-region: ${{ env.REGION }}
 
       - name: Deploy
-        run: aws s3 sync --delete ${{ env.DIST }} s3://${{ env.BUCKET }}
+        run: aws s3 sync --delete-removed ${{ env.DIST }} s3://${{ env.BUCKET }}
 
       - name: Invalidate cache
         run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
