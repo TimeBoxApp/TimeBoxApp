@@ -58,6 +58,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
     return () => {
       setIsEditMode(false);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, taskId]);
 
   /**

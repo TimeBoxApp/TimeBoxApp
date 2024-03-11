@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Draggable } from 'react-beautiful-dnd';
 
 import Tag from '../../../Primary/Tag/Tag';

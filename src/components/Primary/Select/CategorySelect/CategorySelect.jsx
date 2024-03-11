@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Tag } from 'antd';
 
-import styles from '../PrioritySelect/priority-select.module.scss';
-
 const CategorySelect = ({ onChange, value, userCategories = [] }) => {
   const [t] = useTranslation();
   const options = userCategories.map((category) => ({
@@ -16,7 +14,7 @@ const CategorySelect = ({ onChange, value, userCategories = [] }) => {
   const filteredOptions = options.filter((o) => !value.includes(o.value));
 
   const tagRender = (props) => {
-    const { label, value, closable, onClose, color } = props;
+    const { closable, onClose, color } = props;
     const onPreventMouseDown = (event) => {
       event.preventDefault();
       event.stopPropagation();

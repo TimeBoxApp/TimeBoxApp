@@ -7,7 +7,6 @@ import { userStore } from '../../../../services/store/userStore';
 import { COLUMN_STATUS_MAPPING, PREFERENCES_COLUMN_MAPPING } from '../../../../services/store/helpers/task';
 
 import styles from './column.module.scss';
-import useBacklogStore from '../../../../services/store/useBacklogStore';
 
 const Column = ({ column, tasks, onUpdate }) => {
   const { user } = userStore();

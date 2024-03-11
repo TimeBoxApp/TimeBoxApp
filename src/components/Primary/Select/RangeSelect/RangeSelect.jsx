@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { DatePicker } from 'antd';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { userStore } from '../../../../services/store/userStore';
 
 const { RangePicker } = DatePicker;
@@ -8,7 +8,7 @@ const { RangePicker } = DatePicker;
 
 const RangeSelect = ({ onChange, startDate, endDate }) => {
   const { user } = userStore();
-  const [t] = useTranslation();
+  // const [t] = useTranslation();
   const disabledDate = (current) => {
     const oneMonthAhead = dayjs().add(1, 'month');
 

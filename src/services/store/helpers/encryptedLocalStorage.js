@@ -1,7 +1,4 @@
 import CryptoJS from 'crypto-js';
-import { error } from '../../alerts';
-import i18n from '../../i18n';
-import { clearUser } from '../../user';
 
 const SECRET_KEY = process.env.REACT_APP_ENCRYPTION_KEY;
 

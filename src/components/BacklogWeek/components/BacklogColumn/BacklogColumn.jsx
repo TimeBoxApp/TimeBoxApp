@@ -6,7 +6,6 @@ import { Droppable } from 'react-beautiful-dnd';
 
 import BacklogTask from '../BacklogTask/BacklogTask';
 import useBacklogStore from '../../../../services/store/useBacklogStore';
-import useTaskBoardStore from '../../../../services/store/useTaskBoardStore';
 import { userStore } from '../../../../services/store/userStore';
 import { createWeek, removeWeek } from '../../../../pages/Backlog/services/week';
 
@@ -58,17 +57,17 @@ const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, t
     return onUpdate();
   };
 
-  /**
-   * Create new week and refetch data
-   */
-  const handleCreateWeek = async () => {
-    setIsLoading({ ...isLoading, create: true });
-    await createWeek();
-
-    setIsLoading({ ...isLoading, create: false });
-
-    return onUpdate();
-  };
+  // /**
+  //  * Create new week and refetch data
+  //  */
+  // const handleCreateWeek = async () => {
+  //   setIsLoading({ ...isLoading, create: true });
+  //   await createWeek();
+  //
+  //   setIsLoading({ ...isLoading, create: false });
+  //
+  //   return onUpdate();
+  // };
 
   const onWeekUpdateModalOpen = () => {
     updateNewWeek(week);
