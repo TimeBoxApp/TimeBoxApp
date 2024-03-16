@@ -24,7 +24,7 @@ export function getNoCacheHeaders() {
  * @returns {string}
  */
 export function apiUrl() {
-  if (process.env.NODE_ENV === 'prod') return 'http://18.185.109.5/api';
+  if (process.env.NODE_ENV === 'production') return 'http://18.185.109.5/api';
 
   return `http://localhost:${process.env.REACT_APP_SERVER_PORT}/api`;
 }
