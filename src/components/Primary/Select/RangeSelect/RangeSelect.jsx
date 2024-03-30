@@ -4,11 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { userStore } from '../../../../services/store/userStore';
 
 const { RangePicker } = DatePicker;
-// import styles from './date-select.module.scss';
 
 const RangeSelect = ({ onChange, startDate, endDate }) => {
   const { user } = userStore();
-  const [t] = useTranslation();
   const disabledDate = (current) => {
     const oneMonthAhead = dayjs().add(1, 'month');
 

@@ -22,9 +22,9 @@ export const encryptedLocalStorage = {
       return item ? decrypt(item) : null;
     } catch (err) {
       console.error('Failed to get item from encrypted storage:', err);
-      // error(i18n.t('primary.errors.userDataRead'));
-      // localStorage.removeItem(name);
-      // clearUser();
+      error(i18n.t('primary.errors.userDataRead'));
+      localStorage.removeItem(name);
+      clearUser();
 
       return null;
     }
