@@ -1,7 +1,4 @@
 import CryptoJS from 'crypto-js';
-import { error } from '../../alerts';
-import i18n from '../../i18n';
-import { clearUser } from '../../user';
 
 const SECRET_KEY = process.env.REACT_APP_ENCRYPTION_KEY;
 
@@ -22,9 +19,9 @@ export const encryptedLocalStorage = {
       return item ? decrypt(item) : null;
     } catch (err) {
       console.error('Failed to get item from encrypted storage:', err);
-      error(i18n.t('primary.errors.userDataRead'));
-      localStorage.removeItem(name);
-      clearUser();
+      // error(i18n.t('primary.errors.userDataRead'));
+      // localStorage.removeItem(name);
+      // clearUser();
 
       return null;
     }

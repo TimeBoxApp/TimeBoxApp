@@ -195,6 +195,7 @@ const Board = () => {
    */
   useEffect(() => {
     void getWeekDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!currentWeek?.name && !isLoading.week) {

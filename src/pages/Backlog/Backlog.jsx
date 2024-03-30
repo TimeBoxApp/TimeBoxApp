@@ -6,7 +6,6 @@ import BacklogWeek from '../../components/BacklogWeek/BacklogWeek';
 import CreateTaskModal from '../../components/CreateTaskModal/CreateTaskModal';
 import useBacklogStore from '../../services/store/useBacklogStore';
 import to from 'await-to-js';
-import { getWeekData } from '../Board/services/user';
 import { error } from '../../services/alerts';
 import { useEffect, useState } from 'react';
 import { getBacklogData } from './services/user';
@@ -41,6 +40,7 @@ const Backlog = () => {
     setIsWeekModalOpen: state.setIsWeekModalOpen,
     weekToEdit: state.newWeek
   }));
+  // eslint-disable-next-line no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
 
   const [t] = useTranslation();
@@ -120,6 +120,7 @@ const Backlog = () => {
    */
   useEffect(() => {
     void getBacklogDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
