@@ -1,44 +1,67 @@
-import cn from 'classnames';
-
-import styles from './category-item.module.scss';
-import { Dropdown, Space, Spin } from 'antd';
-
-import { ReactComponent as MoreIcon } from './images/more.inline.svg';
+import { useState } from 'react';
+import { Dropdown, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
-const CategoryItem = ({ id, title, description, emoji, color, isLoading, onDelete }) => {
+import CategoryModal from '../CategoryModal/CategoryModal';
+import { useCategoryActions, useCurrentCategory } from '../../../../../../services/store/useCategoryStore';
+
+import styles from './category-item.module.scss';
+
+import { ReactComponent as MoreIcon } from './images/more.inline.svg';
+import { useTranslation } from 'react-i18next';
+
+const CategoryItem = ({ id, title, description, emoji, color, isLoading, onDelete, onEdit }) => {
+  const currentCategory = useCurrentCategory();
+  const [t] = useTranslation();
+  const { updateCurrentCategory, clearCurrentCategory, getCategory } = useCategoryActions();
+  const [isEditCategoryModalOpen, setIsEditCategoryModalOpen] = useState(false);
   const items = [
     {
-      label: 'Edit category',
+      label: t('settings.categories.editCategory'),
       key: '1',
-      onClick: () => {}
+      onClick: () => onEditClickHandler(id)
     },
     {
-      label: 'Delete category',
+      label: t('settings.categories.deleteCategory'),
       key: '2',
       danger: true,
       onClick: () => onDelete(id)
     }
   ];
 
+  const onEditClickHandler = (id) => {
+    const currentCategory = getCategory(id);
+
+    updateCurrentCategory(currentCategory);
+    setIsEditCategoryModalOpen(true);
+  };
+
   return (
     <div className={styles.categoryContainer}>
       <div className={styles.categoryText}>
-        <span className={styles.categoryTitle} style={{ color: color }}>
+        <span className={styles.categoryTitle}>
           {emoji ? <span>{emoji}</span> : null}
           {title}
+          {color ? <span className={styles.colorBox} style={{ background: `#${color}` }} /> : null}
         </span>
-        <span className={styles.categoryDescription}>{description}</span>
+        {description ? <span className={styles.categoryDescription}>{description}</span> : null}
       </div>
       {isLoading ? (
         <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
       ) : (
         <Dropdown menu={{ items }}>
-          {/*<a onClick={(e) => e.preventDefault()}>*/}
-          <MoreIcon />
-          {/*</a>*/}
+          <MoreIcon className={styles.moreIcon} />
         </Dropdown>
       )}
+      <CategoryModal
+        isOpen={isEditCategoryModalOpen}
+        setIsOpen={setIsEditCategoryModalOpen}
+        category={currentCategory}
+        updateCategory={updateCurrentCategory}
+        onSave={onEdit}
+        clearCategory={clearCurrentCategory}
+        isEdit
+      />
     </div>
   );
 };

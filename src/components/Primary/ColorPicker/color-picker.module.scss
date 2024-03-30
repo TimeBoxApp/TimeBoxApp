@@ -1,0 +1,12 @@
+@import '../../../styles/variables';
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: $font-weight-semi-bold;
+}
+
+:global(.ant-color-picker-inner-content) {
+  width: 100% !important;
+}

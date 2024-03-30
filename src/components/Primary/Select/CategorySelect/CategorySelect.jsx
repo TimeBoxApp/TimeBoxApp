@@ -1,13 +1,13 @@
 import { Select, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
-
 import { Tag } from 'antd';
 
-import styles from '../PrioritySelect/priority-select.module.scss';
+import { useCategories } from '../../../../services/store/useCategoryStore';
 
-const CategorySelect = ({ onChange, value, userCategories = [] }) => {
+const CategorySelect = ({ onChange, value }) => {
   const [t] = useTranslation();
-  const options = userCategories.map((category) => ({
+  const categories = useCategories();
+  const options = categories.map((category) => ({
     value: category.id,
     label: category.title,
     color: category.color,
@@ -16,7 +16,7 @@ const CategorySelect = ({ onChange, value, userCategories = [] }) => {
   const filteredOptions = options.filter((o) => !value.includes(o.value));
 
   const tagRender = (props) => {
-    const { label, value, closable, onClose, color } = props;
+    const { closable, onClose, color } = props;
     const onPreventMouseDown = (event) => {
       event.preventDefault();
       event.stopPropagation();

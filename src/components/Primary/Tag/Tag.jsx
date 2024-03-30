@@ -16,7 +16,7 @@ const Tag = ({ text, color, emoji }) => {
   };
 
   return (
-    <span className={styles.tag} style={{ backgroundColor: `${color}`, color: getTextColor(color) }}>
+    <span className={styles.tag} style={{ backgroundColor: `#${color}`, color: getTextColor(color) }}>
       {emoji ? <span>{emoji}</span> : null}
       {text}
     </span>

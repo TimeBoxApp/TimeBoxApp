@@ -10,16 +10,24 @@
 
   .categoryText {
     display: flex;
+    justify-content: center;
     flex-direction: column;
     gap: 10px;
 
     .categoryTitle {
       display: flex;
+      align-items: center;
       gap: 5px;
       line-height: 100%;
       font-size: $font-normal;
       color: $textPrimary;
       font-weight: $font-weight-bold;
+
+      .colorBox {
+        height: 14px;
+        width: 14px;
+        border-radius: 3px;
+      }
     }
 
     .categoryDescription {
@@ -28,4 +36,8 @@
       font-weight: $font-weight-normal;
     }
   }
+}
+
+.moreIcon {
+  cursor: pointer;
 }

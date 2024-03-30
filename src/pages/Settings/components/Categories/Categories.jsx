@@ -1,52 +1,30 @@
 import to from 'await-to-js';
+import { Empty } from 'antd';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
+import CategoryItem from './components/CategoryItem/CategoryItem';
+import CategoryModal from './components/CategoryModal/CategoryModal';
 import { error, success } from '../../../../services/alerts';
+import { createCategory, deleteCategory, editCategory } from '../../services/category';
+import {
+  useCategories,
+  useCategoryActions,
+  useCurrentCategory,
+  useNewCategory
+} from '../../../../services/store/useCategoryStore';
 
 import styles from './categories.module.scss';
-import CategoryItem from './components/CategoryItem/CategoryItem';
-import { createCategory, deleteCategory } from '../../services/category';
-import { Empty } from 'antd';
-import CreateCategoryModal from './components/CreateCategoryModal/CreateCategoryModal';
 
-const Categories = ({ categories, onUpdate }) => {
+const Categories = () => {
   const [t] = useTranslation();
+  const categories = useCategories();
+  const newCategory = useNewCategory();
+  const currentCategory = useCurrentCategory();
+  const { updateNewCategory, clearNewCategory, addCategory, removeCategory, updateCategory, clearCurrentCategory } =
+    useCategoryActions();
   const [isLoading, setIsLoading] = useState({});
   const [isCreateNewCategoryModalOpen, setIsCreateNewCategoryModalOpen] = useState(false);
-  const [newCategory, setNewCategory] = useState({
-    title: null,
-    description: null,
-    emoji: null,
-    color: null
-  });
-  // /**
-  //  * Updates the user features preferences
-  //  * @returns void
-  //  * @param id
-  //  */
-  // const updateHandler = async (id, isChecked) => {
-  //   setIsLoading({
-  //     ...isLoading,
-  //     [key]: true
-  //   });
-  //   onUpdate({ [key]: isChecked });
-  //
-  //   const [err] = await to(updateUserPreferences({ [key]: isChecked }));
-  //
-  //   setIsLoading({
-  //     ...isLoading,
-  //     [key]: false
-  //   });
-  //
-  //   if (err) {
-  //     onUpdate({ [key]: !isChecked });
-  //
-  //     return error(t('settings.features.errorMessage'));
-  //   }
-  //
-  //   return success(t('settings.features.successMessage'));
-  // };
 
   /**
    * Category creation handler
@@ -58,25 +36,45 @@ const Categories = ({ categories, onUpdate }) => {
       new: true
     });
 
-    const [err] = await to(createCategory(newCategory));
+    const [err, createdCategory] = await to(createCategory(newCategory));
 
     setIsLoading({
       ...isLoading,
       new: false
     });
 
-    if (err) {
-      return error(t('settings.features.errorMessage'));
-    }
+    if (err) return void error(t('settings.categories.errorCreate'));
 
-    console.log(categories);
+    addCategory(createdCategory);
+    clearNewCategory();
 
-    const newCategories = categories.push(newCategory);
+    return void success(t('settings.categories.successCreate'));
+  };
 
-    console.log(newCategories);
-    onUpdate(newCategories);
+  /**
+   * Category update handler
+   * @param id
+   * @param data
+   */
+  const updateHandler = async (id, data) => {
+    setIsLoading({
+      ...isLoading,
+      [id]: true
+    });
+    delete currentCategory.id;
+    const [err, updatedCategory] = await to(editCategory(id, currentCategory));
 
-    return success(t('settings.features.successMessage'));
+    setIsLoading({
+      ...isLoading,
+      [id]: false
+    });
+
+    if (err) return void error(t('settings.categories.errorUpdate'));
+
+    updateCategory(id, updatedCategory);
+    clearCurrentCategory();
+
+    return void success(t('settings.categories.successUpdate'));
   };
 
   /**
@@ -96,14 +94,11 @@ const Categories = ({ categories, onUpdate }) => {
       [id]: false
     });
 
-    if (err) {
-      return error(t('settings.categories.errorMessage'));
-    }
+    if (err) return void error(t('settings.categories.errorDelete'));
 
-    const newCategories = categories.filter((category) => category.id !== id);
-    onUpdate(newCategories);
+    removeCategory(id);
 
-    return success(t('settings.categories.successMessage'));
+    return void success(t('settings.categories.successDelete'));
   };
 
   return (
@@ -124,6 +119,7 @@ const Categories = ({ categories, onUpdate }) => {
             description={description}
             emoji={emoji}
             color={color}
+            onEdit={updateHandler}
             onDelete={deleteHandler}
           />
         ))
@@ -133,12 +129,13 @@ const Categories = ({ categories, onUpdate }) => {
           description={<Trans i18nKey={'settings.categories.noCategoriesPlaceholder'} components={[<br />]} />}
         />
       )}
-      <CreateCategoryModal
+      <CategoryModal
         isOpen={isCreateNewCategoryModalOpen}
         setIsOpen={setIsCreateNewCategoryModalOpen}
         category={newCategory}
-        updateCategory={setNewCategory}
-        onCreate={createHandler}
+        updateCategory={updateNewCategory}
+        onSave={createHandler}
+        clearCategory={clearNewCategory}
       />
     </div>
   );

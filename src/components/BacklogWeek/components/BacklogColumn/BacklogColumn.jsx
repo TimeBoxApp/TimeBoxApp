@@ -6,7 +6,6 @@ import { Droppable } from 'react-beautiful-dnd';
 
 import BacklogTask from '../BacklogTask/BacklogTask';
 import useBacklogStore from '../../../../services/store/useBacklogStore';
-import useTaskBoardStore from '../../../../services/store/useTaskBoardStore';
 import { userStore } from '../../../../services/store/userStore';
 import { createWeek, removeWeek } from '../../../../pages/Backlog/services/week';
 

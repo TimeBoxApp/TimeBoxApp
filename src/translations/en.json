@@ -51,7 +51,8 @@
     },
     "buttons": {
       "cancel": "Cancel",
-      "save": "Save"
+      "save": "Save",
+      "create": "Create"
     },
     "selects": {
       "categoryPlaceholder": "Select category",
@@ -170,15 +171,22 @@
     "categories": {
       "title": "Categories",
       "noCategoriesPlaceholder": "No categories here.<br /> Click to create a new one",
-      "createModal": {
+      "modal": {
         "title": "Create a new category",
+        "editTitle": "Edit category",
         "categoryTitle": "Category title",
         "categoryTitlePlaceholder": "Business",
         "categoryDescription": "Category description",
         "categoryDescriptionPlaceholder": "Regarding work-related tasks"
       },
-      "errorMessage": "Error during category update",
-      "successMessage": "Successfully removed category"
+      "editCategory": "Edit category",
+      "deleteCategory": "Delete category",
+      "errorCreate": "Error while creating a category",
+      "errorUpdate": "Error during category update",
+      "errorDelete": "Error while deleting a category",
+      "successCreate": "Successfully created category",
+      "successUpdate": "Successfully updated category",
+      "successDelete": "Successfully removed category"
     },
     "columnStatusNames": {
       "toDo": "To do",
