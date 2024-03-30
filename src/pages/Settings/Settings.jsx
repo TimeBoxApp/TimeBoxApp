@@ -30,18 +30,19 @@ const Settings = () => {
   const [userStats, setUserStats] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  /**
-   * Get user stats on mount
-   */
-  useEffect(() => {
-    loadSettingsData();
-  }, []);
-
   const loadSettingsData = async () => {
     setIsLoading(true);
     await Promise.all([getStatsHandler(), getUserCategories()]);
     setIsLoading(false);
   };
+
+  /**
+   * Get user stats on mount
+   */
+  useEffect(() => {
+    loadSettingsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /**
    * Get user stats handler
