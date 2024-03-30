@@ -4,7 +4,7 @@ import styles from './text-input.module.scss';
 
 const { TextArea } = Input;
 
-const TextInput = ({ placeholder, onChange, label, type, value, clearable = true, disabled }) => {
+const TextInput = ({ placeholder, onChange, label, type, value, clearable = true, readonly = false, disabled }) => {
   return (
     <div className={styles.input}>
       {label ? <span className={styles.label}>{label}</span> : null}

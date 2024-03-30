@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { LexoRank } from 'lexorank';
 
-// import i18n from '../i18n';
 import { updateTask } from '../../pages/Board/services/task';
 import { calculateNewRank } from './helpers/task';
 

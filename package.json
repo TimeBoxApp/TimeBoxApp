@@ -15,6 +15,7 @@
     "classnames": "^2.5.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
+    "emoji-picker-react": "^4.8.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",

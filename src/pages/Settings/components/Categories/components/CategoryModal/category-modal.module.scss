@@ -1,0 +1,11 @@
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .titleWrapper {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+  }
+}

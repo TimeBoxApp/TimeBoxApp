@@ -10,9 +10,12 @@ import UserInfo from './components/UserInfo/UserInfo';
 import AccountInformation from './components/AccountInformation/AccountInformation';
 import Features from './components/Features/Features';
 import ColumnStatusNames from './components/ColumnStatusNames/ColumnStatusNames';
+import Categories from './components/Categories/Categories';
 import { userStore } from '../../services/store/userStore';
 import { getUserStats } from './services/user';
+import { getCategories } from './services/category';
 import { error } from '../../services/alerts';
+import { useCategoryActions } from '../../services/store/useCategoryStore';
 
 import styles from './settings.module.scss';
 
@@ -23,6 +26,7 @@ const Settings = () => {
     updateUserInfo,
     updateUserPreferences
   } = userStore();
+  const { setCategories } = useCategoryActions();
   const [userStats, setUserStats] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,24 +34,37 @@ const Settings = () => {
    * Get user stats on mount
    */
   useEffect(() => {
-    void getStatsHandler();
+    loadSettingsData();
   }, []);
+
+  const loadSettingsData = async () => {
+    setIsLoading(true);
+    await Promise.all([getStatsHandler(), getUserCategories()]);
+    setIsLoading(false);
+  };
 
   /**
    * Get user stats handler
    * @returns {Promise<void|boolean>}
    */
   const getStatsHandler = async () => {
-    setIsLoading(true);
     const [err, stats] = await to(getUserStats());
 
-    setIsLoading(false);
-
-    if (err) {
-      return error();
-    }
+    if (err) return error();
 
     return setUserStats(stats);
+  };
+
+  /**
+   * Get user categories handler
+   * @returns {Promise<*|boolean>}
+   */
+  const getUserCategories = async () => {
+    const [err, categories] = await to(getCategories());
+
+    if (err) return error();
+
+    return setCategories(categories);
   };
 
   return (
@@ -84,6 +101,7 @@ const Settings = () => {
           ) : (
             <Skeleton height={340} />
           )}
+          {!isLoading ? <Categories /> : <Skeleton height={340} />}
         </Masonry>
       </ResponsiveMasonry>
     </div>

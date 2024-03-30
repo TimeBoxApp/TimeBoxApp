@@ -1,11 +1,13 @@
 import { Select, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
-
 import { Tag } from 'antd';
 
-const CategorySelect = ({ onChange, value, userCategories = [] }) => {
+import { useCategories } from '../../../../services/store/useCategoryStore';
+
+const CategorySelect = ({ onChange, value }) => {
   const [t] = useTranslation();
-  const options = userCategories.map((category) => ({
+  const categories = useCategories();
+  const options = categories.map((category) => ({
     value: category.id,
     label: category.title,
     color: category.color,

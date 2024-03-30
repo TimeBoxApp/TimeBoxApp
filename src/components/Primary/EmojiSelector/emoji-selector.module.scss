@@ -1,0 +1,27 @@
+@import '../../../styles/variables';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .label {
+    color: $textPrimary;
+    margin-left: 5px;
+    font-weight: $font-weight-semi-bold;
+    font-size: $font-small;
+  }
+
+  .container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $font-larger;
+    line-height: 0;
+    background-color: $background;
+    border: 1px solid $border;
+    border-radius: $border-radius-small;
+  }
+}
