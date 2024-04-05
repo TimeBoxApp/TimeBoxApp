@@ -1,0 +1,38 @@
+@import '../../../styles/variables';
+
+.calendarWrapper {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+  width: 100%;
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    background-color: $white;
+    border-radius: 20px;
+    padding: 20px 25px;
+    max-width: 250px;
+    width: 100%;
+    min-width: 150px;
+    gap: 20px;
+
+    .tasksWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+
+  .calendarPreview {
+    background-color: $white;
+    padding: 30px;
+    border-radius: $border-radius-normal;
+    height: 650px;
+    width: 100%;
+  }
+}
+
+.rbc-event {
+  background: $background !important;
+}

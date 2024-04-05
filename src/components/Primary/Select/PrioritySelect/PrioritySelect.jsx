@@ -42,7 +42,6 @@ const PrioritySelect = ({ onChange, value }) => {
       placeholder={t('primary.selects.priorityPlaceholder')}
       optionRender={optionRender}
       optionLabelProp={'label'}
-      variant="filled"
       options={options}
       onChange={onChange}
       value={value}

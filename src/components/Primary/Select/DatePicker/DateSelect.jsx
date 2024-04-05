@@ -22,7 +22,6 @@ const DateSelect = ({ onChange, value }) => {
       allowClear
       placeholder={t('primary.selects.dueDatePlaceholder')}
       disabledDate={disabledDate}
-      variant="filled"
       format={user.dateFormat}
       showToday={false}
     />

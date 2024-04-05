@@ -10,7 +10,6 @@ const TimeBoxSelect = ({ onChange, value, options, clearable, label, placeholder
         allowClear={clearable}
         placeholder={placeholder}
         optionLabelProp={optionLabelProp}
-        variant="filled"
         options={options}
         onChange={onChange}
         value={value}

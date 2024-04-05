@@ -12,6 +12,7 @@ import AppLayout from './layouts/AppLayout';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import Settings from './pages/Settings/Settings';
 import Backlog from './pages/Backlog/Backlog';
+import Calendar from './pages/Calendar/Calendar';
 import { userStore } from './services/store/userStore';
 
 const ProtectedRoute = ({ user, redirectPath = '/login', feature, children }) => {
@@ -85,23 +86,7 @@ function App() {
           path: 'calendar',
           element: (
             <ProtectedRoute user={user}>
-              <h2>Calendar</h2>
-            </ProtectedRoute>
-          )
-        },
-        {
-          path: 'books',
-          element: (
-            <ProtectedRoute user={user} feature={'bookList'} redirectPath={'/board'}>
-              <h1>Reading List</h1>
-            </ProtectedRoute>
-          )
-        },
-        {
-          path: 'reports',
-          element: (
-            <ProtectedRoute user={user}>
-              <h1>Reports</h1>
+              <Calendar />
             </ProtectedRoute>
           )
         },

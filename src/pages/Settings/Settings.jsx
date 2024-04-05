@@ -11,6 +11,7 @@ import AccountInformation from './components/AccountInformation/AccountInformati
 import Features from './components/Features/Features';
 import ColumnStatusNames from './components/ColumnStatusNames/ColumnStatusNames';
 import Categories from './components/Categories/Categories';
+import CalendarIntegration from './components/CalendarIntegration/CalendarIntegration';
 import { userStore } from '../../services/store/userStore';
 import { getUserStats } from './services/user';
 import { getCategories } from './services/category';
@@ -96,6 +97,11 @@ const Settings = () => {
             <Features preferences={preferences} onUpdate={updateUserPreferences} />
           ) : (
             <Skeleton height={165} />
+          )}
+          {!isLoading ? (
+            <CalendarIntegration preferences={preferences} onUpdate={updateUserPreferences} />
+          ) : (
+            <Skeleton height={340} />
           )}
           {!isLoading ? (
             <ColumnStatusNames preferences={preferences} onUpdate={updateUserPreferences} />

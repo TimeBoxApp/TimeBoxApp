@@ -168,6 +168,18 @@
       "errorMessage": "Error during feature update",
       "successMessage": "Successfully updated feature"
     },
+    "calendar": {
+      "title": "Calendar integration",
+      "google": "Google calendar",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "connected": "Connected",
+      "notConnected": "Not connected",
+      "success": "Successfully connected calendar",
+      "error": "Error connecting calendar",
+      "successDisconnect": "Successfully disconnected calendar",
+      "errorDisconnect": "Error disconnecting calendar"
+    },
     "categories": {
       "title": "Categories",
       "noCategoriesPlaceholder": "No categories here.<br /> Click to create a new one",
@@ -223,5 +235,17 @@
   "internalError": {
     "message": "Sorry, something went wrong. Try reloading the page",
     "button": "Back to Board"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Calendar / {{userName}}",
+    "tasksError": "Error retrieving tasks",
+    "eventsError": "Error retrieving calendar events",
+    "event": {
+      "successCreate": "Successfully created event",
+      "errorCreate": "Error during creating an event",
+      "successUpdate": "Successfully updated event",
+      "errorUpdate": "Error during updating an event"
+    }
   }
 }
