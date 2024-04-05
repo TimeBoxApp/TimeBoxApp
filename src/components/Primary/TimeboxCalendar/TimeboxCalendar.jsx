@@ -117,7 +117,7 @@ const TimeboxCalendar = ({ isLoading }) => {
   return (
     <div className={styles.calendarWrapper}>
       {isLoading ? (
-        <Skeleton height={'100%'} width={250} />
+        <Skeleton height={'100%'} width={280} />
       ) : (
         <div className={styles.column}>
           <h3>Current tasks</h3>
@@ -135,7 +135,7 @@ const TimeboxCalendar = ({ isLoading }) => {
         </div>
       )}
       {isLoading ? (
-        <Skeleton height={'100%'} width={500} />
+        <Skeleton height={'100%'} containerClassName={styles.calendarSkeleton} />
       ) : (
         <div className={styles.calendarPreview}>
           <DragAndDropCalendar
