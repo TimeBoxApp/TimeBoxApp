@@ -8,22 +8,16 @@ import { error, success } from '../../../../services/alerts';
 
 import styles from './features.module.scss';
 
-const Features = ({ preferences: { isPomodoroEnabled, isBookListEnabled }, onUpdate }) => {
+const Features = ({ preferences: { isPomodoroEnabled }, onUpdate }) => {
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState({
-    isPomodoroEnabled: false,
-    isBookListEnabled: false
+    isPomodoroEnabled: false
   });
   const features = [
     {
       label: t('settings.features.pomodoro'),
       key: 'isPomodoroEnabled',
       isChecked: isPomodoroEnabled
-    },
-    {
-      label: t('settings.features.readingList'),
-      key: 'isBookListEnabled',
-      isChecked: isBookListEnabled
     }
   ];
   /**

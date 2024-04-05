@@ -11,7 +11,7 @@ import { error, success } from '../../../../services/alerts';
 
 import styles from '../AccountInformation/account-information.module.scss';
 
-const ColumnStatusNames = ({ preferences: { toDoColumnName, inProgressColumnName, doneColumnName }, onUpdate }) => {
+const ColumnStatusNames = ({ columnNames: { toDoColumnName, inProgressColumnName, doneColumnName }, onUpdate }) => {
   const [t] = useTranslation();
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
   const [columnNames, setColumnNames] = useState({ toDoColumnName, inProgressColumnName, doneColumnName });

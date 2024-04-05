@@ -12,7 +12,7 @@ import styles from './calendar-integration.module.scss';
 import { LoadingOutlined } from '@ant-design/icons';
 import { ReactComponent as GoogleCalendarIcon } from './images/google-calendar.inline.svg';
 
-const CalendarIntegration = ({ preferences: { googleAccessToken }, onUpdate }) => {
+const CalendarIntegration = ({ preferences: { isCalendarConnected }, onUpdate }) => {
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -64,7 +64,7 @@ const CalendarIntegration = ({ preferences: { googleAccessToken }, onUpdate }) =
 
     if (err) return error(t('settings.calendar.errorDisconnect'));
 
-    onUpdate({ googleAccessToken: false });
+    onUpdate({ isCalendarConnected: false });
 
     return success(t('settings.calendar.successDisconnect'));
   };
@@ -78,13 +78,13 @@ const CalendarIntegration = ({ preferences: { googleAccessToken }, onUpdate }) =
           <div className={styles.textWrapper}>
             <h4 className={styles.title}>{t('settings.calendar.google')}</h4>
             <span className={styles.status}>
-              {googleAccessToken ? t('settings.calendar.connected') : t('settings.calendar.notConnected')}
+              {isCalendarConnected ? t('settings.calendar.connected') : t('settings.calendar.notConnected')}
             </span>
           </div>
         </div>
         {isLoading ? (
           <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-        ) : googleAccessToken ? (
+        ) : isCalendarConnected ? (
           <Button danger size={'small'} shape={'round'} onClick={disconnectHandler}>
             {t('settings.calendar.disconnect')}
           </Button>

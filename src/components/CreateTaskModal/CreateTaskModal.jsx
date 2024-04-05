@@ -11,12 +11,12 @@ import SaveButton from '../Primary/Buttons/SaveButton/SaveButton';
 import CancelButton from '../Primary/Buttons/CancelButton/CancelButton';
 import { createTask } from '../../pages/Board/services/task';
 import { success, error } from '../../services/alerts';
-import { userStore } from '../../services/store/userStore';
+import { useCategories } from '../../services/store/useCategoryStore';
 
 import styles from './create-task-modal.module.scss';
 
 const CreateTaskModal = ({ isOpen, setIsOpen, onCreate, newTask, updateNewTask, clearNewTask }) => {
-  const { user } = userStore();
+  const categories = useCategories();
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -92,7 +92,7 @@ const CreateTaskModal = ({ isOpen, setIsOpen, onCreate, newTask, updateNewTask, 
             <span className={styles.selectLabel}>{t('board.createTaskModal.categories')}</span>
             <CategorySelect
               value={newTask.taskCategories}
-              userCategories={user.categories}
+              userCategories={categories}
               onChange={(value) => updateNewTask({ taskCategories: value })}
             />
           </div>

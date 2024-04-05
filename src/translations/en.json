@@ -6,7 +6,7 @@
       "signup": "Sign Up | Time Box",
       "login": "Sign In | Time Box",
       "board": "Board",
-      "backlog": "Backlog",
+      "backlog": "Repository",
       "reports": "Reports",
       "calendar": "Calendar",
       "settings": "Settings & Profile",
@@ -34,7 +34,7 @@
     },
     "sidebar": {
       "taskBoard": "Task Board",
-      "backlog": "Backlog",
+      "backlog": "Repository",
       "readingList": "Reading List",
       "reports": "Reports",
       "calendar": "Calendar",
@@ -95,6 +95,7 @@
   },
   "board": {
     "empty": "It seems you have no weeks in progress",
+    "goToRepository": "Go to Repository",
     "subtitle": "{{userName}}'s Task Board",
     "daysDue_zero": "days due",
     "daysDue_one": "day due",
@@ -139,6 +140,10 @@
       "deleteQuestion": "Are you sure you want to delete the task?",
       "yes": "Yes",
       "no": "No"
+    },
+    "week": {
+      "finishSuccess": "Week successfully finished",
+      "finishError": "Error finishing week"
     }
   },
   "settings": {
@@ -150,10 +155,10 @@
       "weeksTimeboxed_many": "Weeks timeboxed",
       "weeksTimeboxed_other": "Weeks timeboxed",
       "totalCompleted": "Total completed",
-      "backlogItems_zero": "Backlog items",
-      "backlogItems_one": "Backlog item",
-      "backlogItems_many": "Backlog items",
-      "backlogItems_other": "Backlog items"
+      "backlogItems_zero": "Repository items",
+      "backlogItems_one": "Repository item",
+      "backlogItems_many": "Repository items",
+      "backlogItems_other": "Repository items"
     },
     "accountInformation": {
       "title": "Account Information",
@@ -209,8 +214,8 @@
     }
   },
   "backlog": {
-    "title": "Backlog",
-    "subtitle": "Backlog / {{userName}}",
+    "title": "Repository",
+    "subtitle": "Repository / {{userName}}",
     "status": {
       "toDo": "To do",
       "inProgress": "In progress",
@@ -241,6 +246,7 @@
     "subtitle": "Calendar / {{userName}}",
     "tasksError": "Error retrieving tasks",
     "eventsError": "Error retrieving calendar events",
+    "noTasks": "No tasks currently to put in the calendar",
     "event": {
       "successCreate": "Successfully created event",
       "errorCreate": "Error during creating an event",

@@ -1,20 +1,19 @@
+import to from 'await-to-js';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import PageTitle from '../../components/Primary/PageTitle/PageTitle';
 import { Trans, useTranslation } from 'react-i18next';
-import { userStore } from '../../services/store/userStore';
+
+import PageTitle from '../../components/Primary/PageTitle/PageTitle';
 import BacklogWeek from '../../components/BacklogWeek/BacklogWeek';
 import CreateTaskModal from '../../components/CreateTaskModal/CreateTaskModal';
-import useBacklogStore from '../../services/store/useBacklogStore';
-import to from 'await-to-js';
-import { error } from '../../services/alerts';
-import { useEffect, useState } from 'react';
-import { getBacklogData } from './services/user';
 import EditWeekModal from './components/EditWeekModal/EditWeekModal';
+import useBacklogStore from '../../services/store/useBacklogStore';
+import { error } from '../../services/alerts';
+import { getBacklogData } from './services/user';
+import { useCurrentUser } from '../../services/store/useCurrentUserStore';
 
 const Backlog = () => {
-  const {
-    user: { fullName }
-  } = userStore();
+  const { fullName } = useCurrentUser();
   const {
     isCreateTaskModalOpen,
     setIsCreateTaskModalOpen,

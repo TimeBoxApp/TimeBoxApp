@@ -18,11 +18,12 @@ export function getUserStats() {
 
 /**
  * Update the user's data
+ * @param userId
  * @param updates
  * @returns {Promise<Promise>}
  */
-export function updateUserData(updates) {
-  const url = `${apiUrl()}/user`;
+export function updateUserData(userId, updates) {
+  const url = `${apiUrl()}/user/${userId}`;
 
   return fetch(url, {
     method: 'PATCH',

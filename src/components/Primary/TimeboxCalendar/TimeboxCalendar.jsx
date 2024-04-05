@@ -2,13 +2,13 @@ import to from 'await-to-js';
 import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import { Empty } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { useCallback, useMemo, useState } from 'react';
 
 import CalendarTask from './components/CalendarTask/CalendarTask';
 import CustomToolbar from './components/CustomToolbar/CustomToolbar';
-import { useCalendarActions, useCalendarEvents, useCalendarTasks } from '../../../services/store/useCalendarStore';
 import { createNewEvent, updateEvent } from './services/calendar';
 import { error, success } from '../../../services/alerts';
 
@@ -26,11 +26,9 @@ moment.locale('ko', {
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
 
-const TimeboxCalendar = ({ isLoading }) => {
+const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent }) => {
   const [t] = useTranslation();
-  const events = useCalendarEvents();
-  const tasks = useCalendarTasks();
-  const { addEvent, modifyEvent } = useCalendarActions();
+
   const [draggedEvent, setDraggedEvent] = useState();
   const eventPropGetter = useCallback(
     (event) => ({
@@ -122,15 +120,19 @@ const TimeboxCalendar = ({ isLoading }) => {
         <div className={styles.column}>
           <h3>Current tasks</h3>
           <div className={styles.tasksWrapper}>
-            {tasks.map((task) => (
-              <CalendarTask
-                key={task.id}
-                categories={task.categories}
-                handleDragStart={handleDragStart}
-                status={task.status}
-                title={task.title}
-              />
-            ))}
+            {!tasks.length ? (
+              <Empty style={{ marginTop: '80%' }} description={<span>{t('calendar.noTasks')}</span>} />
+            ) : (
+              tasks.map((task) => (
+                <CalendarTask
+                  key={task.id}
+                  categories={task.categories}
+                  handleDragStart={handleDragStart}
+                  status={task.status}
+                  title={task.title}
+                />
+              ))
+            )}
           </div>
         </div>
       )}

@@ -12,21 +12,20 @@ import Button from '../../components/Primary/Button/Button';
 import { login } from './services/auth';
 import { error } from '../../services/notification';
 import { success } from '../../services/alerts';
-import { setUser } from '../../services/user';
-import { userStore } from '../../services/store/userStore';
+import { useCurrentUser, useCurrentUserActions } from '../../services/store/useCurrentUserStore';
 
 import styles from './login.module.scss';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = userStore();
+  const currentUser = useCurrentUser();
+  const { updateCurrentUser } = useCurrentUserActions();
   const [t] = useTranslation();
 
   useEffect(() => {
-    if (isLoggedIn()) {
-      navigate('/board');
-    }
-  });
+    if (currentUser.id) navigate('/board');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleLogin = async (values) => {
     const { email, password } = values;
@@ -42,7 +41,7 @@ const Login = () => {
 
     if (res.statusCode === 200) {
       success(t('login.success', { email }));
-      setUser(res.userData);
+      updateCurrentUser(res.userData);
 
       return navigate('/board');
     }

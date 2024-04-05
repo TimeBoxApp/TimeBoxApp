@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import { DatePicker } from 'antd';
-// import { useTranslation } from 'react-i18next';
-import { userStore } from '../../../../services/store/userStore';
+
+import { useCurrentUserPreferences } from '../../../../services/store/useCurrentUserStore';
 
 const { RangePicker } = DatePicker;
 
 const RangeSelect = ({ onChange, startDate, endDate }) => {
-  const { user } = userStore();
+  const preferences = useCurrentUserPreferences();
   const disabledDate = (current) => {
     const oneMonthAhead = dayjs().add(1, 'month');
 
@@ -24,7 +24,7 @@ const RangeSelect = ({ onChange, startDate, endDate }) => {
   return (
     <RangePicker
       value={startDate && endDate ? [dayjs(startDate), dayjs(endDate)] : null}
-      format={user.dateFormat}
+      format={preferences.dateFormat}
       disabledDate={disabledDate}
       onChange={handleChange}
     />

@@ -6,15 +6,15 @@ import { Droppable } from 'react-beautiful-dnd';
 
 import BacklogTask from '../BacklogTask/BacklogTask';
 import useBacklogStore from '../../../../services/store/useBacklogStore';
-import { userStore } from '../../../../services/store/userStore';
 import { removeWeek } from '../../../../pages/Backlog/services/week';
+import { useCurrentUser } from '../../../../services/store/useCurrentUserStore';
 
 import styles from './backlog-column.module.scss';
 
 import { CalendarOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, tasks, onUpdate }) => {
-  const { user } = userStore();
+  const currentUser = useCurrentUser();
   const { updateNewTask, setIsCreateTaskModalOpen, setIsWeekModalOpen, assignBacklogTaskRank, updateNewWeek } =
     useBacklogStore((state) => ({
       updateNewTask: state.updateNewTask,
@@ -39,7 +39,7 @@ const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, t
     updateNewTask({
       weekId: Number.parseInt(id),
       status: isCurrentWeek ? 'to-do' : 'created',
-      userId: user.id,
+      userId: currentUser.id,
       backlogRank: assignBacklogTaskRank(id)
     });
     setIsCreateTaskModalOpen(true);
