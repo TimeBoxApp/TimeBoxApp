@@ -12,21 +12,25 @@ import Features from './components/Features/Features';
 import ColumnStatusNames from './components/ColumnStatusNames/ColumnStatusNames';
 import Categories from './components/Categories/Categories';
 import CalendarIntegration from './components/CalendarIntegration/CalendarIntegration';
-import { userStore } from '../../services/store/userStore';
 import { getUserStats } from './services/user';
 import { getCategories } from './services/category';
 import { error } from '../../services/alerts';
 import { useCategoryActions } from '../../services/store/useCategoryStore';
+import {
+  useCurrentUser,
+  useCurrentUserActions,
+  useCurrentUserColumnMapping,
+  useCurrentUserPreferences
+} from '../../services/store/useCurrentUserStore';
 
 import styles from './settings.module.scss';
 
 const Settings = () => {
   const [t] = useTranslation();
-  const {
-    user: { firstName, lastName, email, dateFormat, fullName, preferences },
-    updateUserInfo,
-    updateUserPreferences
-  } = userStore();
+  const { updateUserInfo, updateUserPreferences, updateColumnNames } = useCurrentUserActions();
+  const currentUser = useCurrentUser();
+  const preferences = useCurrentUserPreferences();
+  const columnNames = useCurrentUserColumnMapping();
   const { setCategories } = useCategoryActions();
   const [userStats, setUserStats] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +45,7 @@ const Settings = () => {
    * Get user stats on mount
    */
   useEffect(() => {
-    loadSettingsData();
+    void loadSettingsData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,7 +83,7 @@ const Settings = () => {
           <Trans
             i18nKey={'settings.subtitle'}
             values={{
-              userName: fullName
+              userName: currentUser.fullName
             }}
           />
         }
@@ -87,9 +91,9 @@ const Settings = () => {
       />
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 950: 2, 1200: 3 }}>
         <Masonry columnsCount={3} gutter={'40px'} className={styles.settingsContainer}>
-          {!isLoading ? <UserInfo user={{ fullName, email }} userStats={userStats} /> : <Skeleton height={210} />}
+          {!isLoading ? <UserInfo user={currentUser} userStats={userStats} /> : <Skeleton height={210} />}
           {!isLoading ? (
-            <AccountInformation userData={{ firstName, lastName, email, dateFormat }} onUpdate={updateUserInfo} />
+            <AccountInformation userData={currentUser} onUpdate={updateUserInfo} />
           ) : (
             <Skeleton height={405} />
           )}
@@ -104,7 +108,7 @@ const Settings = () => {
             <Skeleton height={340} />
           )}
           {!isLoading ? (
-            <ColumnStatusNames preferences={preferences} onUpdate={updateUserPreferences} />
+            <ColumnStatusNames columnNames={columnNames} onUpdate={updateColumnNames} />
           ) : (
             <Skeleton height={340} />
           )}

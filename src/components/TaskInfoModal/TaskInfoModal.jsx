@@ -16,8 +16,9 @@ import CancelButton from '../Primary/Buttons/CancelButton/CancelButton';
 import Priority from '../Primary/Priority/Priority';
 import Tag from '../Primary/Tag/Tag';
 import { success, error } from '../../services/alerts';
-import { userStore } from '../../services/store/userStore';
 import { deleteTask, getTask, updateTask } from '../../pages/Board/services/task';
+import { useCurrentUserPreferences } from '../../services/store/useCurrentUserStore';
+import { useCategories } from '../../services/store/useCategoryStore';
 
 import styles from './task-info-modal.module.scss';
 
@@ -25,7 +26,8 @@ import { ReactComponent as EditIcon } from './images/edit.inline.svg';
 import { DeleteFilled } from '@ant-design/icons';
 
 const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
-  const { user } = userStore();
+  const preferences = useCurrentUserPreferences();
+  const categories = useCategories();
   const [t] = useTranslation();
   const [isEditMode, setIsEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState({
@@ -211,7 +213,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
             <div className={styles.selectContainer}>
               <span className={styles.selectLabel}>{t('board.taskInfoModal.categories')}</span>
               <CategorySelect
-                userCategories={user.categories}
+                userCategories={categories}
                 value={taskDataEdited.taskCategories}
                 onChange={(value) =>
                   setTaskDataEdited({
@@ -261,7 +263,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
                 <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
                   {t('board.taskInfoModal.dueDate')}
                 </span>
-                {dayjs(initialTaskData.dueDate).format(user.dateFormat)}
+                {dayjs(initialTaskData.dueDate).format(preferences.dateFormat)}
               </div>
             ) : null}
           </div>

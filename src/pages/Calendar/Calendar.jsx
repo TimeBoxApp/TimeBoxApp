@@ -1,25 +1,30 @@
 import to from 'await-to-js';
-import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 
 import PageTitle from '../../components/Primary/PageTitle/PageTitle';
 import TimeboxCalendar from '../../components/Primary/TimeboxCalendar/TimeboxCalendar';
-import { userStore } from '../../services/store/userStore';
+import TimeboxEmpty from '../../components/Primary/Empty/Empty';
 import { error } from '../../services/alerts';
 import { getCalendarEvents } from './services/calendar';
-import { useCalendarActions } from '../../services/store/useCalendarStore';
+import { useCalendarActions, useCalendarEvents, useCalendarTasks } from '../../services/store/useCalendarStore';
 import { getWeekData } from '../Board/services/user';
+import { useCurrentUser, useCurrentUserPreferences } from '../../services/store/useCurrentUserStore';
 
 import styles from './calendar.module.scss';
 
 const Calendar = () => {
+  const navigate = useNavigate();
+  const currentUser = useCurrentUser();
+  const events = useCalendarEvents();
+  const tasks = useCalendarTasks();
+  const { addEvent, modifyEvent } = useCalendarActions();
   const [t] = useTranslation();
   const { setEvents, setTasks } = useCalendarActions();
-  const {
-    user: { fullName }
-  } = userStore();
-  const [isLoading, setIsLoading] = useState(true);
+  const { isCalendarConnected } = useCurrentUserPreferences();
+  const [isLoading, setIsLoading] = useState(false);
 
   /**
    * Return user events from a calendar
@@ -53,7 +58,7 @@ const Calendar = () => {
     if (err) return error(t('calendar.tasksError'));
 
     const { tasks = [] } = weekData;
-    const todoTasks = tasks['to-do'];
+    const todoTasks = tasks['to-do'] || [];
     const calendarTasks = [...todoTasks];
 
     setTasks(calendarTasks);
@@ -66,15 +71,14 @@ const Calendar = () => {
   const loadCalendarData = async () => {
     setIsLoading(true);
 
-    await Promise.all([getUserEvents(), getUserTasks()]);
+    if (isCalendarConnected) await Promise.allSettled([getUserEvents(), getUserTasks()]);
 
     setIsLoading(false);
   };
 
   useEffect(() => {
-    void loadCalendarData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    loadCalendarData();
+  }, [currentUser]);
 
   return (
     <div className={styles.pageContent}>
@@ -86,13 +90,27 @@ const Calendar = () => {
           <Trans
             i18nKey={'calendar.subtitle'}
             values={{
-              userName: fullName
+              userName: currentUser.fullName
             }}
           />
         }
         pageTitle={t('calendar.title')}
       />
-      <TimeboxCalendar isLoading={isLoading} />
+      {!isCalendarConnected && !isLoading ? (
+        <TimeboxEmpty
+          onClick={() => navigate('/settings')}
+          text={"You haven't connected any Google Calendars.Go to Settings and connect"}
+          buttonText={'Go to Settings'}
+        />
+      ) : (
+        <TimeboxCalendar
+          isLoading={isLoading}
+          events={events}
+          tasks={tasks}
+          addEvent={addEvent}
+          modifyEvent={modifyEvent}
+        />
+      )}
     </div>
   );
 };

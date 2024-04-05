@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Avatar, Divider, Dropdown, Modal, Space, theme } from 'antd';
 
-import { userStore } from '../../services/store/userStore';
 import { logout } from '../../pages/Login/services/auth';
-import { clearUser } from '../../services/user';
+import { useCurrentUser, useCurrentUserActions } from '../../services/store/useCurrentUserStore';
 
 import styles from './user-float-button.module.scss';
 
@@ -17,7 +16,8 @@ const { useToken } = theme;
 const { confirm } = Modal;
 
 const UserFloatButton = () => {
-  const { user } = userStore();
+  const user = useCurrentUser();
+  const { clearCurrentUser } = useCurrentUserActions();
   const [t] = useTranslation();
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const UserFloatButton = () => {
     await logout();
     navigate('/login');
 
-    return clearUser();
+    return clearCurrentUser();
   }
 
   const showLogoutConfirm = () => {

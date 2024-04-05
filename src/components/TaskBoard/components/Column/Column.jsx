@@ -3,13 +3,14 @@ import { Droppable } from 'react-beautiful-dnd';
 
 import Task from '../Task/Task';
 import useTaskBoardStore from '../../../../services/store/useTaskBoardStore';
-import { userStore } from '../../../../services/store/userStore';
+import { useCurrentUser, useCurrentUserColumnMapping } from '../../../../services/store/useCurrentUserStore';
 import { COLUMN_STATUS_MAPPING, PREFERENCES_COLUMN_MAPPING } from '../../../../services/store/helpers/task';
 
 import styles from './column.module.scss';
 
 const Column = ({ column, tasks, onUpdate }) => {
-  const { user } = userStore();
+  const currentUser = useCurrentUser();
+  const columnNames = useCurrentUserColumnMapping();
   const { currentWeek, updateNewTask, setIsCreateTaskModalOpen, assignTaskRank } = useTaskBoardStore((state) => ({
     currentWeek: state.currentWeek,
     setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
@@ -24,7 +25,7 @@ const Column = ({ column, tasks, onUpdate }) => {
     updateNewTask({
       weekId: currentWeek.id,
       status: COLUMN_STATUS_MAPPING[column.id],
-      userId: user.id,
+      userId: currentUser.id,
       boardRank: assignTaskRank(column.id)
     });
     setIsCreateTaskModalOpen(true);
@@ -33,9 +34,7 @@ const Column = ({ column, tasks, onUpdate }) => {
   return (
     <div className={styles.columnContainer}>
       <div className={styles.columnHeader}>
-        <h4 className={styles.columnTitle}>
-          {user.preferences[PREFERENCES_COLUMN_MAPPING[column.id]] || column.title}
-        </h4>
+        <h4 className={styles.columnTitle}>{columnNames[PREFERENCES_COLUMN_MAPPING[column.id]] || column.title}</h4>
         <button className={styles.addTaskButton} onClick={() => handleCreateTask()}>
           +
         </button>

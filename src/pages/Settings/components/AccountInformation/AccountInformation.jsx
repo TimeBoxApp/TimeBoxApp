@@ -9,6 +9,7 @@ import TextInput from '../../../../components/Primary/TextInput/TextInput';
 import TimeBoxSelect from '../../../../components/Primary/Select/TimeBoxSelect/Select';
 import CancelButton from '../../../../components/Primary/Buttons/CancelButton/CancelButton';
 import SaveButton from '../../../../components/Primary/Buttons/SaveButton/SaveButton';
+import { useCurrentUser } from '../../../../services/store/useCurrentUserStore';
 import { updateUserData } from '../../services/user';
 import { success, error } from '../../../../services/alerts';
 
@@ -16,6 +17,7 @@ import styles from './account-information.module.scss';
 
 const AccountInformation = ({ userData, onUpdate }) => {
   const [t] = useTranslation();
+  const currentUser = useCurrentUser();
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
   const [userDataEdited, setUserDataEdited] = useState(userData);
   const availableDateFormats = ['DD.MM.YYYY', 'MM/DD/YYYY', 'MMM DD, YYYY'];
@@ -47,7 +49,7 @@ const AccountInformation = ({ userData, onUpdate }) => {
     setIsUpdateLoading(true);
     onUpdate(changes);
 
-    const [err] = await to(updateUserData(changes));
+    const [err] = await to(updateUserData(currentUser.id, changes));
 
     setIsUpdateLoading(false);
 

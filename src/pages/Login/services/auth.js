@@ -1,7 +1,7 @@
 import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/apiUrl';
 
 /**
- * Send a request to login into system
+ * Send a request to login into a system
  * @param email
  * @param password
  * @returns {Promise<any | never>}
@@ -41,16 +41,12 @@ export function logout() {
 
 /**
  * Get current user data
- * @param csrfToken
- * @param cookie
  */
-export function getCurrentUser(csrfToken, cookie) {
+export function getCurrentUser() {
   let url = `${apiUrl()}/user/me`;
   const headers = {
-    ...getStandardHeaders(csrfToken)
+    ...getStandardHeaders()
   };
-
-  if (cookie) headers.Cookie = cookie;
 
   return fetch(url, {
     method: 'GET',

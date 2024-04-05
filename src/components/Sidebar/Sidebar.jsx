@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import NavigationItem from './components/NavigationItem';
 import PomodoroTimer from '../PomodoroTimer/PomodoroTimer';
-import { userStore } from '../../services/store/userStore';
+import { useCurrentUserActions, useCurrentUserPreferences } from '../../services/store/useCurrentUserStore';
 
 import styles from './sidebar.module.scss';
 
@@ -14,7 +14,8 @@ import { ReactComponent as CalendarIcon } from './images/calendar.inline.svg';
 
 const Sidebar = () => {
   const [t] = useTranslation();
-  const { userHasFeature } = userStore();
+  const preferences = useCurrentUserPreferences();
+  const { userHasFeature } = useCurrentUserActions();
 
   const routes = [
     {
@@ -25,7 +26,7 @@ const Sidebar = () => {
     {
       name: t('primary.sidebar.backlog'),
       icon: <BacklogIcon />,
-      path: '/backlog'
+      path: '/repository'
     },
     {
       name: t('primary.sidebar.calendar'),
@@ -55,7 +56,7 @@ const Sidebar = () => {
           )}
         </div>
       </div>
-      {userHasFeature('pomodoro') ? (
+      {preferences.isPomodoroEnabled ? (
         <div className={styles.pomodoro}>
           <PomodoroTimer />
         </div>

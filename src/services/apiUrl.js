@@ -1,4 +1,6 @@
-import { clearUser } from './user';
+import { useCurrentUserStore } from './store/useCurrentUserStore';
+
+const { clearCurrentUser } = useCurrentUserStore.getState().actions;
 
 /**
  * Return headers standard across the whole application
@@ -55,7 +57,7 @@ export function checkResponse(fetchResponse) {
   //
   if (fetchResponse.status === 401) {
     setTimeout(() => {
-      clearUser();
+      // clearCurrentUser();
 
       // eslint-disable-next-line no-restricted-globals
       location.replace('/login');

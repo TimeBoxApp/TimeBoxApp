@@ -13,10 +13,10 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import Settings from './pages/Settings/Settings';
 import Backlog from './pages/Backlog/Backlog';
 import Calendar from './pages/Calendar/Calendar';
-import { userStore } from './services/store/userStore';
+import { useCurrentUser, useCurrentUserActions } from './services/store/useCurrentUserStore';
 
 const ProtectedRoute = ({ user, redirectPath = '/login', feature, children }) => {
-  const { userHasFeature } = userStore();
+  const { userHasFeature } = useCurrentUserActions();
 
   if (!user) {
     return <Navigate to={redirectPath} replace />;
@@ -30,14 +30,17 @@ const ProtectedRoute = ({ user, redirectPath = '/login', feature, children }) =>
 };
 
 function App() {
-  const { user, refreshUser, isLoggedIn } = userStore();
+  const currentUser = useCurrentUser();
+  const { updateCurrentUser, initStore } = useCurrentUserActions();
 
   /**
    * Update user data on each page refresh
    */
   useEffect(() => {
-    if (isLoggedIn()) void refreshUser();
-  }, [isLoggedIn, refreshUser]);
+    void initStore();
+
+    if (currentUser && currentUser.id) void updateCurrentUser();
+  }, [currentUser.id]);
 
   const theme = {
     borderRadius: 10,
@@ -69,15 +72,15 @@ function App() {
         {
           path: 'board',
           element: (
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <Board />
             </ProtectedRoute>
           )
         },
         {
-          path: 'backlog',
+          path: 'repository',
           element: (
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <Backlog />
             </ProtectedRoute>
           )
@@ -85,7 +88,7 @@ function App() {
         {
           path: 'calendar',
           element: (
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <Calendar />
             </ProtectedRoute>
           )
@@ -93,7 +96,7 @@ function App() {
         {
           path: 'settings',
           element: (
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={currentUser}>
               <Settings />
             </ProtectedRoute>
           )

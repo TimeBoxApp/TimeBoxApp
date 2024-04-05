@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
 import { DatePicker } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { userStore } from '../../../../services/store/userStore';
+
+import { useCurrentUserPreferences } from '../../../../services/store/useCurrentUserStore';
 
 import styles from './date-select.module.scss';
 
 const DateSelect = ({ onChange, value }) => {
-  const { user } = userStore();
+  const preferences = useCurrentUserPreferences();
   const [t] = useTranslation();
   const disabledDate = (current) => {
     return current.isBefore(Date.now());
@@ -22,7 +23,7 @@ const DateSelect = ({ onChange, value }) => {
       allowClear
       placeholder={t('primary.selects.dueDatePlaceholder')}
       disabledDate={disabledDate}
-      format={user.dateFormat}
+      format={preferences.dateFormat}
       showToday={false}
     />
   );

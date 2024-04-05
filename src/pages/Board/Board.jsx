@@ -9,19 +9,19 @@ import { Button, Empty } from 'antd';
 import useTaskBoardStore from '../../services/store/useTaskBoardStore';
 import TaskBoard from '../../components/TaskBoard/TaskBoard';
 import CreateTaskModal from '../../components/CreateTaskModal/CreateTaskModal';
-import { userStore } from '../../services/store/userStore';
 import { getWeekData } from './services/user';
 import { PRIORITY_TYPES } from '../../components/Primary/constants';
 import { STATUS_COLUMN_MAPPING } from '../../services/store/helpers/task';
-import { error } from '../../services/alerts';
+import { error, success } from '../../services/alerts';
 import { getTasksByWeekId } from './services/task';
 import { finishWeek } from './services/week';
+import { useCurrentUser } from '../../services/store/useCurrentUserStore';
 
 import styles from './board.module.scss';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const Board = () => {
-  const { user } = userStore();
+  const { firstName } = useCurrentUser();
   const {
     setBoardData,
     setCurrentWeek,
@@ -185,7 +185,9 @@ const Board = () => {
       finishWeek: false
     });
 
-    if (err) return error();
+    if (err) return error(t('board.week.finishError'));
+
+    success(t('board.week.finishSuccess'));
 
     return getWeekDetails();
   };
@@ -203,7 +205,7 @@ const Board = () => {
       <div className={styles.empty}>
         <Empty description={<span>{t('board.empty')}</span>} />
         <Button type={'primary'} shape={'round'} size={'small'}>
-          Create a Week
+          {t('board.goToRepository')}
         </Button>
       </div>
     );
@@ -217,7 +219,7 @@ const Board = () => {
       <Trans
         i18nKey={'board.subtitle'}
         values={{
-          userName: user.firstName
+          userName: firstName
         }}
       />
       {isLoading.week && isLoading.tasks ? (

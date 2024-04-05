@@ -15,6 +15,8 @@ import { error, success } from '../../../services/alerts';
 import styles from './timebox-calendar.module.scss';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+import TimeboxEmpty from '../Empty/Empty';
+import { Empty } from 'antd';
 
 moment.locale('ko', {
   week: {
@@ -26,11 +28,9 @@ moment.locale('ko', {
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
 
-const TimeboxCalendar = ({ isLoading }) => {
+const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent }) => {
   const [t] = useTranslation();
-  const events = useCalendarEvents();
-  const tasks = useCalendarTasks();
-  const { addEvent, modifyEvent } = useCalendarActions();
+
   const [draggedEvent, setDraggedEvent] = useState();
   const eventPropGetter = useCallback(
     (event) => ({
@@ -122,15 +122,19 @@ const TimeboxCalendar = ({ isLoading }) => {
         <div className={styles.column}>
           <h3>Current tasks</h3>
           <div className={styles.tasksWrapper}>
-            {tasks.map((task) => (
-              <CalendarTask
-                key={task.id}
-                categories={task.categories}
-                handleDragStart={handleDragStart}
-                status={task.status}
-                title={task.title}
-              />
-            ))}
+            {!tasks.length ? (
+              <Empty style={{ marginTop: '80%' }} description={<span>{t('calendar.noTasks')}</span>} />
+            ) : (
+              tasks.map((task) => (
+                <CalendarTask
+                  key={task.id}
+                  categories={task.categories}
+                  handleDragStart={handleDragStart}
+                  status={task.status}
+                  title={task.title}
+                />
+              ))
+            )}
           </div>
         </div>
       )}
