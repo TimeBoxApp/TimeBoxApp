@@ -1,0 +1,48 @@
+@import '../../../../styles/variables';
+
+.section {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  max-width: 400px;
+  height: fit-content;
+  gap: 15px;
+  background: $white;
+  border-radius: $border-radius-normal;
+
+  .calendarWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: $border-radius-normal;
+    gap: 5px;
+    box-shadow: $soft-box-shadow;
+
+    .googleCalendar {
+      display: flex;
+      gap: 10px;
+
+      .calendarIcon {
+        width: 40px;
+      }
+
+      .textWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .title {
+          font-weight: $font-weight-bold;
+          font-size: $font-normal;
+        }
+
+        .status {
+          font-size: $font-small;
+          color: $textSecondary;
+        }
+      }
+    }
+  }
+}

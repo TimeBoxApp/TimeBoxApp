@@ -41,7 +41,6 @@ const CategorySelect = ({ onChange, value }) => {
       mode={'multiple'}
       placeholder={t('primary.selects.categoryPlaceholder')}
       tagRender={tagRender}
-      variant="filled"
       options={filteredOptions}
       optionRender={(option) => (
         <Space>

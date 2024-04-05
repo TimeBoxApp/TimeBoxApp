@@ -13,8 +13,8 @@ class User {
     this.email = data.email || '';
     this.role = data.role || '';
     this.preferences = data.preferences || {};
-    this.categories = data.categories || [];
     this.dateFormat = data.dateFormat || 'DD.MM.YYYY';
+    this.googleAccessToken = !!data.preferences.googleAccessToken;
   }
 }
 

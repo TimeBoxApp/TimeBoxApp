@@ -12,7 +12,6 @@ const TextInput = ({ placeholder, onChange, label, type, value, clearable = true
         <TextArea
           allowClear={clearable}
           placeholder={placeholder}
-          variant="filled"
           onChange={onChange}
           autoSize={{
             minRows: 5,
@@ -21,14 +20,7 @@ const TextInput = ({ placeholder, onChange, label, type, value, clearable = true
           value={value}
         />
       ) : (
-        <Input
-          placeholder={placeholder}
-          disabled={disabled}
-          allowClear={clearable}
-          variant="filled"
-          onChange={onChange}
-          value={value}
-        />
+        <Input placeholder={placeholder} disabled={disabled} allowClear={clearable} onChange={onChange} value={value} />
       )}
     </div>
   );
