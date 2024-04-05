@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 
 import { error, success } from '../../../../services/alerts';
-import { connectGoogleAccount, disconnectGoogleCalendar } from '../../services/calendar';
+import { disconnectGoogleCalendar, getGoogleCalendarOAuthLink } from '../../services/calendar';
 
 import styles from './calendar-integration.module.scss';
 
@@ -17,18 +17,42 @@ const CalendarIntegration = ({ preferences: { googleAccessToken }, onUpdate }) =
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  /**
+   * Listener for query param to show the alert
+   */
   useEffect(() => {
-    if (!!searchParams.get('connectCalendarSuccess')) {
+    const connectCalendarSuccess = searchParams.get('connectCalendarSuccess');
+    if (connectCalendarSuccess !== null) {
       searchParams.delete('connectCalendarSuccess');
       setSearchParams(searchParams);
 
-      return success(t('settings.calendar.success'));
+      if (connectCalendarSuccess === 'true') return success(t('settings.calendar.success'));
+
+      return error(t('settings.calendar.error'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
-   * Updates the user features preferences
+   * Calendar connect handler
+   * @returns *
+   */
+  const connectHandler = async () => {
+    setIsLoading(true);
+
+    const [err, res] = await to(getGoogleCalendarOAuthLink());
+
+    if (err) {
+      setIsLoading(false);
+
+      return error(t('settings.calendar.error'));
+    }
+
+    window.location.replace(res.redirectUrl);
+  };
+
+  /**
+   * Calendar disconnect handler
    * @returns void
    */
   const disconnectHandler = async () => {
@@ -65,7 +89,7 @@ const CalendarIntegration = ({ preferences: { googleAccessToken }, onUpdate }) =
             {t('settings.calendar.disconnect')}
           </Button>
         ) : (
-          <Button onClick={connectGoogleAccount}>{t('settings.calendar.connect')}</Button>
+          <Button onClick={connectHandler}>{t('settings.calendar.connect')}</Button>
         )}
       </div>
     </div>

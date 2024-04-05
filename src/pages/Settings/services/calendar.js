@@ -1,21 +1,27 @@
 import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/apiUrl';
 
 /**
- * Connect Google Account
- * @returns {void}
+ * Connect Google Calendar
+ * @returns {Promise<Promise>}
  */
-export function connectGoogleAccount() {
-  const url = `${apiUrl()}/auth/google`;
+export async function getGoogleCalendarOAuthLink() {
+  const url = `${apiUrl()}/calendar/google`;
 
-  return window.location.replace(url);
+  return fetch(url, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      ...getStandardHeaders()
+    }
+  }).then(checkResponse);
 }
 
 /**
- * Disconnect Google Account
+ * Disconnect Google Calendar
  * @returns {Promise<Promise>}
  */
 export function disconnectGoogleCalendar() {
-  const url = `${apiUrl()}/preferences/google`;
+  const url = `${apiUrl()}/calendar/google`;
 
   return fetch(url, {
     method: 'DELETE',
