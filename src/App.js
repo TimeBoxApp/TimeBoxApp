@@ -40,6 +40,7 @@ function App() {
     void initStore();
 
     if (currentUser && currentUser.id) void updateCurrentUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.id]);
 
   const theme = {

@@ -2,21 +2,19 @@ import to from 'await-to-js';
 import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import { Empty } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { useCallback, useMemo, useState } from 'react';
 
 import CalendarTask from './components/CalendarTask/CalendarTask';
 import CustomToolbar from './components/CustomToolbar/CustomToolbar';
-import { useCalendarActions, useCalendarEvents, useCalendarTasks } from '../../../services/store/useCalendarStore';
 import { createNewEvent, updateEvent } from './services/calendar';
 import { error, success } from '../../../services/alerts';
 
 import styles from './timebox-calendar.module.scss';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-import TimeboxEmpty from '../Empty/Empty';
-import { Empty } from 'antd';
 
 moment.locale('ko', {
   week: {

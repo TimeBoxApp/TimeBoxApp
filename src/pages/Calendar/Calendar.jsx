@@ -78,6 +78,7 @@ const Calendar = () => {
 
   useEffect(() => {
     loadCalendarData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   return (

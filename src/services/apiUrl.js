@@ -57,7 +57,7 @@ export function checkResponse(fetchResponse) {
   //
   if (fetchResponse.status === 401) {
     setTimeout(() => {
-      // clearCurrentUser();
+      clearCurrentUser();
 
       // eslint-disable-next-line no-restricted-globals
       location.replace('/login');

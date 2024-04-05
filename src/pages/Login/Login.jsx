@@ -24,6 +24,7 @@ const Login = () => {
 
   useEffect(() => {
     if (currentUser.id) navigate('/board');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogin = async (values) => {
