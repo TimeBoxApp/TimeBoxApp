@@ -1,7 +1,7 @@
 import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/apiUrl';
 
 export function removeWeek(id) {
-  const url = `${apiUrl()}/week/${id}`;
+  const url = `${apiUrl()}/weeks/${id}`;
 
   return fetch(url, {
     method: 'DELETE',
@@ -13,7 +13,7 @@ export function removeWeek(id) {
 }
 
 export function createWeek(data) {
-  const url = `${apiUrl()}/week`;
+  const url = `${apiUrl()}/weeks`;
 
   return fetch(url, {
     method: 'POST',
@@ -26,7 +26,7 @@ export function createWeek(data) {
 }
 
 export function updateWeek(id, data) {
-  const url = `${apiUrl()}/week/${id}`;
+  const url = `${apiUrl()}/weeks/${id}`;
 
   return fetch(url, {
     method: 'PATCH',
@@ -35,5 +35,17 @@ export function updateWeek(id, data) {
       ...getStandardHeaders()
     },
     body: JSON.stringify(data)
+  }).then(checkResponse);
+}
+
+export function startWeek(id) {
+  const url = `${apiUrl()}/weeks/${id}/start`;
+
+  return fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      ...getStandardHeaders()
+    }
   }).then(checkResponse);
 }

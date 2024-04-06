@@ -13,7 +13,7 @@ const CategorySelect = ({ onChange, value }) => {
     color: category.color,
     emoji: category.emoji
   }));
-  const filteredOptions = options.filter((o) => !value.includes(o.value));
+  const filteredOptions = options.filter((o) => !value?.includes(o.value));
 
   const tagRender = (props) => {
     const { closable, onClose, color } = props;

@@ -1,8 +1,12 @@
+import dayjs from 'dayjs';
 import { create } from 'zustand';
 import { LexoRank } from 'lexorank';
 
 import { updateTask } from '../../pages/Board/services/task';
 import { calculateNewRank } from './helpers/task';
+const weekOfYear = require('dayjs/plugin/weekOfYear');
+
+dayjs.extend(weekOfYear);
 
 const useBacklogStore = create((set, get) => ({
   isWeekModalOpen: false,
@@ -15,11 +19,10 @@ const useBacklogStore = create((set, get) => ({
     boardRank: null,
     backlogRank: null,
     taskCategories: [],
-    weekId: null,
-    userId: null
+    weekId: null
   },
   newWeek: {
-    name: null,
+    name: `Week ${dayjs(new Date()).week()}`,
     startDate: null,
     endDate: null
   },
@@ -40,14 +43,13 @@ const useBacklogStore = create((set, get) => ({
         dueDate: null,
         backlogRank: null,
         categoryId: null,
-        weekId: null,
-        userId: null
+        weekId: null
       }
     }),
   clearNewWeek: () =>
     set({
       newWeek: {
-        name: null,
+        name: `Week ${dayjs(new Date()).week()}`,
         startDate: null,
         endDate: null
       }

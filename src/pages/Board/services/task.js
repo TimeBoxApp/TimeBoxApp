@@ -7,7 +7,7 @@ import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/api
  * @returns {Promise<Promise>}
  */
 export function updateTask(taskId, updates) {
-  const url = `${apiUrl()}/task/${taskId}`;
+  const url = `${apiUrl()}/tasks/${taskId}`;
 
   return fetch(url, {
     method: 'PATCH',
@@ -25,7 +25,7 @@ export function updateTask(taskId, updates) {
  * @returns {Promise<Promise>}
  */
 export function createTask(data) {
-  const url = `${apiUrl()}/task`;
+  const url = `${apiUrl()}/tasks`;
 
   return fetch(url, {
     method: 'POST',
@@ -43,7 +43,7 @@ export function createTask(data) {
  * @returns {Promise<Promise>}
  */
 export function deleteTask(taskId) {
-  const url = `${apiUrl()}/task/${taskId}`;
+  const url = `${apiUrl()}/tasks/${taskId}`;
 
   return fetch(url, {
     method: 'DELETE',
@@ -60,7 +60,7 @@ export function deleteTask(taskId) {
  * @returns {Promise<Promise>}
  */
 export function getTask(taskId) {
-  const url = `${apiUrl()}/task/${taskId}`;
+  const url = `${apiUrl()}/tasks/${taskId}`;
 
   return fetch(url, {
     method: 'GET',
@@ -77,7 +77,7 @@ export function getTask(taskId) {
  * @returns {Promise<Promise>}
  */
 export function getTasksByWeekId(weekId) {
-  const url = `${apiUrl()}/task?weekId=${weekId}`;
+  const url = `${apiUrl()}/tasks?weekId=${weekId}`;
 
   return fetch(url, {
     method: 'GET',

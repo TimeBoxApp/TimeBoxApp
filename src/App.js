@@ -37,11 +37,17 @@ function App() {
    * Update user data on each page refresh
    */
   useEffect(() => {
+    const path = window.location.pathname;
     void initStore();
 
-    if (currentUser && currentUser.id) void updateCurrentUser();
+    if (['/login', '/signup', '/'].includes(path)) {
+      if (!currentUser?.id) return;
+    }
+
+    void updateCurrentUser();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser.id]);
+  }, []);
 
   const theme = {
     borderRadius: 10,

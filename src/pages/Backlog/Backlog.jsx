@@ -11,9 +11,11 @@ import useBacklogStore from '../../services/store/useBacklogStore';
 import { error } from '../../services/alerts';
 import { getBacklogData } from './services/user';
 import { useCurrentUser } from '../../services/store/useCurrentUserStore';
+import { useCurrentWeekActions } from '../../services/store/useCurrentWeekStore';
 
 const Backlog = () => {
   const { fullName } = useCurrentUser();
+  const { setCurrentWeek } = useCurrentWeekActions();
   const {
     isCreateTaskModalOpen,
     setIsCreateTaskModalOpen,
@@ -99,6 +101,10 @@ const Backlog = () => {
     return output;
   }
 
+  /**
+   * Get backlog tasks handler
+   * @returns *
+   */
   const getBacklogDetails = async () => {
     setIsLoading(true);
 
@@ -111,6 +117,7 @@ const Backlog = () => {
     }
 
     setBacklogData(transformData(backlogData));
+    setCurrentWeek({ id: backlogData?.currentWeekId?.toString() });
     setIsLoading(false);
   };
 

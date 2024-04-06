@@ -3,8 +3,9 @@ import dayjs from 'dayjs';
 import Skeleton from 'react-loading-skeleton';
 import { Trans, useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Button, Empty } from 'antd';
+import { Button, Empty, Popconfirm } from 'antd';
 
 import useTaskBoardStore from '../../services/store/useTaskBoardStore';
 import TaskBoard from '../../components/TaskBoard/TaskBoard';
@@ -16,33 +17,25 @@ import { error, success } from '../../services/alerts';
 import { getTasksByWeekId } from './services/task';
 import { finishWeek } from './services/week';
 import { useCurrentUser } from '../../services/store/useCurrentUserStore';
+import { useCurrentWeek, useCurrentWeekActions } from '../../services/store/useCurrentWeekStore';
 
 import styles from './board.module.scss';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const Board = () => {
+  const navigate = useNavigate();
   const { firstName } = useCurrentUser();
-  const {
-    setBoardData,
-    setCurrentWeek,
-    currentWeek,
-    isCreateTaskModalOpen,
-    setIsCreateTaskModalOpen,
-    clearWeek,
-    newTask,
-    updateNewTask,
-    clearNewTask
-  } = useTaskBoardStore((state) => ({
-    setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
-    isCreateTaskModalOpen: state.isCreateTaskModalOpen,
-    setBoardData: state.setBoardData,
-    setCurrentWeek: state.setCurrentWeek,
-    clearWeek: state.clearWeek,
-    currentWeek: state.currentWeek,
-    newTask: state.newTask,
-    updateNewTask: state.updateNewTask,
-    clearNewTask: state.clearNewTask
-  }));
+  const currentWeek = useCurrentWeek();
+  const { setCurrentWeek, clearCurrentWeek } = useCurrentWeekActions();
+  const { setBoardData, isCreateTaskModalOpen, setIsCreateTaskModalOpen, newTask, updateNewTask, clearNewTask } =
+    useTaskBoardStore((state) => ({
+      setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
+      isCreateTaskModalOpen: state.isCreateTaskModalOpen,
+      setBoardData: state.setBoardData,
+      newTask: state.newTask,
+      updateNewTask: state.updateNewTask,
+      clearNewTask: state.clearNewTask
+    }));
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState({
     tasks: true,
@@ -128,9 +121,10 @@ const Board = () => {
 
       return error();
     }
+    console.log(weekData);
 
     if (!weekData.name) {
-      clearWeek();
+      clearCurrentWeek();
 
       return setIsLoading({
         ...isLoading,
@@ -173,6 +167,8 @@ const Board = () => {
   };
 
   const finishWeekHandler = async () => {
+    if (!currentWeek.id) return;
+
     setIsLoading({
       ...isLoading,
       finishWeek: true
@@ -189,7 +185,7 @@ const Board = () => {
 
     success(t('board.week.finishSuccess'));
 
-    return getWeekDetails();
+    return clearCurrentWeek();
   };
 
   /**
@@ -204,7 +200,7 @@ const Board = () => {
     return (
       <div className={styles.empty}>
         <Empty description={<span>{t('board.empty')}</span>} />
-        <Button type={'primary'} shape={'round'} size={'small'}>
+        <Button type={'primary'} shape={'round'} size={'small'} onClick={() => navigate('/repository')}>
           {t('board.goToRepository')}
         </Button>
       </div>
@@ -238,14 +234,17 @@ const Board = () => {
               <h2>{currentWeek.name}</h2>
               <h2 className={styles.weekDates}>{weekDurationTitle}</h2>
             </div>
-            <Button
-              onClick={finishWeekHandler}
-              style={{ marginBottom: '5px' }}
-              shape={'round'}
-              loading={isLoading.finishWeek}
+            <Popconfirm
+              title={t('board.finishWeek')}
+              description={<Trans i18nKey="board.finisWeekConfirmMessage" components={{ 1: <br /> }} />}
+              onConfirm={finishWeekHandler}
+              okText="Yes"
+              cancelText="No"
             >
-              Finish week
-            </Button>
+              <Button style={{ marginBottom: '5px' }} shape={'round'} loading={isLoading.finishWeek}>
+                {t('board.finishWeek')}
+              </Button>
+            </Popconfirm>
           </div>
           {isLoading.tasks ? (
             <div className={styles.columnTasksSkeleton}>

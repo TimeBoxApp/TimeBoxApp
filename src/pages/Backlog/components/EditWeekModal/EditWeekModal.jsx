@@ -16,6 +16,7 @@ const EditWeekModal = ({ isOpen, setIsOpen, onCreate, week, updateNewWeek, clear
   const [t] = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [newWeek, setNewWeek] = useState(week);
+  const [formIsValid, setFormIsValid] = useState(false);
   const isEdit = useMemo(() => !!week.id, [week]);
   const title = useMemo(() => isEdit && newWeek.name, [isEdit, newWeek]);
 
@@ -23,37 +24,32 @@ const EditWeekModal = ({ isOpen, setIsOpen, onCreate, week, updateNewWeek, clear
     setNewWeek(week);
   }, [week]);
 
+  useEffect(() => {
+    const isValid = newWeek.name && newWeek.startDate && newWeek.endDate;
+
+    setFormIsValid(isValid);
+  }, [newWeek]);
+
   const onCancelHandler = () => {
     setIsOpen(false);
     clearNewWeek();
   };
 
-  const onCreateHandler = async () => {
+  const onSaveHandler = async () => {
     setIsLoading(true);
-    const [err] = await to(createWeek(newWeek));
+
+    const operation = isEdit ? updateWeek : createWeek;
+    const { id, name, startDate, endDate } = newWeek;
+    const params = isEdit ? [id, { name, startDate, endDate }] : [{ name, startDate, endDate }];
+
+    const [err] = await to(operation(...params));
 
     setIsLoading(false);
 
-    if (err) return error();
+    if (err)
+      return error(isEdit ? t('backlog.editWeekModal.weekUpdateError') : t('backlog.editWeekModal.weekCreateError'));
 
-    success('Week created successfully');
-    clearNewWeek();
-    onCreate();
-    setIsOpen(false);
-  };
-
-  const onUpdateHandler = async () => {
-    setIsLoading(true);
-
-    const { startDate, endDate, name } = newWeek;
-    const [err] = await to(updateWeek(newWeek.id, { startDate, endDate, name }));
-
-    setIsLoading(false);
-
-    if (err) return error();
-
-    success('Week updated successfully');
-
+    success(isEdit ? t('backlog.editWeekModal.weekUpdateSuccess') : t('backlog.editWeekModal.weekCreateSuccess'));
     clearNewWeek();
     onCreate();
     setIsOpen(false);
@@ -63,7 +59,7 @@ const EditWeekModal = ({ isOpen, setIsOpen, onCreate, week, updateNewWeek, clear
     <Modal
       open={isOpen}
       width={700}
-      title={<h2>{isEdit ? `Edit ${title}` : t('backlog.editWeekModal.title')}</h2>}
+      title={<h2>{isEdit ? `${t('backlog.editWeekModal.edit')} ${title}` : t('backlog.editWeekModal.title')}</h2>}
       onOk={onCreate}
       onCancel={onCancelHandler}
       wrapClassName={styles.modalContent}
@@ -77,11 +73,12 @@ const EditWeekModal = ({ isOpen, setIsOpen, onCreate, week, updateNewWeek, clear
       footer={(_) => (
         <div className={styles.footer}>
           <div className={styles.buttons}>
-            <CancelButton type="text" onClick={() => onCancelHandler()} />
+            <CancelButton type="text" onClick={onCancelHandler} />
             <SaveButton
-              text={!isEdit ? t('backlog.editWeekModal.createButton') : null}
+              text={!isEdit ? t('primary.buttons.create') : t('primary.buttons.save')}
               isLoading={isLoading}
-              onClick={isEdit ? onUpdateHandler : onCreateHandler}
+              onClick={onSaveHandler}
+              isDisabled={!formIsValid}
             />
           </div>
         </div>

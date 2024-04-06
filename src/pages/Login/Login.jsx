@@ -25,11 +25,10 @@ const Login = () => {
   useEffect(() => {
     if (currentUser.id) navigate('/board');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentUser?.id]);
 
   const handleLogin = async (values) => {
     const { email, password } = values;
-
     const [err, res] = await to(
       login({
         email,

@@ -8,7 +8,6 @@ import { calculateNewRank, COLUMN_STATUS_MAPPING } from './helpers/task';
 const DEFAULT_COLUMN_ORDER = ['toDo', 'inProgress', 'done'];
 
 const useTaskBoardStore = create((set, get) => ({
-  currentWeek: { id: null, name: '', startDate: '', endDate: '' },
   newTask: {
     title: null,
     description: null,
@@ -68,7 +67,6 @@ const useTaskBoardStore = create((set, get) => ({
         endDate: ''
       }
     }),
-  setCurrentWeek: (newWeekData) => set((state) => ({ currentWeek: { ...state.currentWeek, ...newWeekData } })),
   setBoardData: (newBoardData) => set((state) => ({ boardData: { ...state.boardData, ...newBoardData } })),
   setIsCreateTaskModalOpen: (isOpen) => set({ isCreateTaskModalOpen: isOpen }),
   onDragEnd: (result) => {

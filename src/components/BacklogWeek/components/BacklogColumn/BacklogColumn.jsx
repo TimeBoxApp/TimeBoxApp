@@ -1,20 +1,28 @@
+import to from 'await-to-js';
 import cn from 'classnames';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { cloneElement, useMemo, useState } from 'react';
 import { Dropdown, Empty, Tag } from 'antd';
 import { Droppable } from 'react-beautiful-dnd';
 
 import BacklogTask from '../BacklogTask/BacklogTask';
 import useBacklogStore from '../../../../services/store/useBacklogStore';
-import { removeWeek } from '../../../../pages/Backlog/services/week';
+import { useCurrentWeek } from '../../../../services/store/useCurrentWeekStore';
+import { removeWeek, startWeek } from '../../../../pages/Backlog/services/week';
 import { useCurrentUser } from '../../../../services/store/useCurrentUserStore';
+import { error, success } from '../../../../services/alerts';
 
 import styles from './backlog-column.module.scss';
 
 import { CalendarOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
-const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, tasks, onUpdate }) => {
+const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, onUpdate }) => {
+  const navigate = useNavigate();
   const currentUser = useCurrentUser();
+  const currentWeek = useCurrentWeek();
+  const [t] = useTranslation();
   const { updateNewTask, setIsCreateTaskModalOpen, setIsWeekModalOpen, assignBacklogTaskRank, updateNewWeek } =
     useBacklogStore((state) => ({
       updateNewTask: state.updateNewTask,
@@ -25,11 +33,12 @@ const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, t
     }));
   const [isLoading, setIsLoading] = useState({
     create: false,
+    start: false,
     remove: false
   });
   const start = startDate ? dayjs(startDate).format('DD MMMM') : null;
   const end = endDate ? dayjs(endDate).format('DD MMMM') : null;
-  const isCurrentWeek = useMemo(() => status === 'in-progress', [status]);
+  const isCurrentWeek = useMemo(() => currentWeek.id === id, [currentWeek, id]);
   const isBacklog = useMemo(() => id === 'backlog', [id]);
 
   /**
@@ -45,29 +54,36 @@ const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, t
     setIsCreateTaskModalOpen(true);
   };
 
+  const handleStartWeek = async () => {
+    setIsLoading({ ...isLoading, start: true });
+
+    const [err] = await to(startWeek(id));
+
+    setIsLoading({ ...isLoading, start: false });
+
+    if (err) return error(t('backlog.weekStartError'));
+
+    success(t('backlog.weekStartSuccess'));
+
+    return navigate('/board');
+  };
+
   /**
    * Create a new task and open modal
    */
   const handleDeleteWeek = async () => {
     setIsLoading({ ...isLoading, remove: true });
-    await removeWeek(id);
+
+    const [err] = await to(removeWeek(id));
 
     setIsLoading({ ...isLoading, remove: false });
 
+    if (err) return error(t('backlog.editWeekModal.weekDeleteError'));
+
+    success(t('backlog.editWeekModal.weekDeleteSuccess'));
+
     return onUpdate();
   };
-
-  // /**
-  //  * Create new week and refetch data
-  //  */
-  // const handleCreateWeek = async () => {
-  //   setIsLoading({ ...isLoading, create: true });
-  //   await createWeek();
-  //
-  //   setIsLoading({ ...isLoading, create: false });
-  //
-  //   return onUpdate();
-  // };
 
   const onWeekUpdateModalOpen = () => {
     updateNewWeek(week);
@@ -128,19 +144,37 @@ const BacklogColumn = ({ week, week: { id, name, status, startDate, endDate }, t
           </div>
         </div>
 
-        <Dropdown.Button
-          style={{ width: 'auto' }}
-          menu={{ items: weekDropdownItems }}
-          onClick={handleCreateTask}
-          buttonsRender={([leftButton, rightButton]) => [
-            <>{leftButton}</>,
-            cloneElement(rightButton, {
-              loading: isLoading.remove || (isBacklog && isLoading.create)
-            })
-          ]}
-        >
-          Create new task
-        </Dropdown.Button>
+        {isBacklog && (
+          <Dropdown.Button
+            style={{ width: 'auto' }}
+            menu={{ items: weekDropdownItems }}
+            onClick={handleCreateTask}
+            buttonsRender={([leftButton, rightButton]) => [
+              <>{leftButton}</>,
+              cloneElement(rightButton, {
+                loading: isLoading.remove || (isBacklog && isLoading.create)
+              })
+            ]}
+          >
+            Create new task
+          </Dropdown.Button>
+        )}
+        {!currentWeek.id && !isBacklog && (
+          <Dropdown.Button
+            loading={isLoading.start}
+            style={{ width: 'auto' }}
+            menu={{ items: weekDropdownItems }}
+            onClick={handleStartWeek}
+            buttonsRender={([leftButton, rightButton]) => [
+              <>{leftButton}</>,
+              cloneElement(rightButton, {
+                loading: isLoading.start
+              })
+            ]}
+          >
+            Start a week
+          </Dropdown.Button>
+        )}
       </div>
       <Droppable droppableId={id}>
         {(provided, snapshot) => (
