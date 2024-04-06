@@ -11,7 +11,8 @@ const localStorageKey = 'currentUserStore';
 const loadState = async () => {
   try {
     const serializedState = await encryptedLocalStorage.getItem(localStorageKey);
-    return serializedState ? serializedState : undefined;
+
+    return serializedState ? serializedState : null;
   } catch (err) {
     return null;
   }
@@ -31,7 +32,8 @@ export const useCurrentUserStore = create((set, get) => ({
 
       if (loadedState) {
         set({
-          user: loadedState.user || {}
+          user: loadedState.user || {},
+          preferences: loadedState.preferences || {}
         });
       }
     },
@@ -83,11 +85,12 @@ export const useCurrentUserStore = create((set, get) => ({
         set({ columnNames });
 
         encryptedLocalStorage.setItem(localStorageKey, {
-          user: get().user
+          user: get().user,
+          preferences: get().preferences
         });
       }
     },
-    updateUserInfo: (payload) =>
+    updateUserInfo: (payload) => {
       set((state) => {
         const newFirstName = payload.firstName ? payload.firstName : state.user.firstName;
         const newLastName = payload.lastName ? payload.lastName : state.user.lastName;
@@ -100,8 +103,19 @@ export const useCurrentUserStore = create((set, get) => ({
             ...(payload.firstName || payload.lastName ? { fullName, initials } : {})
           }
         };
-      }),
-    updateUserPreferences: (payload) => set((state) => ({ preferences: { ...state.preferences, ...payload } })),
+      });
+
+      encryptedLocalStorage.setItem(localStorageKey, {
+        user: get().user
+      });
+    },
+    updateUserPreferences: (payload) => {
+      set((state) => ({ preferences: { ...state.preferences, ...payload } }));
+
+      encryptedLocalStorage.setItem(localStorageKey, {
+        preferences: get().preferences
+      });
+    },
     updateColumnNames: (payload) => set((state) => ({ columnNames: { ...state.columnNames, ...payload } })),
     userHasFeature: (featureName) => {
       const featureKeysMapping = {

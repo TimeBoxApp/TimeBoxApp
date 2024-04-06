@@ -247,6 +247,8 @@
     "tasksError": "Error retrieving tasks",
     "eventsError": "Error retrieving calendar events",
     "noTasks": "No tasks currently to put in the calendar",
+    "noCalendarConnected": "You haven't connected any Google Calendars. Go to Settings and connect",
+    "goToSettings": "Go to settings",
     "event": {
       "successCreate": "Successfully created event",
       "errorCreate": "Error during creating an event",

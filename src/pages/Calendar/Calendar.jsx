@@ -24,13 +24,15 @@ const Calendar = () => {
   const [t] = useTranslation();
   const { setEvents, setTasks } = useCalendarActions();
   const { isCalendarConnected } = useCurrentUserPreferences();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   /**
    * Return user events from a calendar
    * @returns {Promise<*|boolean>}
    */
   const getUserEvents = async () => {
+    if (!isCalendarConnected) return null;
+
     const [err, events] = await to(getCalendarEvents());
 
     if (err) return error(t('calendar.eventsError'));
@@ -53,6 +55,8 @@ const Calendar = () => {
    * @returns *
    */
   const getUserTasks = async () => {
+    if (!isCalendarConnected) return null;
+
     const [err, weekData] = await to(getWeekData());
 
     if (err) return error(t('calendar.tasksError'));
@@ -71,15 +75,15 @@ const Calendar = () => {
   const loadCalendarData = async () => {
     setIsLoading(true);
 
-    if (isCalendarConnected) await Promise.allSettled([getUserEvents(), getUserTasks()]);
+    await Promise.allSettled([getUserEvents(), getUserTasks()]);
 
     setIsLoading(false);
   };
 
   useEffect(() => {
-    loadCalendarData();
+    void loadCalendarData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
+  }, [isCalendarConnected]);
 
   return (
     <div className={styles.pageContent}>
@@ -97,11 +101,11 @@ const Calendar = () => {
         }
         pageTitle={t('calendar.title')}
       />
-      {!isCalendarConnected && !isLoading ? (
+      {!isCalendarConnected ? (
         <TimeboxEmpty
           onClick={() => navigate('/settings')}
-          text={"You haven't connected any Google Calendars.Go to Settings and connect"}
-          buttonText={'Go to Settings'}
+          text={t('calendar.noCalendarConnected')}
+          buttonText={t('calendar.goToSettings')}
         />
       ) : (
         <TimeboxCalendar
