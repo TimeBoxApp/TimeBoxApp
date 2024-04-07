@@ -148,7 +148,7 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
     if (!currentWeek.id && !isBacklog) return t('backlog.startWeek');
 
     return t('backlog.createTask');
-  }, [isBacklog, isCurrentWeek, currentWeek.id]);
+  }, [isBacklog, t, isCurrentWeek, currentWeek.id]);
 
   return (
     <div className={styles.columnContainer}>
