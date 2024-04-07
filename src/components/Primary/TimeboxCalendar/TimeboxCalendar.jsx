@@ -124,13 +124,7 @@ const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent }) =>
               <Empty style={{ marginTop: '80%' }} description={<span>{t('calendar.noTasks')}</span>} />
             ) : (
               tasks.map((task) => (
-                <CalendarTask
-                  key={task.id}
-                  categories={task.categories}
-                  handleDragStart={handleDragStart}
-                  status={task.status}
-                  title={task.title}
-                />
+                <CalendarTask key={task.id} handleDragStart={handleDragStart} status={task.status} title={task.title} />
               ))
             )}
           </div>

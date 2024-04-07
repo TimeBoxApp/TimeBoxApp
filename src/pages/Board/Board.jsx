@@ -24,8 +24,8 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 const Board = () => {
   const navigate = useNavigate();
-  const { firstName } = useCurrentUser();
   const currentWeek = useCurrentWeek();
+  const { firstName } = useCurrentUser();
   const { setCurrentWeek, clearCurrentWeek } = useCurrentWeekActions();
   const { setBoardData, isCreateTaskModalOpen, setIsCreateTaskModalOpen, newTask, updateNewTask, clearNewTask } =
     useTaskBoardStore((state) => ({
@@ -80,7 +80,7 @@ const Board = () => {
           id: task.id.toString(),
           description: task.description,
           title: task.title,
-          taskCategories: task.categories,
+          categories: task.categories,
           priority: task.priority ? PRIORITY_TYPES[task.priority] : null,
           dueDate: task.dueDate,
           boardRank: task.boardRank
@@ -88,9 +88,7 @@ const Board = () => {
 
         const columnId = STATUS_COLUMN_MAPPING[task.status] || null;
 
-        if (columnId) {
-          columns[columnId].taskIds.push(task.id);
-        }
+        if (columnId) columns[columnId].taskIds.push(task.id);
       });
     });
 
@@ -121,7 +119,6 @@ const Board = () => {
 
       return error();
     }
-    console.log(weekData);
 
     if (!weekData.name) {
       clearCurrentWeek();

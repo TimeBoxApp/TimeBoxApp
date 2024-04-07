@@ -223,8 +223,14 @@
       "inProgress": "In progress",
       "done": "Done"
     },
+    "createTask": "Create task",
+    "createWeek": "Create week",
+    "startWeek": "Start week",
+    "finishWeek": "Finish week",
     "weekStartError": "Error while starting the week",
     "weekStartSuccess": "Successfully started the week",
+    "weekFinishError": "Error while finishing the week",
+    "weekFinishSuccess": "Successfully finished the week",
     "editWeekModal": {
       "title": "Create a new week",
       "edit": "Edit",

@@ -70,24 +70,17 @@ const useTaskBoardStore = create((set, get) => ({
   setBoardData: (newBoardData) => set((state) => ({ boardData: { ...state.boardData, ...newBoardData } })),
   setIsCreateTaskModalOpen: (isOpen) => set({ isCreateTaskModalOpen: isOpen }),
   onDragEnd: (result) => {
-    set((state) => {
+    set(async (state) => {
       const { destination, source, draggableId } = result;
 
-      if (!destination) {
-        return state;
-      }
+      if (!destination) return state;
 
-      if (destination.droppableId === source.droppableId && destination.index === source.index) {
-        return state;
-      }
+      if (destination.droppableId === source.droppableId && destination.index === source.index) return state;
 
       const startColumn = state.boardData.columns[source.droppableId];
       const finishColumn = state.boardData.columns[destination.droppableId];
 
-      if (!startColumn || !finishColumn) {
-        console.error('Invalid droppableId or columns not found in boardData.');
-        return state;
-      }
+      if (!startColumn || !finishColumn) return state;
 
       let newState = { ...state };
 
@@ -96,18 +89,16 @@ const useTaskBoardStore = create((set, get) => ({
         newTaskIds.splice(source.index, 1);
         newTaskIds.splice(destination.index, 0, draggableId);
 
-        const newColumn = {
+        newState.boardData.columns[source.droppableId] = {
           ...startColumn,
           taskIds: newTaskIds
         };
-
-        newState.boardData.columns[source.droppableId] = newColumn;
 
         if (newTaskIds.length > 1) {
           const updatedTask = newState.boardData.tasks[draggableId];
           updatedTask.boardRank = calculateNewRank(newTaskIds, destination.index, newState.boardData.tasks, LexoRank);
 
-          updateTask(draggableId, {
+          await updateTask(draggableId, {
             status: COLUMN_STATUS_MAPPING[finishColumn.id],
             boardRank: updatedTask.boardRank
           });
@@ -133,7 +124,7 @@ const useTaskBoardStore = create((set, get) => ({
         newState.boardData.columns[source.droppableId] = newStartColumn;
         newState.boardData.columns[destination.droppableId] = newFinishColumn;
 
-        updateTask(draggableId, {
+        await updateTask(draggableId, {
           status: COLUMN_STATUS_MAPPING[newFinishColumn.id],
           boardRank: updatedTask.boardRank
         });
@@ -143,7 +134,6 @@ const useTaskBoardStore = create((set, get) => ({
     });
   },
   assignTaskRank: (columnId) => {
-    console.log(columnId);
     const state = get();
     const column = state.boardData.columns[columnId];
 
@@ -158,7 +148,7 @@ const useTaskBoardStore = create((set, get) => ({
       newRank = lastTaskRank.genNext().toString();
     } else {
       // Column is empty, generate a rank at the beginning
-      newRank = LexoRank.min().toString();
+      newRank = LexoRank.middle().toString();
     }
 
     return newRank;

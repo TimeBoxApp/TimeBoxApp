@@ -11,16 +11,15 @@ import BacklogTask from '../BacklogTask/BacklogTask';
 import useBacklogStore from '../../../../services/store/useBacklogStore';
 import { useCurrentWeek } from '../../../../services/store/useCurrentWeekStore';
 import { removeWeek, startWeek } from '../../../../pages/Backlog/services/week';
-import { useCurrentUser } from '../../../../services/store/useCurrentUserStore';
 import { error, success } from '../../../../services/alerts';
+import { finishWeek } from '../../../../pages/Board/services/week';
 
 import styles from './backlog-column.module.scss';
 
-import { CalendarOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, onUpdate }) => {
   const navigate = useNavigate();
-  const currentUser = useCurrentUser();
   const currentWeek = useCurrentWeek();
   const [t] = useTranslation();
   const { updateNewTask, setIsCreateTaskModalOpen, setIsWeekModalOpen, assignBacklogTaskRank, updateNewWeek } =
@@ -33,6 +32,7 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
     }));
   const [isLoading, setIsLoading] = useState({
     create: false,
+    finish: false,
     start: false,
     remove: false
   });
@@ -48,7 +48,6 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
     updateNewTask({
       weekId: Number.parseInt(id),
       status: isCurrentWeek ? 'to-do' : 'created',
-      userId: currentUser.id,
       backlogRank: assignBacklogTaskRank(id)
     });
     setIsCreateTaskModalOpen(true);
@@ -69,7 +68,7 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
   };
 
   /**
-   * Create a new task and open modal
+   * Week deletion handler
    */
   const handleDeleteWeek = async () => {
     setIsLoading({ ...isLoading, remove: true });
@@ -81,6 +80,23 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
     if (err) return error(t('backlog.editWeekModal.weekDeleteError'));
 
     success(t('backlog.editWeekModal.weekDeleteSuccess'));
+
+    return onUpdate();
+  };
+
+  /**
+   * Week finish handler
+   */
+  const handleFinishWeek = async () => {
+    setIsLoading({ ...isLoading, finish: true });
+
+    const [err] = await to(finishWeek(id));
+
+    setIsLoading({ ...isLoading, finish: false });
+
+    if (err) return error(t('backlog.editWeekModal.weekFinishError'));
+
+    success(t('backlog.editWeekModal.weekFinishSuccess'));
 
     return onUpdate();
   };
@@ -98,29 +114,41 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
       icon: <EditOutlined />,
       onClick: onWeekUpdateModalOpen
     },
-    isBacklog && {
-      label: 'Create week',
+    (isBacklog || isCurrentWeek) && {
+      label: 'Create task',
       key: '5',
       icon: <PlusCircleOutlined />,
-      disabled: !isBacklog,
-      onClick: () => setIsWeekModalOpen(true)
+      onClick: handleCreateTask
     },
-    {
-      label: 'Set as current',
-      key: '2',
-      icon: <CalendarOutlined />,
-      disabled: true,
-      onClick: () => setIsCreateTaskModalOpen(true)
-    },
-    {
+    !isBacklog && {
       label: 'Remove week',
       key: '3',
       icon: <DeleteOutlined />,
       danger: true,
-      disabled: isCurrentWeek || isBacklog,
+      disabled: isCurrentWeek,
       onClick: handleDeleteWeek
     }
   ];
+
+  const dropdownActionClick = () => {
+    if (isBacklog) return setIsWeekModalOpen(true);
+
+    if (isCurrentWeek) return handleFinishWeek();
+
+    if (!currentWeek.id && !isBacklog) return handleStartWeek();
+
+    return handleCreateTask();
+  };
+
+  const dropdownActionTitle = useMemo(() => {
+    if (isBacklog) return t('backlog.createWeek');
+
+    if (isCurrentWeek) return t('backlog.finishWeek');
+
+    if (!currentWeek.id && !isBacklog) return t('backlog.startWeek');
+
+    return t('backlog.createTask');
+  }, [isBacklog, isCurrentWeek, currentWeek.id]);
 
   return (
     <div className={styles.columnContainer}>
@@ -144,37 +172,19 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
           </div>
         </div>
 
-        {isBacklog && (
-          <Dropdown.Button
-            style={{ width: 'auto' }}
-            menu={{ items: weekDropdownItems }}
-            onClick={handleCreateTask}
-            buttonsRender={([leftButton, rightButton]) => [
-              <>{leftButton}</>,
-              cloneElement(rightButton, {
-                loading: isLoading.remove || (isBacklog && isLoading.create)
-              })
-            ]}
-          >
-            Create new task
-          </Dropdown.Button>
-        )}
-        {!currentWeek.id && !isBacklog && (
-          <Dropdown.Button
-            loading={isLoading.start}
-            style={{ width: 'auto' }}
-            menu={{ items: weekDropdownItems }}
-            onClick={handleStartWeek}
-            buttonsRender={([leftButton, rightButton]) => [
-              <>{leftButton}</>,
-              cloneElement(rightButton, {
-                loading: isLoading.start
-              })
-            ]}
-          >
-            Start a week
-          </Dropdown.Button>
-        )}
+        <Dropdown.Button
+          style={{ width: 'auto' }}
+          menu={{ items: weekDropdownItems }}
+          onClick={dropdownActionClick}
+          buttonsRender={([leftButton, rightButton]) => [
+            <>{leftButton}</>,
+            cloneElement(rightButton, {
+              loading: isLoading.remove || (isBacklog && isLoading.create)
+            })
+          ]}
+        >
+          {dropdownActionTitle}
+        </Dropdown.Button>
       </div>
       <Droppable droppableId={id}>
         {(provided, snapshot) => (

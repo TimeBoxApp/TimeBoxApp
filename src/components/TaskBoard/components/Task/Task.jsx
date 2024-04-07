@@ -7,10 +7,12 @@ import { Draggable } from 'react-beautiful-dnd';
 import Tag from '../../../Primary/Tag/Tag';
 import Priority from '../../../Primary/Priority/Priority';
 import TaskInfoModal from '../../../TaskInfoModal/TaskInfoModal';
+import { useCategories } from '../../../../services/store/useCategoryStore';
 
 import styles from './task.module.scss';
 
 const Task = ({ task, index, onUpdate }) => {
+  const categories = useCategories();
   const [t] = useTranslation();
   const [isTaskInfoModalOpen, setIsTaskInfoModalOpen] = useState(false);
   const daysLeft = useMemo(() => {
@@ -32,9 +34,18 @@ const Task = ({ task, index, onUpdate }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {task.taskCategories.map((category) => (
-            <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
-          ))}
+          {task.categories.length ? (
+            <div className={styles.taskCategories}>
+              {task.categories.map((categoryId) => {
+                const category = categories.find((c) => c.id === categoryId);
+
+                if (category)
+                  return <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />;
+
+                return null;
+              })}
+            </div>
+          ) : null}
           <span className={styles.taskTitle}>{task.title}</span>
           <div className={styles.footerContainer}>
             {task.dueDate && daysLeft >= 0 ? (

@@ -1,7 +1,7 @@
 import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/apiUrl';
 
 export function getBacklogData() {
-  const url = `${apiUrl()}/user/backlog`;
+  const url = `${apiUrl()}/user/repository`;
 
   return fetch(url, {
     method: 'GET',

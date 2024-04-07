@@ -6,10 +6,12 @@ import Tag from '../../../Primary/Tag/Tag';
 import Priority from '../../../Primary/Priority/Priority';
 import TaskInfoModal from '../../../TaskInfoModal/TaskInfoModal';
 import TaskStatusTag from '../../../Primary/TaskStatusTag/TaskStatusTag';
+import { useCategories } from '../../../../services/store/useCategoryStore';
 
 import styles from './backlog-task.module.scss';
 
 const BacklogTask = ({ task, index, onUpdate }) => {
+  const categories = useCategories();
   const [isTaskInfoModalOpen, setIsTaskInfoModalOpen] = useState(false);
 
   return (
@@ -28,9 +30,15 @@ const BacklogTask = ({ task, index, onUpdate }) => {
               <span className={styles.taskTitle}>{task.title}</span>
             </div>
             <div className={styles.tags}>
-              {task.taskCategories.map((category) => (
-                <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
-              ))}
+              {task.categories.map((categoryId) => {
+                const category = categories.find((c) => c.id === categoryId);
+
+                if (category) {
+                  return <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />;
+                }
+
+                return null;
+              })}
               <Priority type={task.priority} />
             </div>
           </div>

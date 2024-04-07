@@ -62,8 +62,13 @@ const Calendar = () => {
     if (err) return error(t('calendar.tasksError'));
 
     const { tasks = [] } = weekData;
-    const todoTasks = tasks['to-do'] || [];
-    const calendarTasks = [...todoTasks];
+    const calendarTasks = [];
+
+    if (tasks['to-do']) {
+      calendarTasks.push(...tasks['to-do']);
+    }
+
+    if (tasks['in-progress']) calendarTasks.push(...tasks['in-progress']);
 
     setTasks(calendarTasks);
   };

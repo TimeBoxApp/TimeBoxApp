@@ -5,14 +5,15 @@ import Task from '../Task/Task';
 import useTaskBoardStore from '../../../../services/store/useTaskBoardStore';
 import { useCurrentUser, useCurrentUserColumnMapping } from '../../../../services/store/useCurrentUserStore';
 import { COLUMN_STATUS_MAPPING, PREFERENCES_COLUMN_MAPPING } from '../../../../services/store/helpers/task';
+import { useCurrentWeek } from '../../../../services/store/useCurrentWeekStore';
 
 import styles from './column.module.scss';
 
 const Column = ({ column, tasks, onUpdate }) => {
   const currentUser = useCurrentUser();
   const columnNames = useCurrentUserColumnMapping();
-  const { currentWeek, updateNewTask, setIsCreateTaskModalOpen, assignTaskRank } = useTaskBoardStore((state) => ({
-    currentWeek: state.currentWeek,
+  const currentWeek = useCurrentWeek();
+  const { updateNewTask, setIsCreateTaskModalOpen, assignTaskRank } = useTaskBoardStore((state) => ({
     setIsCreateTaskModalOpen: state.setIsCreateTaskModalOpen,
     updateNewTask: state.updateNewTask,
     assignTaskRank: state.assignTaskRank

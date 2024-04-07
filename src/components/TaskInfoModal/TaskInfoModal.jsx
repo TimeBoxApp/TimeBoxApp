@@ -17,7 +17,7 @@ import Priority from '../Primary/Priority/Priority';
 import Tag from '../Primary/Tag/Tag';
 import { success, error } from '../../services/alerts';
 import { deleteTask, getTask, updateTask } from '../../pages/Board/services/task';
-import { useCurrentUserPreferences } from '../../services/store/useCurrentUserStore';
+import { useCurrentUser } from '../../services/store/useCurrentUserStore';
 import { useCategories } from '../../services/store/useCategoryStore';
 
 import styles from './task-info-modal.module.scss';
@@ -26,7 +26,7 @@ import { ReactComponent as EditIcon } from './images/edit.inline.svg';
 import { DeleteFilled } from '@ant-design/icons';
 
 const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
-  const preferences = useCurrentUserPreferences();
+  const currentUser = useCurrentUser();
   const categories = useCategories();
   const [t] = useTranslation();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -78,7 +78,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
 
     if (err) return error(err);
 
-    task.taskCategories = task.categories;
+    task.taskCategories = task.categories.map((category) => category.id);
 
     delete task.categories;
 
@@ -142,6 +142,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
 
     onUpdate();
     setIsLoading({ ...isLoading, update: false });
+    setIsOpen(false);
     setInitialTaskData(null);
     setTaskDataEdited(null);
   };
@@ -152,7 +153,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
         <Skeleton containerClassName={styles.titleSkeleton} />
       ) : (
         <>
-          <h2>{initialTaskData.title}</h2>
+          <h2>{initialTaskData?.title}</h2>
           {!isEditMode ? <EditIcon className={styles.editIcon} onClick={() => setIsEditMode(true)} /> : null}
         </>
       )}
@@ -180,7 +181,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
                   title: e.target.value
                 })
               }
-              value={taskDataEdited.title}
+              value={taskDataEdited?.title}
               label={t('board.taskInfoModal.taskNameLabel')}
               placeholder={t('board.taskInfoModal.taskNamePlaceholder')}
             />
@@ -253,9 +254,16 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
                 <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
                   {t('board.taskInfoModal.categories')}
                 </span>
-                {initialTaskData.taskCategories.map((category) => (
-                  <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
-                ))}
+                {initialTaskData.taskCategories.map((categoryId) => {
+                  const category = categories.find((c) => c.id === categoryId);
+
+                  if (category)
+                    return (
+                      <Tag key={category.id} text={category.title} emoji={category.emoji} color={category.color} />
+                    );
+
+                  return null;
+                })}
               </div>
             ) : null}
             {initialTaskData.dueDate ? (
@@ -263,7 +271,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
                 <span className={cn(styles.selectLabel, { [styles.isPreview]: !isEditMode })}>
                   {t('board.taskInfoModal.dueDate')}
                 </span>
-                {dayjs(initialTaskData.dueDate).format(preferences.dateFormat)}
+                {dayjs(initialTaskData.dueDate).format(currentUser.dateFormat)}
               </div>
             ) : null}
           </div>

@@ -22,16 +22,12 @@ export const calculateNewRank = (taskIds, destinationIndex, tasks, LexoRank, pro
 
   if (!beforeId && !afterId) {
     // First item in the column
-    return LexoRank.min().toString();
+    return LexoRank.middle().toString();
   } else if (!beforeId) {
     // Inserting at the top of the column
     const afterRank = LexoRank.parse(tasks[afterId][property]);
-    let newRank = afterRank.genPrev();
-    if (newRank.equals(afterRank)) {
-      // If getPrev() returns the same rank, switch to a new bucket or force a recalibration
-      newRank = newRank.inPrevBucket();
-    }
-    return newRank.toString();
+
+    return afterRank.genPrev().toString();
   } else if (!afterId) {
     // Inserting at the bottom of the column
     const beforeRank = LexoRank.parse(tasks[beforeId][property]);

@@ -140,6 +140,7 @@ function App() {
             },
             Button: { fontWeight: 500 },
             Select: {
+              multipleItemBg: 'transparent',
               selectorBg: theme.background,
               clearBg: theme.background,
               optionSelectedBg: theme.primaryGrey

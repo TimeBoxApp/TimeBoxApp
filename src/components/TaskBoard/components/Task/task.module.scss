@@ -13,6 +13,12 @@
   -ms-user-select: none;
   user-select: none;
 
+  .taskCategories {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+
   &.isDragging {
     background-color: $white;
   }

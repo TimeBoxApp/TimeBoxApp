@@ -45,7 +45,6 @@ const Sidebar = () => {
       <div className={styles.container}>
         <div className={styles.logoContainer}>
           <img src={TimeBoxLogo} alt="logo" />
-          <span>Version as of 19 Feb 2024</span>
         </div>
         <hr className={styles.hr} />
         <div className={styles.navigationItems}>

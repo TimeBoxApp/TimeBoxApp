@@ -43,14 +43,11 @@ const Backlog = () => {
   }));
   // eslint-disable-next-line no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
-
   const [t] = useTranslation();
 
   function transformData(input) {
-    // Initializing the output structure
-    const output = { tasks: {}, weeks: {} };
-
     const { weeks, backlogTasks } = input;
+    const output = { tasks: {}, weeks: {} };
 
     weeks.forEach((week) => {
       output.weeks[week.id] = {
@@ -67,7 +64,7 @@ const Backlog = () => {
         output.tasks[task.id] = {
           id: task.id.toString(),
           title: task.title,
-          taskCategories: task.categories,
+          categories: task.categories,
           priority: task.priority,
           status: task.status,
           backlogRank: task.backlogRank
@@ -89,7 +86,7 @@ const Backlog = () => {
         output.tasks[task.id] = {
           id: task.id.toString(),
           title: task.title,
-          taskCategories: task.categories,
+          categories: task.categories,
           priority: task.priority,
           backlogRank: task.backlogRank
         };
