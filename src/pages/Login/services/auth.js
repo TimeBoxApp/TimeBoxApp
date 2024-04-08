@@ -43,7 +43,7 @@ export function logout() {
  * Get current user data
  */
 export function getCurrentUser() {
-  let url = `${apiUrl()}/user/me`;
+  let url = `${apiUrl()}/users/me`;
   const headers = {
     ...getStandardHeaders()
   };

@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import YupPassword from 'yup-password';
 import to from 'await-to-js';
+import { useEffect } from 'react';
 import { Checkbox, Form } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
@@ -13,6 +14,7 @@ import { signUp } from './services/user';
 import { error } from '../../services/notification';
 import { NAME_REGEX } from '../../services/regex';
 import { success } from '../../services/alerts';
+import { useCurrentUser, useCurrentUserActions } from '../../services/store/useCurrentUserStore';
 
 import styles from './signup.module.scss';
 
@@ -20,7 +22,14 @@ YupPassword(Yup);
 
 const Signup = () => {
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
+  const { updateCurrentUser } = useCurrentUserActions();
   const [t] = useTranslation();
+
+  useEffect(() => {
+    if (currentUser.id) navigate('/board');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser?.id]);
 
   const handleSignup = async (values) => {
     const { firstName, lastName, email, password } = values;
@@ -39,7 +48,7 @@ const Signup = () => {
     if (res.statusCode === 201) {
       success(t('signup.success', { email }));
 
-      return navigate(`/board`, { replace: true });
+      return navigate(`/login`, { replace: true });
     }
   };
 

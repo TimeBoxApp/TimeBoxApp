@@ -1,7 +1,7 @@
 import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/apiUrl';
 
 export function getWeekData() {
-  const url = `${apiUrl()}/user/currentWeek`;
+  const url = `${apiUrl()}/users/currentWeek`;
 
   return fetch(url, {
     method: 'GET',

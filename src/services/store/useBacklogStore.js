@@ -148,7 +148,7 @@ const useBacklogStore = create((set, get) => ({
       const lastTaskRank = LexoRank.parse(state.backlogData.tasks[lastTaskId].backlogRank);
       newRank = lastTaskRank.genNext().toString();
     } else {
-      newRank = LexoRank.min().toString();
+      newRank = LexoRank.middle().toString();
     }
 
     return newRank;

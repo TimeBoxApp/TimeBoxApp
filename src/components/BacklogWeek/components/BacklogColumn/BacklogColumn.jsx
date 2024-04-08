@@ -94,9 +94,9 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
 
     setIsLoading({ ...isLoading, finish: false });
 
-    if (err) return error(t('backlog.editWeekModal.weekFinishError'));
+    if (err) return error(t('backlog.weekFinishError'));
 
-    success(t('backlog.editWeekModal.weekFinishSuccess'));
+    success(t('backlog.weekFinishSuccess'));
 
     return onUpdate();
   };
@@ -114,7 +114,7 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
       icon: <EditOutlined />,
       onClick: onWeekUpdateModalOpen
     },
-    (isBacklog || isCurrentWeek) && {
+    {
       label: 'Create task',
       key: '5',
       icon: <PlusCircleOutlined />,

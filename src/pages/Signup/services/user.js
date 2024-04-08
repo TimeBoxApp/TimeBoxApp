@@ -9,7 +9,7 @@ import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/api
  * @returns {Promise<any | never>}
  */
 export function signUp({ firstName, lastName, email, password }) {
-  const url = `${apiUrl()}/user/create`;
+  const url = `${apiUrl()}/users`;
   const data = {
     firstName,
     lastName,

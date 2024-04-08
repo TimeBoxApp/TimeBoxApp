@@ -5,7 +5,7 @@ import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/api
  * @returns {Promise<Promise>}
  */
 export function getUserStats() {
-  const url = `${apiUrl()}/user/stats`;
+  const url = `${apiUrl()}/users/stats`;
 
   return fetch(url, {
     method: 'GET',
@@ -23,7 +23,7 @@ export function getUserStats() {
  * @returns {Promise<Promise>}
  */
 export function updateUserData(userId, updates) {
-  const url = `${apiUrl()}/user/${userId}`;
+  const url = `${apiUrl()}/users/${userId}`;
 
   return fetch(url, {
     method: 'PATCH',

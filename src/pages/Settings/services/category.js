@@ -5,7 +5,7 @@ import { apiUrl, checkResponse, getStandardHeaders } from '../../../services/api
  * @returns {Promise<Promise>}
  */
 export function getCategories() {
-  const url = `${apiUrl()}/user/categories`;
+  const url = `${apiUrl()}/users/categories`;
 
   return fetch(url, {
     method: 'GET',
