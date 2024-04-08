@@ -14,7 +14,7 @@ import { signUp } from './services/user';
 import { error } from '../../services/notification';
 import { NAME_REGEX } from '../../services/regex';
 import { success } from '../../services/alerts';
-import { useCurrentUser, useCurrentUserActions } from '../../services/store/useCurrentUserStore';
+import { useCurrentUser } from '../../services/store/useCurrentUserStore';
 
 import styles from './signup.module.scss';
 
@@ -23,7 +23,6 @@ YupPassword(Yup);
 const Signup = () => {
   const navigate = useNavigate();
   const currentUser = useCurrentUser();
-  const { updateCurrentUser } = useCurrentUserActions();
   const [t] = useTranslation();
 
   useEffect(() => {
