@@ -9,7 +9,7 @@ import { useCurrentUser, useCurrentUserActions } from '../../services/store/useC
 import styles from './user-float-button.module.scss';
 
 import { ExclamationCircleFilled, LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { ReactComponent as BellIcon } from './images/bell.inline.svg';
+import { ReactComponent as CalendarIcon } from './images/calendar.inline.svg';
 import { ReactComponent as BoardIcon } from './images/board.inline.svg';
 
 const { useToken } = theme;
@@ -70,7 +70,10 @@ const UserFloatButton = () => {
       <div className={styles.containerButton} onClick={() => navigate('/board')}>
         <BoardIcon />
       </div>
-      <BellIcon />
+      <div className={styles.containerButton} onClick={() => navigate('/calendar')}>
+        <CalendarIcon style={{ width: '22px', height: '22px' }} />
+      </div>
+
       <Dropdown
         menu={{ items }}
         dropdownRender={(menu) => (

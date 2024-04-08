@@ -26,13 +26,13 @@ moment.locale('ko', {
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
 
-const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent }) => {
+const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent, setTasks }) => {
   const [t] = useTranslation();
 
   const [draggedEvent, setDraggedEvent] = useState();
   const eventPropGetter = useCallback(
     (event) => ({
-      ...(event.isDraggable ? { className: 'isDraggable' } : { className: 'nonDraggable' })
+      ...(event.isFromTimebox ? { className: styles.timeboxEvent } : { className: styles.regularEvent })
     }),
     []
   );
@@ -70,7 +70,9 @@ const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent }) =>
 
       if (err) return error(t('calendar.event.errorCreate'));
 
-      addEvent({ ...event, id: res?.id });
+      addEvent({ ...event, id: res?.id, isFromTimebox: true });
+      const updatedTasks = tasks.filter((task) => task.id === event.taskId);
+      setTasks(updatedTasks);
 
       return success(t('calendar.event.successCreate'));
     },
@@ -84,11 +86,12 @@ const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent }) =>
         return;
       }
 
-      const { title } = draggedEvent;
+      const { title, taskId } = draggedEvent;
       const event = {
         title,
         start,
         end,
+        taskId,
         isAllDay
       };
       setDraggedEvent(null);
@@ -124,7 +127,13 @@ const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent }) =>
               <Empty style={{ marginTop: '80%' }} description={<span>{t('calendar.noTasks')}</span>} />
             ) : (
               tasks.map((task) => (
-                <CalendarTask key={task.id} handleDragStart={handleDragStart} status={task.status} title={task.title} />
+                <CalendarTask
+                  key={task.id}
+                  handleDragStart={handleDragStart}
+                  status={task.status}
+                  taskId={task.id}
+                  title={task.title}
+                />
               ))
             )}
           </div>

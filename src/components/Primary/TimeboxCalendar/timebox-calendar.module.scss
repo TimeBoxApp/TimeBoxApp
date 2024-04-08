@@ -1,5 +1,27 @@
 @import '../../../styles/variables';
 
+.timeboxEvent {
+  background-color: $primaryYellow !important;
+  color: $textPrimary !important;
+  box-shadow: $soft-box-shadow !important;
+  border: 1px solid $border !important;
+}
+
+.regularEvent {
+  border: 1px solid $border !important;
+  background-color: $textSecondary !important;
+}
+
+:global(.rbc-event-content) {
+  font-size: $font-small;
+  font-weight: $font-weight-bold;
+  margin-bottom: 5px;
+}
+
+:global(.rbc-event-label) {
+  font-size: $font-smallest !important;
+}
+
 .calendarWrapper {
   display: flex;
   gap: 20px;

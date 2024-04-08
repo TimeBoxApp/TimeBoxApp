@@ -15,3 +15,19 @@ export function getCalendarEvents() {
     }
   }).then(checkResponse);
 }
+
+/**
+ * Get tasks for calendar
+ * @returns {Promise<Promise>}
+ */
+export function getCalendarTasks() {
+  const url = `${apiUrl()}/calendar/tasks`;
+
+  return fetch(url, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      ...getStandardHeaders()
+    }
+  }).then(checkResponse);
+}

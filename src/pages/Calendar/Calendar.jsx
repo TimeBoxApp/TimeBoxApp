@@ -8,9 +8,8 @@ import PageTitle from '../../components/Primary/PageTitle/PageTitle';
 import TimeboxCalendar from '../../components/Primary/TimeboxCalendar/TimeboxCalendar';
 import TimeboxEmpty from '../../components/Primary/Empty/Empty';
 import { error } from '../../services/alerts';
-import { getCalendarEvents } from './services/calendar';
+import { getCalendarEvents, getCalendarTasks } from './services/calendar';
 import { useCalendarActions, useCalendarEvents, useCalendarTasks } from '../../services/store/useCalendarStore';
-import { getWeekData } from '../Board/services/user';
 import { useCurrentUser, useCurrentUserPreferences } from '../../services/store/useCurrentUserStore';
 
 import styles from './calendar.module.scss';
@@ -43,6 +42,7 @@ const Calendar = () => {
         title: event.title,
         start: new Date(event.start.dateTime),
         end: new Date(event.end.dateTime),
+        isFromTimebox: event.isFromTimebox,
         isDraggable: true
       };
     });
@@ -57,20 +57,13 @@ const Calendar = () => {
   const getUserTasks = async () => {
     if (!isCalendarConnected) return null;
 
-    const [err, weekData] = await to(getWeekData());
+    const [err, tasks] = await to(getCalendarTasks());
 
     if (err) return error(t('calendar.tasksError'));
 
-    const { tasks = [] } = weekData;
-    const calendarTasks = [];
+    const tasksFiltered = tasks.filter((task) => !task.calendarEventId);
 
-    if (tasks['to-do']) {
-      calendarTasks.push(...tasks['to-do']);
-    }
-
-    if (tasks['in-progress']) calendarTasks.push(...tasks['in-progress']);
-
-    setTasks(calendarTasks);
+    setTasks(tasksFiltered);
   };
 
   /**
@@ -119,6 +112,7 @@ const Calendar = () => {
           tasks={tasks}
           addEvent={addEvent}
           modifyEvent={modifyEvent}
+          setTasks={setTasks}
         />
       )}
     </div>
