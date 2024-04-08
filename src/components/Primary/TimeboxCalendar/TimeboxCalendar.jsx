@@ -76,7 +76,7 @@ const TimeboxCalendar = ({ isLoading, events, tasks, addEvent, modifyEvent, setT
 
       return success(t('calendar.event.successCreate'));
     },
-    [addEvent, t]
+    [addEvent, setTasks, t, tasks]
   );
 
   const onDropFromOutside = useCallback(
