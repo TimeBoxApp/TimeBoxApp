@@ -1,0 +1,18 @@
+@import '../../styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding: 40px;
+  background: $white;
+  border-radius: $border-radius-normal;
+  gap: 20px;
+  border: 1px solid $border;
+  box-shadow: $light-box-shadow;
+  margin: 20vh auto 0 auto;
+
+  .heading {
+    margin-bottom: 20px;
+  }
+}

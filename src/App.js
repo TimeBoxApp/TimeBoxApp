@@ -13,6 +13,7 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import Settings from './pages/Settings/Settings';
 import Backlog from './pages/Backlog/Backlog';
 import Calendar from './pages/Calendar/Calendar';
+import Landing from './pages/Landing/Landing';
 import { useCurrentUser, useCurrentUserActions } from './services/store/useCurrentUserStore';
 
 const ProtectedRoute = ({ user, redirectPath = '/login', feature, children }) => {
@@ -62,7 +63,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <h1>Landing1</h1>
+      element: <Landing />
     },
     {
       path: '/login',
@@ -128,7 +129,6 @@ function App() {
             colorBorder: theme.colorBorder,
             colorPrimary: theme.colorPrimary,
             borderRadius: theme.borderRadius,
-            // fontFamily: 'DM Sans',
             controlHeight: 40,
             controlOutline: 'none',
             colorText: theme.textPrimary
