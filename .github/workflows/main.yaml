@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-      DIST: build
+      DIST: dist
       REGION: eu-central-1
       DIST_ID: ${{ secrets.AWS_DISTRIBUTION_ID }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
