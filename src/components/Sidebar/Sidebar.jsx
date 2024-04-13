@@ -6,7 +6,7 @@ import { useCurrentUserActions, useCurrentUserPreferences } from '../../services
 
 import styles from './sidebar.module.scss';
 
-import TimeBoxLogo from './images/logo.inline.svg';
+import { ReactComponent as TimeBoxLogo } from './images/logo.inline.svg';
 import { ReactComponent as BoardIcon } from './images/board.inline.svg';
 import { ReactComponent as BacklogIcon } from './images/backlog.inline.svg';
 import { ReactComponent as SettingsIcon } from './images/settings.inline.svg';
@@ -44,7 +44,7 @@ const Sidebar = () => {
     <div className={styles.background}>
       <div className={styles.container}>
         <div className={styles.logoContainer}>
-          <img src={TimeBoxLogo} alt="logo" />
+          <TimeBoxLogo />
         </div>
         <hr className={styles.hr} />
         <div className={styles.navigationItems}>

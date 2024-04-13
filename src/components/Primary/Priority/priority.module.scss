@@ -11,6 +11,7 @@
   font-size: $font-smallest;
   font-weight: $font-weight-bold;
   line-height: 150%;
+  height: fit-content;
 
   &.isLarge {
     font-size: $font-small;

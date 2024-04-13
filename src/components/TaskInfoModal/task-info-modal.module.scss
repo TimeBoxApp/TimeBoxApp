@@ -5,6 +5,13 @@
   align-items: center;
   gap: 20px;
 
+  .titleWrapper {
+    display: flex;
+    overflow-wrap: anywhere;
+    align-items: center;
+    gap: 20px;
+  }
+
   .editIcon {
     height: 32px;
     width: 32px;
@@ -81,7 +88,7 @@
   }
 
   .additionalData {
-    width: 30%;
+    width: fit-content;
     display: flex;
     flex-direction: column;
     gap: 10px;

@@ -52,7 +52,7 @@ COPY --chown=node:node --from=dev /app/package.json ./package.json
 COPY --chown=node:node . .
 
 # Generate the production build.
-RUN yarn build
+RUN yarn build:prod
 
 #
 # 🚀 Production Server

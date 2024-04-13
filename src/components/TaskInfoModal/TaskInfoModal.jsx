@@ -152,10 +152,10 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
       {isLoading.get ? (
         <Skeleton containerClassName={styles.titleSkeleton} />
       ) : (
-        <>
+        <div className={styles.titleWrapper}>
           <h2>{initialTaskData?.title}</h2>
           {!isEditMode ? <EditIcon className={styles.editIcon} onClick={() => setIsEditMode(true)} /> : null}
-        </>
+        </div>
       )}
     </div>
   );
@@ -296,6 +296,7 @@ const TaskInfoModal = ({ taskId, isOpen, setIsOpen, onUpdate }) => {
       onCancel={onCancelHandler}
       wrapClassName={styles.modalContentEditable}
       styles={{
+        title: { 'overflow-wrap': 'break-word' },
         content: {
           display: 'flex',
           flexDirection: 'column',

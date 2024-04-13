@@ -13,6 +13,9 @@ import { getBacklogData } from './services/user';
 import { useCurrentUser } from '../../services/store/useCurrentUserStore';
 import { useCurrentWeekActions } from '../../services/store/useCurrentWeekStore';
 
+import styles from './backlog.module.scss';
+import Skeleton from 'react-loading-skeleton';
+
 const Backlog = () => {
   const { fullName } = useCurrentUser();
   const { setCurrentWeek } = useCurrentWeekActions();
@@ -127,7 +130,7 @@ const Backlog = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.pageContent}>
       <Helmet>
         <title>{t('primary.helmet.backlog')}</title>
       </Helmet>
@@ -142,7 +145,14 @@ const Backlog = () => {
         }
         pageTitle={t('backlog.title')}
       />
-      <BacklogWeek onUpdate={getBacklogDetails} />
+      {isLoading ? (
+        <div className={styles.skeletonWrapper}>
+          <Skeleton height={300} width={'100%'} />
+          <Skeleton height={200} width={'100%'} />
+        </div>
+      ) : (
+        <BacklogWeek onUpdate={getBacklogDetails} />
+      )}
       <EditWeekModal
         isOpen={isWeekModalOpen}
         setIsOpen={setIsWeekModalOpen}

@@ -12,6 +12,7 @@
   cursor: grab;
   border-radius: 10px;
   font-weight: $font-weight-bold;
+  overflow-wrap: anywhere;
 
   .tags {
     display: flex;

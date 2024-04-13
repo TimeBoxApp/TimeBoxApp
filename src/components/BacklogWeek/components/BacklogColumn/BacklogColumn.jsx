@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { cloneElement, useMemo, useState } from 'react';
-import { Dropdown, Empty, Tag } from 'antd';
+import { Button, Dropdown, Empty, Tag } from 'antd';
 import { Droppable } from 'react-beautiful-dnd';
 
 import BacklogTask from '../BacklogTask/BacklogTask';
@@ -214,6 +214,9 @@ const BacklogColumn = ({ week, week: { id, name, startDate, endDate }, tasks, on
           </>
         )}
       </Droppable>
+      <Button className={styles.addTask} type={'text'} onClick={handleCreateTask}>
+        + {t('backlog.createTask')}
+      </Button>
     </div>
   );
 };

@@ -28,7 +28,7 @@ jobs:
         run: yarn install
 
       - name: Build app
-        run: yarn build
+        run: yarn build:prod
         env:
           REACT_APP_ENCRYPTION_KEY: ${{ env.SECRET_KEY }}
 
