@@ -8,9 +8,10 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const AutoPrefixer = require('autoprefixer');
 const CssNano = require('cssnano');
 const LoadablePlugin = require('@loadable/webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const inlineSvgConfig = {
-  test: /\.svg$/,
+  test: /\.inline\.svg?$/,
   use: [
     {
       loader: '@svgr/webpack',
@@ -129,6 +130,10 @@ const clientCommon = {
       minify: {
         collapseWhitespace: true
       }
+    }),
+    new CopyPlugin({
+      // Adding the plugin to copy all files under the 'public' folder to 'public' in the 'dist' directory
+      patterns: [{ from: 'public', to: 'public' }]
     })
   ]
 };
