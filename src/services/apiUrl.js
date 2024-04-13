@@ -26,9 +26,9 @@ export function getNoCacheHeaders() {
  * @returns {string}
  */
 export function apiUrl() {
-  if (process.env.NODE_ENV === 'production') return 'https://api.timebox.guru/api';
+  if (process.env.NODE_ENV === 'production') return 'https://api.timebox.guru';
 
-  return `http://localhost:${process.env.REACT_APP_SERVER_PORT}/api`;
+  return `http://localhost:${process.env.REACT_APP_SERVER_PORT}`;
 }
 
 /**
