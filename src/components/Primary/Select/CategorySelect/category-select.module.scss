@@ -1,0 +1,11 @@
+@import '../../../../styles/variables';
+
+.addCategory {
+  display: flex;
+  align-items: center;
+  color: $textSecondary;
+
+  &:hover {
+    background: none !important;
+  }
+}

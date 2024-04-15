@@ -51,7 +51,7 @@ const Settings = () => {
 
   /**
    * Get user stats handler
-   * @returns {Promise<void|boolean>}
+   * @returns {Promise<*|boolean>}
    */
   const getStatsHandler = async () => {
     const [err, stats] = await to(getUserStats());
@@ -89,8 +89,8 @@ const Settings = () => {
         }
         pageTitle={t('settings.title')}
       />
-      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 950: 2, 1200: 3 }}>
-        <Masonry columnsCount={3} gutter={'40px'} className={styles.settingsContainer}>
+      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 950: 2, 1200: 3 }} className={styles.settingsContainer}>
+        <Masonry columnsCount={3} gutter={'40px'}>
           {!isLoading ? <UserInfo user={currentUser} userStats={userStats} /> : <Skeleton height={210} />}
           {!isLoading ? (
             <AccountInformation userData={currentUser} onUpdate={updateUserInfo} />

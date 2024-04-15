@@ -60,6 +60,7 @@ const CategoryModal = ({ isOpen, setIsOpen, category, updateCategory, onSave, cl
             <SaveButton
               text={isEdit ? t('primary.buttons.save') : t('primary.buttons.create')}
               isLoading={isLoading}
+              isDisabled={!category.title}
               onClick={isEdit ? onEditHandler : onCreateHandler}
             />
           </div>

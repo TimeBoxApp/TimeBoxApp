@@ -52,11 +52,12 @@ function App() {
 
   const theme = {
     borderRadius: 10,
+    colorPrimary: '#2b3674',
     textPrimary: '#2b3674',
     textSecondary: '#8f9bba',
-    colorPrimary: '#2b3674',
     colorBorder: '#e0e5f2',
     primaryGrey: '#e9edf7',
+    lightGrey: '#f8fafc',
     background: '#f4f7fe'
   };
 
@@ -143,7 +144,8 @@ function App() {
               multipleItemBg: 'transparent',
               selectorBg: theme.background,
               clearBg: theme.background,
-              optionSelectedBg: theme.primaryGrey
+              optionSelectedBg: theme.primaryGrey,
+              controlItemBgHover: theme.lightGrey
             },
             Input: {
               activeBg: theme.background,

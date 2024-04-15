@@ -22,7 +22,7 @@ export function getCategories() {
  * @param data
  */
 export function createCategory(data) {
-  const url = `${apiUrl()}/category`;
+  const url = `${apiUrl()}/categories`;
 
   return fetch(url, {
     method: 'POST',
@@ -41,7 +41,7 @@ export function createCategory(data) {
  * @param data
  */
 export function editCategory(id, data) {
-  const url = `${apiUrl()}/category/${id}`;
+  const url = `${apiUrl()}/categories/${id}`;
 
   return fetch(url, {
     method: 'PATCH',
@@ -59,7 +59,7 @@ export function editCategory(id, data) {
  * @param categoryId
  */
 export function deleteCategory(categoryId) {
-  const url = `${apiUrl()}/category/${categoryId}`;
+  const url = `${apiUrl()}/categories/${categoryId}`;
 
   return fetch(url, {
     method: 'DELETE',

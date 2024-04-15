@@ -55,6 +55,7 @@
       "create": "Create"
     },
     "selects": {
+      "createCategory": "+ Create category",
       "categoryPlaceholder": "Select category",
       "priorityPlaceholder": "Select priority",
       "dueDatePlaceholder": "Select due date"
