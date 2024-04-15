@@ -41,6 +41,7 @@ const CategoryModal = ({ isOpen, setIsOpen, category, updateCategory, onSave, cl
 
   return (
     <Modal
+      destroyOnClose
       open={isOpen}
       width={600}
       title={<h2>{isEdit ? t('settings.categories.modal.editTitle') : t('settings.categories.modal.title')}</h2>}

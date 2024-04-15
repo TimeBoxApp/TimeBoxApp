@@ -94,6 +94,7 @@
     gap: 10px;
 
     &.isPreview {
+      width: fit-content;
       flex-direction: row;
       gap: 30px;
     }
